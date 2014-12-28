@@ -1,0 +1,14 @@
+services:
+    overwatch_expectation.expectation_manager:
+        class: Overwatch\ExpectationBundle\Helper\ExpectationManager
+        
+    overwatch_expectation.to_ping:
+        class: Overwatch\ExpectationBundle\Expectation\ToPingExpectation
+        arguments: ["%overwatch_expectation.to_ping%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toPing } 
+    overwatch_expectation.to_resolve_to:
+        class: Overwatch\ExpectationBundle\Expectation\ToResolveToExpectation
+        arguments: ["%overwatch_expectation.to_resolve_to%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toResolveTo } 

@@ -1,0 +1,9 @@
+overwatch_result:
+    resource: "@OverwatchResultBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+overwatch_test:
+    resource: "@OverwatchTestBundle/Controller/"
+    type:     annotation
+    prefix:   /
