@@ -9,7 +9,7 @@ use Overwatch\ResultBundle\Enum\ResultStatus;
  * TestResult
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(readOnly=true)
  * @ORM\HasLifecycleCallbacks
  */
 class TestResult

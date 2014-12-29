@@ -7,7 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Test
  *
- * @ORM\Table()
+ * @ORM\Table(
+ *   name="Test",
+ *   uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="unique_actual_expection", columns={"actual", "expectation"})
+ *   }
+ * )
  * @ORM\Entity(repositoryClass="Overwatch\TestBundle\Entity\TestRepository")
  * @ORM\HasLifecycleCallbacks
  */
@@ -25,7 +30,7 @@ class Test
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=50)
+     * @ORM\Column(name="name", type="string", length=50, unique=true)
      */
     private $name;
 
