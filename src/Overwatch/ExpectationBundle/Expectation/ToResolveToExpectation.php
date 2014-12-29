@@ -32,7 +32,7 @@ class ToResolveToExpectation implements ExpectationInterface {
             }
             
             if ($found === $expected) {
-                return true;
+                return $actual . " has a " . $dnsRecord["type"] . " record that resolves to " . $found;
             }
         }
         

@@ -31,7 +31,7 @@ class ToPingExpectation implements ExpectationInterface {
                 throw new Result\ExpectationUnsatisfactoryException("$actual responded in $rtt s, above the unsatisfactory threshold (" . $this->config["unsatisfactory"] . " s)");
             }
             
-            return $rtt;
+            return "Pinged in " . $rtt . "s";
         }
         
         socket_close($socket);
