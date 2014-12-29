@@ -40,16 +40,6 @@ class TestGroup
      * @ORM\OneToMany(targetEntity="Test", mappedBy="group")
      */
     private $tests;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="TestGroup", mappedBy="parent")
-     */
-    private $children;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="TestGroup", inversedBy="children")
-     */
-    private $parent;
 
     /**
      * @var \DateTime
@@ -138,8 +128,10 @@ class TestGroup
      */
     public function setCreatedAt()
     {
-        $this->createdAt = new \DateTime;
-
+        if ($this->createdAt === NULL) {
+            $this->createdAt = new \DateTime;
+        }
+        
         return $this;
     }
 
@@ -208,61 +200,5 @@ class TestGroup
     public function getTests()
     {
         return $this->tests;
-    }
-
-    /**
-     * Add children
-     *
-     * @param \Overwatch\TestBundle\Entity\TestGroup $children
-     * @return TestGroup
-     */
-    public function addChild(\Overwatch\TestBundle\Entity\TestGroup $children)
-    {
-        $this->children[] = $children;
-
-        return $this;
-    }
-
-    /**
-     * Remove children
-     *
-     * @param \Overwatch\TestBundle\Entity\TestGroup $children
-     */
-    public function removeChild(\Overwatch\TestBundle\Entity\TestGroup $children)
-    {
-        $this->children->removeElement($children);
-    }
-
-    /**
-     * Get children
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
-     * Set parent
-     *
-     * @param \Overwatch\TestBundle\Entity\TestGroup $parent
-     * @return TestGroup
-     */
-    public function setParent(\Overwatch\TestBundle\Entity\TestGroup $parent = null)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return \Overwatch\TestBundle\Entity\TestGroup 
-     */
-    public function getParent()
-    {
-        return $this->parent;
     }
 }

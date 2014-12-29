@@ -51,6 +51,11 @@ class Test
     private $expected;
     
     /**
+     * @ORM\OneToMany(targetEntity="Overwatch\ResultBundle\Entity\TestResult", mappedBy="test")
+     */
+    private $results;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="TestGroup", inversedBy="tests")
      */
     private $group;
@@ -70,6 +75,14 @@ class Test
     private $updatedAt;
     
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->results = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -180,8 +193,10 @@ class Test
      */
     public function setCreatedAt()
     {
-        $this->createdAt = new \DateTime;
-
+        if ($this->createdAt === NULL) {
+            $this->createdAt = new \DateTime;
+        }
+        
         return $this;
     }
 
@@ -240,5 +255,38 @@ class Test
     public function getGroup()
     {
         return $this->group;
+    }
+
+    /**
+     * Add results
+     *
+     * @param \Overwatch\ResultBundle\Entity\TestResult $results
+     * @return Test
+     */
+    public function addResult(\Overwatch\ResultBundle\Entity\TestResult $results)
+    {
+        $this->results[] = $results;
+
+        return $this;
+    }
+
+    /**
+     * Remove results
+     *
+     * @param \Overwatch\ResultBundle\Entity\TestResult $results
+     */
+    public function removeResult(\Overwatch\ResultBundle\Entity\TestResult $results)
+    {
+        $this->results->removeElement($results);
+    }
+
+    /**
+     * Get results
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getResults()
+    {
+        return $this->results;
     }
 }

@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Overwatch\ExpectationBundle\Exception as ExpectationException;
+use Overwatch\ResultBundle\Entity\TestResult;
+use Overwatch\ResultBundle\Enum\ResultStatus;
 
 class TestsRunCommand extends ContainerAwareCommand {
     /**
@@ -16,61 +18,134 @@ class TestsRunCommand extends ContainerAwareCommand {
     private $expectations;
     
     /**
+     * @var Doctrine\ORM\EntityManager
+     */
+    private $_em;
+    
+    /**
      * @var Overwatch\TestBundle\Entity\TestRepository 
      */
     private $testRepo;
-
-
-    public function setContainer(ContainerInterface $container = NULL) {
-        parent::setContainer($container);
-        $this->expectations = $this->getContainer()->get("overwatch_expectation.expectation_manager");
-        $this->testRepo = $this->getContainer()->get("doctrine.orm.entity_manager")->getRepository("OverwatchTestBundle:Test");
-    }
+    
+    private $results = [];
+    private $colours = [];
     
     protected function configure() {
         $this
             ->setName('overwatch:tests-run')
             ->setDescription('Run a set of overwatch tests')
-            ->addOption('test', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'If set, the task will only run the tests given')
+            ->addOption('test', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Only run tests that are named this value or are in groups named this value')
         ;
+        
+        //Initalize results array
+        $this->results = [
+            ResultStatus::ERROR => 0,
+            ResultStatus::FAILED => 0,
+            ResultStatus::PASSED => 0,
+            ResultStatus::UNSATISFACTORY => 0
+        ];
+        
+        //Initalize colours array
+        $this->colours = [
+            ResultStatus::ERROR => "error",
+            ResultStatus::FAILED => "error",
+            ResultStatus::PASSED => "info",
+            ResultStatus::UNSATISFACTORY => "comment"
+        ];
+    }
+
+    public function setContainer(ContainerInterface $container = NULL) {
+        parent::setContainer($container);
+        
+        //Set up some shortcuts to services
+        $this->expectations = $container->get("overwatch_expectation.expectation_manager");
+        $this->_em = $container->get("doctrine.orm.entity_manager");
+        $this->testRepo = $this->_em->getRepository("OverwatchTestBundle:Test");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
+        $start = new \DateTime;
         $tests = $this->testRepo->findTests($input->getOption("test"));
         
-        $output->writeln($this->getApplication()->getLongVersion() . ", running <info>" . count($tests) . "</info> tests");
-
-        foreach ($tests as $test) {
-            //@TODO: Pass off to a runTest method which will return a TestResult object.
-            // Then use the object to figure out what to print.
-            // Then persist the object
-            $output->write($test->getName());
-            $output->write(": ");
-            $output->write(
-                $this->handleResult(
-                    $this->expectations->run(
-                        $test->getActual(),
-                        $test->getExpectation(),
-                        $test->getExpected()
-                    )
-                ),
-                true
-            );
+        if (empty($tests)) {
+            throw new \InvalidArgumentException("Could not find any tests to run.");
         }
         
-        //@TODO: call flush() to save the results, handle errors
+        $output->writeln($this->getApplication()->getLongVersion() . ", running <info>" . count($tests) . "</info> tests");
+        
+        foreach ($tests as $test) {
+            $result = $this->runTest($test);
+            
+            //Don't output if we're not running verbosely and the test passes.
+            if ($result->getStatus() !== ResultStatus::PASSED || $output->isVerbose()) {
+                $output->writeln(
+                    " > " . $test->getName() . " : " .
+                    $this->getColouredStatus($result->getStatus()) .
+                    " - " . $result->getInfo()
+                );
+            }
+            
+            $this->_em->persist($result);
+        }
+        
+        $output->writeln($this->getSummary($start));
+        $this->_em->flush();
+        
+        //Exit with status code equal to the number of tests that didn't pass
+        return (count($tests) - $this->results[ResultStatus::PASSED]);
     }
     
-    //@TODO: Refactor with a TestResult object.
-    private function handleResult($result) {
+    private function runTest($test) {
+        $result = $this->expectations->run(
+            $test->getActual(),
+            $test->getExpectation(),
+            $test->getExpected()
+        );
+        
+        $testResult = new TestResult;
+        $testResult->setTest($test)
+            ->setInfo($result);
+        
         if ($result instanceof ExpectationException\ExpectationFailedException) {
-            return "<error>FAILED</error> " . $result->getMessage();
+            $testResult->setStatus(ResultStatus::FAILED);
         } else if ($result instanceof ExpectationException\ExpectationUnsatisfactoryException) {
-            return "<comment>Unsatisfactory</comment> " . $result->getMessage();
+            $testResult->setStatus(ResultStatus::UNSATISFACTORY);
         } else if ($result instanceof \Exception) {
-            return "<error>ERROR</error> " . $result->getMessage();
+            $testResult->setStatus(ResultStatus::ERROR);
         } else {
-            return "<info>OK</info> " . $result;
+            $testResult->setStatus(ResultStatus::PASSED);
         }
+        
+        $this->results[$testResult->getStatus()]++;
+        
+        return $testResult;
+    }
+    
+    private function getColouredStatus($status, $value = NULL) {
+        ResultStatus::isValid($status);
+        
+        if ($value === NULL) {
+            $value = $status;
+        } else {
+            $value .= " " . $status;
+        }
+        
+        return "<" . $this->colours[$status] . ">" . $value . "</" . $this->colours[$status] . ">";
+    }
+    
+    private function getSummary($start) {
+        $end = new \DateTime;
+        $runTime = $end->diff($start, true);
+        $summary = "";
+        
+        foreach (ResultStatus::getAll() as $status) {
+            $summary .= $this->getColouredStatus(
+                $status,
+                $this->results[$status]
+            ) . ", ";
+        }
+        
+        $summary .= "in " . $runTime->i . " minutes and " . $runTime->s . " seconds";
+        return $summary;
     }
 }
