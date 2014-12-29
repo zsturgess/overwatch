@@ -24,6 +24,10 @@ class ExpectationManager {
     }
     
     public function run($actual, $alias, $expected = NULL) {
-        return $this->get($alias)->run($actual, $expected);
+        try {
+            return $this->get($alias)->run($actual, $expected);
+        } catch (\Exception $ex) {
+            return $ex;
+        }
     }
 }
