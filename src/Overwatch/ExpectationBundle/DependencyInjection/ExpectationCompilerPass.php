@@ -8,8 +8,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * ExpectationCompilerPass
- *
- * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
+ * Finds all services tagged with EXPECTATION_TAG (i.e. all expection classes)
+ * and notifies the EXPECTATION_MANAGER of their existance.
  */
 class ExpectationCompilerPass implements CompilerPassInterface {
     const EXPECTATION_MANAGER = 'overwatch_expectation.expectation_manager';

@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * TestRepository
+ * Some shortcut and convienience methods to find tests
  */
 class TestRepository extends EntityRepository
 {

@@ -7,8 +7,8 @@ use Overwatch\ExpectationBundle\Exception as Result;
 
 /**
  * ToResolveToExpectation
- *
- * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
+ * Expectation classes are the actual runners of tests.
+ * This is the runner for the "toResolveTo" expectation.
  */
 class ToResolveToExpectation implements ExpectationInterface {
     private $config;

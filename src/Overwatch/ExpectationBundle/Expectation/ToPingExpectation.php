@@ -5,6 +5,11 @@ namespace Overwatch\ExpectationBundle\Expectation;
 use Overwatch\ExpectationBundle\Helper\ExpectationInterface;
 use Overwatch\ExpectationBundle\Exception as Result;
 
+/**
+ * ToPingExpectation
+ * Expectation classes are the actual runners of tests.
+ * This is the runner for the "toPing" expectation.
+ */
 class ToPingExpectation implements ExpectationInterface {
     private $config;
     

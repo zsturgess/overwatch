@@ -8,9 +8,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Overwatch\ExpectationBundle\Exception as ExpectationException;
+use Overwatch\ResultBundle\Entity\FakeEntityManager;
 use Overwatch\ResultBundle\Entity\TestResult;
 use Overwatch\ResultBundle\Enum\ResultStatus;
 
+/**
+ * TestsRunCommand
+ * The tests:run command, the heart of Overwatch
+ */
 class TestsRunCommand extends ContainerAwareCommand {
     /**
      * @var Overwatch\ExpectationBundle\Helper\ExpectationManger 
@@ -32,9 +37,10 @@ class TestsRunCommand extends ContainerAwareCommand {
     
     protected function configure() {
         $this
-            ->setName('overwatch:tests-run')
+            ->setName('tests:run')
             ->setDescription('Run a set of overwatch tests')
             ->addOption('test', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Only run tests that are named this value or are in groups named this value')
+            ->addOption("discard-results", null, InputOption::VALUE_NONE, "Do not save the results to the database")
         ;
         
         //Initalize results array
@@ -65,6 +71,11 @@ class TestsRunCommand extends ContainerAwareCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $start = new \DateTime;
+        
+        if ($input->getOption("discard-results")) {
+            $this->_em = new FakeEntityManager;
+        }
+        
         $tests = $this->testRepo->findTests($input->getOption("test"));
         
         if (empty($tests)) {

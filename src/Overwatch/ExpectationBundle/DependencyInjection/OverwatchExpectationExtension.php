@@ -8,8 +8,9 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * This is the class that loads and manages your bundle configuration
- *
+ * OverwatchExpectationExtension
+ * Loads the config for expectations, makes config parameters on the container so
+ * the DI container can inject them into the expection services when constructed.
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class OverwatchExpectationExtension extends Extension
