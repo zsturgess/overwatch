@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new Overwatch\ExpectationBundle\OverwatchExpectationBundle(),
             new Overwatch\TestBundle\OverwatchTestBundle(),
             new Overwatch\ResultBundle\OverwatchResultBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new Overwatch\UserBundle\OverwatchUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

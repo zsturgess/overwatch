@@ -89,6 +89,15 @@ class Test
     }
     
     /**
+     * To String
+     * 
+     * @return string
+     */
+    public function __toString() {
+        return $this->getName();
+    }
+    
+    /**
      * Get id
      *
      * @return integer 

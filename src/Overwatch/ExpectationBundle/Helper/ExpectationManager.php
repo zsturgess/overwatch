@@ -2,7 +2,9 @@
 
 namespace Overwatch\ExpectationBundle\Helper;
 
-use Overwatch\ExpectationBundle\Exception\ExpectationNotFoundException;
+use Overwatch\ExpectationBundle\Exception as ExpectationExcpetion;
+use Overwatch\ResultBundle\Entity\TestResult;
+use Overwatch\ResultBundle\Enum\ResultStatus;
 
 /**
  * ExpectationManager
@@ -19,7 +21,7 @@ class ExpectationManager {
     
     public function get($alias) {
         if (!array_key_exists($alias, $this->expectations)) {
-            throw new ExpectationNotFoundException($alias);
+            throw new ExpectationExcpetion\ExpectationNotFoundException($alias);
         }
         
         return $this->expectations[$alias];
@@ -29,11 +31,27 @@ class ExpectationManager {
         return array_keys($this->expectations);
     }
     
-    public function run($actual, $alias, $expected = NULL) {
+    public function run(\Overwatch\TestBundle\Entity\Test $test) {
+        $testResult = new TestResult;
+        $testResult->setTest($test);
+        
         try {
-            return $this->get($alias)->run($actual, $expected);
+            $result = $this->get($test->getExpectation())->run($test->getActual(), $test->getExpected());
+            $testResult->setStatus(ResultStatus::PASSED);
+            $testResult->setInfo($result);
         } catch (\Exception $ex) {
-            return $ex;
+            $result = $ex;
+            $testResult->setInfo($ex->getMessage());
         }
+        
+        if ($result instanceof ExpectationException\ExpectationFailedException) {
+            $testResult->setStatus(ResultStatus::FAILED);
+        } else if ($result instanceof ExpectationException\ExpectationUnsatisfactoryException) {
+            $testResult->setStatus(ResultStatus::UNSATISFACTORY);
+        } else if ($result instanceof \Exception) {
+            $testResult->setStatus(ResultStatus::ERROR);
+        }
+        
+        return $testResult;
     }
 }

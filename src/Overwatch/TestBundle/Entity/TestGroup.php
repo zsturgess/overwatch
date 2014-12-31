@@ -3,6 +3,7 @@
 namespace Overwatch\TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\GroupInterface;
 
 /**
  * TestGroup
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class TestGroup
+class TestGroup implements GroupInterface
 {
     /**
      * @var integer
@@ -28,18 +29,16 @@ class TestGroup
      * @ORM\Column(name="name", type="string", length=50, unique=true)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     */
-    private $description;
     
     /**
      * @ORM\OneToMany(targetEntity="Test", mappedBy="group")
      */
     private $tests;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Overwatch\UserBundle\Entity\User", mappedBy="groups")
+     */
+    private $users;
 
     /**
      * @var \DateTime
@@ -62,6 +61,7 @@ class TestGroup
     public function __construct()
     {
         $this->tests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -95,29 +95,6 @@ class TestGroup
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return TestGroup
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**
@@ -201,4 +178,48 @@ class TestGroup
     {
         return $this->tests;
     }
+
+    /**
+     * Add users
+     *
+     * @param \Overwatch\UserBundle\Entity\User $user
+     * @return TestGroup
+     */
+    public function addUser(\Overwatch\UserBundle\Entity\User $user)
+    {
+        $user->addGroup($this);
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \Overwatch\UserBundle\Entity\User $user
+     */
+    public function removeUser(\Overwatch\UserBundle\Entity\User $user)
+    {
+        $user->removeGroup($this);
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+    
+    /**
+     * FOSUserBundle needs groups to have roles. We don't.
+     */
+    public function getRoles() { return []; }
+    public function setRoles(array $roles) { return $this; }
+    public function addRole($role) { return $this; }
+    public function removeRole($role) { return $this; }
+    public function hasRole($role) { return false; }
 }
