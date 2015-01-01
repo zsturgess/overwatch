@@ -12,7 +12,7 @@ use FOS\UserBundle\Model\GroupInterface;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class TestGroup implements GroupInterface
+class TestGroup implements GroupInterface, \JsonSerializable
 {
     /**
      * @var integer
@@ -62,6 +62,18 @@ class TestGroup implements GroupInterface
     {
         $this->tests = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Serialise object to JSON
+     */
+    public function jsonSerialize() {
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "createdAt" => $this->getCreatedAt()->getTimestamp(),
+            "updatedAt" => $this->getUpdatedAt()->getTimestamp()
+        ];
     }
 
     /**

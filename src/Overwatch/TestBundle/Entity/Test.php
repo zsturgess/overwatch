@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Overwatch\TestBundle\Entity\TestRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Test
+class Test implements \JsonSerializable
 {
     /**
      * @var integer
@@ -95,6 +95,22 @@ class Test
      */
     public function __toString() {
         return $this->getName();
+    }
+    
+    /**
+     * Serialise object to JSON
+     */
+    public function jsonSerialize() {
+        return [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "group" => $this->getGroup(),
+            "actual" => $this->getActual(),
+            "expectation" => $this->getExpectation(),
+            "expected" => $this->getExpected(),
+            "createdAt" => $this->getCreatedAt()->getTimestamp(),
+            "updatedAt" => $this->getUpdatedAt()->getTimestamp()
+        ];
     }
     
     /**

@@ -9,10 +9,10 @@ use Overwatch\ResultBundle\Enum\ResultStatus;
  * TestResult
  *
  * @ORM\Table()
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity(readOnly=true,repositoryClass="Overwatch\ResultBundle\Entity\TestResultRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class TestResult
+class TestResult implements \JsonSerializable
 {
     /**
      * @var integer
@@ -48,6 +48,19 @@ class TestResult
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
+    
+    /**
+     * Serialise object to JSON
+     */
+    public function jsonSerialize() {
+        return [
+            "id" => $this->getId(),
+            "test" => $this->getTest(),
+            "status" => $this->getStatus(),
+            "info" => $this->getInfo(),
+            "createdAt" => $this->getCreatedAt()->getTimestamp()
+        ];
+    }
     
     /**
      * Get id

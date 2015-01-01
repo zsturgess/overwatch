@@ -2,7 +2,7 @@
 
 namespace Overwatch\ExpectationBundle\Helper;
 
-use Overwatch\ExpectationBundle\Exception as ExpectationExcpetion;
+use Overwatch\ExpectationBundle\Exception as ExpectationException;
 use Overwatch\ResultBundle\Entity\TestResult;
 use Overwatch\ResultBundle\Enum\ResultStatus;
 
@@ -21,7 +21,7 @@ class ExpectationManager {
     
     public function get($alias) {
         if (!array_key_exists($alias, $this->expectations)) {
-            throw new ExpectationExcpetion\ExpectationNotFoundException($alias);
+            throw new ExpectationException\ExpectationNotFoundException($alias);
         }
         
         return $this->expectations[$alias];
