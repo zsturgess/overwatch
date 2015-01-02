@@ -1,0 +1,11 @@
+{% extends "::base.html.twig" %}
+
+{% block sidebar %}
+{% if app.user %}
+{% include '::__nav.html.twig' %}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% block fos_user_content %}{% endblock %}
+{% endblock %}

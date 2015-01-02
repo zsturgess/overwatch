@@ -1,0 +1,9 @@
+<nav>
+    <ul>
+        <li><a href="{{ url('overwatch_user_app_index') }}#/" class="icon-test"> Dashboard</a></li>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}<li><a href="{{ url('overwatch_user_app_index') }}#/users" class="icon-users"> Manage Users</a></li>{% endif %}
+        <li><a href="{{ url('overwatch_user_app_index') }}#/alerts" class="icon-bell"> Change alert settings</a></li>
+        <li><a href="{{ url('fos_user_change_password') }}" class="icon-key"> Change Password</a></li>
+        <li><a href="{{ url('fos_user_security_logout') }}" class="icon-exit"> Logout</a></li>
+    </ul>
+</nav>

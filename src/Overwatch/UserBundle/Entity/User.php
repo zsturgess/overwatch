@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="User")
  */
-class User extends BaseUser
+class User extends BaseUser implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -33,6 +33,19 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Serialize object to JSON
+     */
+    public function jsonSerialize() {
+        return [
+            "id" => $this->getId(),
+            "email" => $this->getEmail(),
+            "lastLogin" => $this->getLastLogin()->getTimestamp(),
+            "roles" => $this->getRoles(),
+            "groups" => $this->getGroups()->toArray()
+        ];
     }
     
     /**

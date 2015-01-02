@@ -16,10 +16,11 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Overwatch\ExpectationBundle\OverwatchExpectationBundle(),
             new Overwatch\TestBundle\OverwatchTestBundle(),
             new Overwatch\ResultBundle\OverwatchResultBundle(),
-            new FOS\UserBundle\FOSUserBundle(),
             new Overwatch\UserBundle\OverwatchUserBundle(),
         );
 
