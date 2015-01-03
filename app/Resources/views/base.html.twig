@@ -6,10 +6,11 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}" />
         {% endblock %}
     </head>
     <body>
-        <div id="loading">
+        <div id="loading" data-ng-show="isLoading">
             <div class="spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>

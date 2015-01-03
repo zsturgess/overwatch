@@ -15,7 +15,9 @@
 <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/controllers.js') }}"></script>
+<script src="{{ asset('js/helpers.js') }}"></script>
 <script type="text/javascript">
-    var User = {{ app.user|json_encode()|raw }};
+    var currentUser = {{ app.user|json_encode()|raw }};
+    currentUser.groups = {{ app.user.getGroupNames|json_encode()|raw }};
 </script>
 {% endblock %}

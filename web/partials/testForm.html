@@ -1,0 +1,16 @@
+<ul class="breadcrumbs">
+    <li><a href="#/">Overwatch</a></li>
+    <li data-ng-show="(title === 'Edit test')"><a href="#/test/{{ test.id }}">View test '{{ test.name }}'</a></li>
+    <li>{{ title }} '{{ test.name }}'</li>
+</ul>
+
+<h1>{{ title }}</h1>
+<form>
+    <label for="test_name">Test Name:</label>
+    <input type="text" id="test_name" data-ng-model="test.name" />
+    <label for="test_actual">Expect:</label>
+    <input type="text" id="test_actual" data-ng-model="test.actual" />
+    <select data-ng-model="test.expectation" data-ng-options="expectation for expectation in expectations"></select>
+    <input type="text" data-ng-model="test.expected" />
+    <button data-ng-click="save()">Save</button>
+</form>

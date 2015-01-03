@@ -37,9 +37,15 @@ class TestGroupApiController extends Controller {
             throw new AccessDeniedHttpException("You must be a super admin to create a group");
         }
         
+        $content = $request->getContent();
+        if (empty($content)) {
+            return new JsonResponse("You must pass a name for the new group", 422);
+        }
+        $params = json_decode($content, true);
+        
         $group = new TestGroup;
         $group
-            ->setName($request->request->get("name"))
+            ->setName($params["name"])
         ;
         
         $this->_em->persist($group);
@@ -85,8 +91,14 @@ class TestGroupApiController extends Controller {
             throw new AccessDeniedHttpException("You must be a super admin to update this group");
         }
         
-        if ($request->request->has("name")) {
-            $group->setName($request->request->get("name"));
+        $content = $request->getContent();
+        if (empty($content)) {
+            return new JsonResponse("You must pass a new group name", 422);
+        }
+        $params = json_decode($content, true);
+        
+        if ($params["name"]) {
+            $group->setName($params["name"]);
             
             $this->_em->flush();
         }

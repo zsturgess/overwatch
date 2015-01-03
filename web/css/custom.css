@@ -1,0 +1,67 @@
+/**
+ * LOGIN FORM
+ **/
+input#remember_me {
+    margin-top: 10px
+}
+
+label[for="remember_me"] {
+    display: inline;
+}
+
+/**
+ * LISTS
+ **/
+ul.groups, ul.users, ul.results {
+    padding: 0;
+}
+
+ul.tests {
+    padding: 0 0 30px 40px;
+}
+
+ul.groups li, ul.users li, ul.tests li, ul.results li {
+    list-style: none;
+    padding: 10px 0 0;
+}
+
+div.group, div.test, div.user, div.result {
+    border: 1px solid #aaaaaa;
+    border-left: 6px solid #888888;
+    border-right: none;
+    padding-left: 6px;
+}
+
+div.group span, div.user span {
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+div.test span {
+    font-weight: bold;
+}
+
+div.result a.info {
+    font-style: italic;
+}
+
+ul.groups div a, ul.users div a, ul.results div a {
+    float: right;
+    margin-left: 25px;
+}
+
+div.group a, div.user a {
+    padding: 5px;
+}
+
+div.passed {
+    border-left-color: #75ff47;
+}
+
+div.unsatisfactory {
+    border-left-color: #ffff33;
+}
+
+div.failed, div.error {
+    border-left-color: #ff1919;
+}

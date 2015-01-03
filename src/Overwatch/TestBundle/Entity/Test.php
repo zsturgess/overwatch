@@ -56,7 +56,7 @@ class Test implements \JsonSerializable
     private $expected;
     
     /**
-     * @ORM\OneToMany(targetEntity="Overwatch\ResultBundle\Entity\TestResult", mappedBy="test")
+     * @ORM\OneToMany(targetEntity="Overwatch\ResultBundle\Entity\TestResult", mappedBy="test", cascade={"remove"})
      */
     private $results;
     
@@ -104,10 +104,10 @@ class Test implements \JsonSerializable
         return [
             "id" => $this->getId(),
             "name" => $this->getName(),
-            "group" => $this->getGroup(),
             "actual" => $this->getActual(),
             "expectation" => $this->getExpectation(),
             "expected" => $this->getExpected(),
+            "result" => $this->getResults()->last(),
             "createdAt" => $this->getCreatedAt()->getTimestamp(),
             "updatedAt" => $this->getUpdatedAt()->getTimestamp()
         ];

@@ -1,8 +1,23 @@
 {% extends "::base.html.twig" %}
 
+{% block stylesheets %}
+{{ parent() }}
+<style>
+#loading {
+    display: none;
+}
+</style>
+{% endblock %}
+
 {% block sidebar %}
 {% if app.user %}
 {% include '::__nav.html.twig' %}
+{% else %}
+<nav>
+    <ul>
+        <li><a href="{{ url('fos_user_security_login') }}"><i class="icon-key"></i> Login</a></li>
+    </ul>
+</nav>
 {% endif %}
 {% endblock %}
 

@@ -1,2 +1,37 @@
-<p><a>Overwatch</a> > <a>Dashboard</a></p>
+<ul class="breadcrumbs">
+    <li><a href="#/">Overwatch</a></li>
+    <li>Dashboard</li>
+</ul>
+
 <h1>Dashboard</h1>
+<ul class="groups">
+    <li data-ng-repeat="group in groups">
+        <div class="group">
+            <span>{{ group.name }}</span>
+            <a href="#/group/{{ group.id }}" title="Edit group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-pencil"></i> Edit</a>
+            <a><i class="icon-users"></i> {{ group.users.length }} users</a>
+        </div>
+        <ul class="tests">
+            <li data-ng-repeat="test in group.tests">
+                <div class="test {{ test.result.status|lowercase }}">
+                    <span title="Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }}">{{ test.name }}</span> (last tested {{ test.result.createdAt|timeago }})
+                    <a data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-minus"></i> Delete</a>
+                    <a href="#/test/{{ test.id }}" title="View/Edit test '{{ test.name }}'"><i class="icon-test"></i> View</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    &nbsp;
+                    <a data-ng-click="removeGroup(group.id)" title="Delete group '{{ group.name }}'" data-ng-show="((group.tests.length + group.users.length === 0) && (isGranted('SUPER_ADMIN')))"><i class="icon-minus"></i> Delete group</a>
+                    <a href="#/group/{{ group.id }}/add-test" title="Add test to group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-plus"></i> Add test</a>
+                </div>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <div>
+            &nbsp;
+            <a data-ng-click="createGroup()" title="Add a new group"><i class="icon-plus"></i> Add new group</a>
+        </div> 
+    </li>
+</ul>

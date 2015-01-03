@@ -43,8 +43,7 @@ class User extends BaseUser implements \JsonSerializable
             "id" => $this->getId(),
             "email" => $this->getEmail(),
             "lastLogin" => $this->getLastLogin()->getTimestamp(),
-            "roles" => $this->getRoles(),
-            "groups" => $this->getGroups()->toArray()
+            "roles" => $this->getRoles()
         ];
     }
     

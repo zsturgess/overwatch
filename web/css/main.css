@@ -6,6 +6,60 @@ body {
     padding: 0;
 }
 
+a[href], a[data-ng-click] {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/**
+ * FORMS
+ **/
+
+form {
+    clear: both;
+    margin: 0 auto;
+    width: 300px;
+}
+
+label {
+    color: #666666;
+    display: block;
+    font-style:italic;
+    margin-top: 10px;
+}
+
+input[type="text"], input[type="password"], input[type="email"], textarea, input[type="submit"], button {
+    border: 1px solid #cccccc;
+    -webkit-appearance: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #808080;
+    font-size: 12px;
+    height: 26px;
+    padding: 5px 9px;
+    position: relative;
+}
+
+select {
+    height: 26px;
+}
+
+input[type="text"], input[type="password"], input[type="email"], select, input[type="submit"], button {
+    width: 100%;
+}
+
+
+input[type="submit"], button {
+    background: #2a2a2a;
+    color: #cccccc;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/**
+ * GENERAL LAYOUT
+ **/
 #container {
     background: #2a2a2a;
     margin: 0 auto;
@@ -16,7 +70,7 @@ body {
     background: #2a2a2a;
     color: #cccccc;
     float: left;
-    padding: 50px 0;
+    padding: 22px 0;
     text-align: center;
     width: 300px;
 }
@@ -31,8 +85,8 @@ body {
 }
 
 /**
-* SIDEBAR NAVIGATION & FOOTER
-**/
+ * SIDEBAR CONTENT
+ **/
 header {
     margin-bottom: 20px;
 }
@@ -53,7 +107,6 @@ nav li a {
     font-weight: bold;
     padding: 20px 30px;
     text-decoration: none;
-    text-transform: uppercase;
 }
 
 nav li a:hover {
@@ -66,17 +119,50 @@ footer p {
     margin-top: 20px;
 }
 
+/**
+ * GENERIC PAGE CONTENT
+ **/
+
+#page a {
+    color: #2a2a2a;
+}
+
+#page a[href]:hover, #page a[data-ng-click]:hover {
+    color: #666666;
+}
+
 .user-nav {
+    float: right;
     font-size: 10pt;
-    text-align: right;
+    margin-top: 16px;
+}
+
+ul.breadcrumbs {
+    padding: 0;
+}
+
+ul.breadcrumbs li {
+    display: inline;
+    list-style: none;
+}
+
+ul.breadcrumbs li a {
+    color: #2a2a2a;
+}
+
+ul.breadcrumbs li a:hover {
+    color: #666666;
+}
+
+ul.breadcrumbs li a:after {
+    content: " > ";
 }
 
 /**
-* LOADING OVERLAY
-**/
+ * LOADING OVERLAY
+ **/
 #loading {
     background: rgba(0, 0, 0, 0.6);
-    display: none;
     height: 100%;
     left: 0;
     position: fixed;
@@ -137,9 +223,9 @@ footer p {
   }
 }
 
-/*
-* ICONS
-*/
+/**
+ * ICONS
+ **/
 @font-face {
 	font-family: 'icomoon';
 	src:url('fonts/icomoon.eot?9es3ol');

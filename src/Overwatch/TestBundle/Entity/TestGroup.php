@@ -71,6 +71,8 @@ class TestGroup implements GroupInterface, \JsonSerializable
         return [
             "id" => $this->getId(),
             "name" => $this->getName(),
+            "tests" => $this->getTests()->toArray(),
+            "users" => $this->getUsers()->toArray(),
             "createdAt" => $this->getCreatedAt()->getTimestamp(),
             "updatedAt" => $this->getUpdatedAt()->getTimestamp()
         ];

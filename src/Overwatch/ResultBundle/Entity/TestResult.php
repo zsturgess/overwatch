@@ -55,7 +55,6 @@ class TestResult implements \JsonSerializable
     public function jsonSerialize() {
         return [
             "id" => $this->getId(),
-            "test" => $this->getTest(),
             "status" => $this->getStatus(),
             "info" => $this->getInfo(),
             "createdAt" => $this->getCreatedAt()->getTimestamp()

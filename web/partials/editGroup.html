@@ -1,0 +1,21 @@
+<ul class="breadcrumbs">
+    <li><a href="#/">Overwatch</a></li>
+    <li>Edit Group '{{ group.name }}'</li>
+</ul>
+
+<h1>{{ group.name }}</h1>
+<ul class="users">
+    <li data-ng-repeat="user in group.users">
+        <div class="user">
+            <span>{{ user.email }}</span>
+            <a data-ng-click="removeUser(user.id)" title="Remove user '{{ user.email }}' from group '{{ group.name }}'"><i class="icon-user-minus"></i> Remove</a>
+        </div>
+    </li>
+    <li>
+        <div>
+            &nbsp;
+            <a data-ng-click="renameGroup()" title="Rename this group"><i class="icon-pencil"></i> Rename group</a>
+            <a data-ng-click="addUser()" title="Add a user to this group"><i class="icon-user-plus"></i> Add user to group</a>
+        </div> 
+    </li>
+</ul>
