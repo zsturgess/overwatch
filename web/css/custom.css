@@ -32,7 +32,7 @@ div.group, div.test, div.user, div.result {
     padding-left: 6px;
 }
 
-div.group span, div.user span {
+div.group span {
     font-size: 18pt;
     font-weight: bold;
 }
@@ -50,7 +50,7 @@ ul.groups div a, ul.users div a, ul.results div a {
     margin-left: 25px;
 }
 
-div.group a, div.user a {
+div.group a {
     padding: 5px;
 }
 
@@ -64,4 +64,12 @@ div.unsatisfactory {
 
 div.failed, div.error {
     border-left-color: #ff1919;
+}
+
+div.user-key {
+    border-left-width: 6px;
+    border-left-style: solid;
+    display: inline-block;
+    margin-right: 15px;
+    padding-left: 5px;
 }

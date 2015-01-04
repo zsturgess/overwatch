@@ -1,3 +1,17 @@
+overwatchApp.run(function(showLoading, $rootScope, $window, $http) {
+    $rootScope.$on('$routeChangeStart', function() {
+        showLoading(true);
+    });
+    
+    $rootScope.$on('$routeChangeSuccess', function(event, current) {
+        if (current.title) {
+            $window.document.title = current.title + " - Overwatch";
+        } else {
+            $window.document.title = "Overwatch";
+        }
+    });
+});
+
 overwatchApp.factory('showLoading', function($rootScope) {
     return function(show) {
         $rootScope.isLoading = show;
@@ -34,6 +48,21 @@ overwatchApp.factory('isGranted', function() {
                 break;
             default:
                 return false;
+        }
+    }
+});
+
+overwatchApp.filter('roleToCss', function() {
+    //we're re-using the test CSS classes here, so they look a little odd...
+    return function(input) {
+        if (input === "ROLE_SUPER_ADMIN") {
+            return "failed";
+        } else if (input === "ROLE_ADMIN") {
+            return "unsatisfactory";
+        } else if (input === "ROLE_USER") {
+            return "passed";
+        } else {
+            return "";
         }
     }
 });

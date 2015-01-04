@@ -29,22 +29,13 @@ overwatchApp.config(function($routeProvider) {
                 templateUrl: 'partials/testForm.html',
                 controller: 'EditTestController'
             })
+            .when('/users', {
+                title: 'Manage Users',
+                templateUrl: 'partials/manageUsers.html',
+                controller: 'ManageUsersController'
+            })
             .otherwise({
                 redirectTo: '/'
             })
     ;
-});
-
-overwatchApp.run(function(showLoading, $rootScope, $window, $http) {
-    $rootScope.$on('$routeChangeStart', function() {
-        showLoading(true);
-    });
-    
-    $rootScope.$on('$routeChangeSuccess', function(event, current) {
-        if (current.title) {
-            $window.document.title = current.title + " - Overwatch";
-        } else {
-            $window.document.title = "Overwatch";
-        }
-    });
 });

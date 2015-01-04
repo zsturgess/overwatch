@@ -1,0 +1,23 @@
+<ul class="breadcrumbs">
+    <li><a href="#/">Overwatch</a></li>
+    <li>Manage Users</li>
+</ul>
+
+<h1>Manage Users</h1>
+<ul class="users">
+    <li data-ng-repeat="user in users">
+        <div class="user {{ user.roles[0]|roleToCss }}">
+            <span>{{ user.email }}</span>
+            <a data-ng-click="removeUser(user.id)" title="Permanently delete '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="icon-user-minus"></i> Delete</a>
+            <a data-ng-click="lockUser(user.id)" title="Lock '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="icon-key"></i> <span data-ng-show="!user.locked">Lock</span><span data-ng-show="user.locked">Unlock</span></a>
+            <a data-ng-click="updateRole(user.id)" title="Edit {{ user.email }}'s role" data-ng-hide="(user.id === currentUserId)"><i class="icon-pencil"></i> Edit Role</a>
+            <a data-ng-show="(user.id === currentUserId)"><i class="icon-user"></i> It's you!</a>
+        </div>
+    </li>
+    <li>
+        <div>
+            <div class="user-key failed"> Super Admin</div> <div class="user-key unsatisfactory"> Admin</div> <div class="user-key passed"> User</div>
+            <a data-ng-click="createUser()" title="Add a user"><i class="icon-user-plus"></i> Register new user</a>
+        </div> 
+    </li>
+</ul>
