@@ -11,7 +11,7 @@ use Overwatch\ResultBundle\Reporter\ResultReporterInterface;
  * The ResultReporterManager keeps a list of all known ResultReporters and also
  * acts as an event listener to the doctrine postPersist event. When a postPersist
  * event is fired for the TestResult class, this Manager will notify all ResultReporters
- * that have been registered with it by the container.
+ * that have been added to it.
  */
 class ResultReporterManager {
     private $resultReporters = [];
