@@ -1,0 +1,5 @@
+services:
+    overwatch_result.result_reporter_manager:
+        class: Overwatch\ResultBundle\Reporter\ResultReporterManager
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
