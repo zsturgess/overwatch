@@ -5,7 +5,7 @@ Requirements
 ------------
 - PHP 5.4 or higher
 - MySQL & the PDO-MySQL PHP extension, or any [other combination compatible with the Doctrine ORM](http://www.doctrine-project.org/2010/02/11/database-support-doctrine2.html)
-- [Composer](https://getcomposer.org/doc/00-intro.md#system-requirements)
+- [Composer](https://getcomposer.org/)
 - A web server to serve the frontend interface (such as Apache or Nginx)
 
 Installation
