@@ -2,7 +2,7 @@ var overwatchApp = angular.module('overwatch', [
     'ngRoute'
 ]);
 
-overwatchApp.config(function($routeProvider, $locationProvider) {
+overwatchApp.config(function($routeProvider) {
     $routeProvider
             .when('/', {
                 title: 'Dashboard',
@@ -43,9 +43,4 @@ overwatchApp.config(function($routeProvider, $locationProvider) {
                 redirectTo: '/'
             })
     ;
-    
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
-    });
 });
