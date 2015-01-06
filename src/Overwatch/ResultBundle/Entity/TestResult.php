@@ -169,4 +169,16 @@ class TestResult implements \JsonSerializable
     {
         return $this->info;
     }
+    
+    /**
+     * Is this test result a change from the previous one?
+     * 
+     * @return boolean
+     */
+    public function isAChange() {
+        $results = $this->getTest()->getResults();
+        $lastResult = $results->get($results->count() - 2);
+        
+        return ($this->getStatus() !== $lastResult->getStatus());
+    }
 }

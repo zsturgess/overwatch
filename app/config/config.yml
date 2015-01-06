@@ -1,6 +1,8 @@
 imports:
     - { resource: base_config.yml }
     
-overwatch_expectation:
+overwatch_service:
     to_ping: ~
     to_resolve_to: ~
+    email_reporter:
+        report_from: %mailer_from%

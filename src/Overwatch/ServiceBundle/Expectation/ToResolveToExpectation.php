@@ -1,9 +1,9 @@
 <?php
 
-namespace Overwatch\ExpectationBundle\Expectation;
+namespace Overwatch\ServiceBundle\Expectation;
 
-use Overwatch\ExpectationBundle\Helper\ExpectationInterface;
 use Overwatch\ExpectationBundle\Exception as Result;
+use Overwatch\ExpectationBundle\Expectation\ExpectationInterface;
 
 /**
  * ToResolveToExpectation

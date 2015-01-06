@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Overwatch\TestBundle\OverwatchTestBundle(),
             new Overwatch\ResultBundle\OverwatchResultBundle(),
             new Overwatch\UserBundle\OverwatchUserBundle(),
+            new Overwatch\ServiceBundle\OverwatchServiceBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

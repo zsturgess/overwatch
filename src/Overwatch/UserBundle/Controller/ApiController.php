@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Overwatch\UserBundle\Entity\User;
+use Overwatch\UserBundle\Enum\AlertSetting;
 
 /**
  * ApiController
@@ -57,6 +58,14 @@ class ApiController extends Controller {
     }
     
     /**
+     * @Route("/alertSettings")
+     * @Method({"GET"})
+     */
+    public function getAlertSettings() {
+        return new JsonResponse(AlertSetting::getAll());
+    }
+    
+    /**
      * @Route("/{email}")
      * @Method({"GET"})
      * @ParamConverter("user", class="OverwatchUserBundle:User")
@@ -80,6 +89,17 @@ class ApiController extends Controller {
         
         $users = $this->_em->getRepository("OverwatchUserBundle:User")->findAll();
         return new JsonResponse($users);
+    }
+    
+    /**
+     * @Route("/alertSetting/{setting}")
+     * @Method({"PUT","POST"})
+     */
+    public function setAlertSetting($setting) {
+        $this->getUser()->setAlertSetting($setting);
+        $this->_em->flush();
+        
+        return new JsonResponse($this->getUser());
     }
     
     /**

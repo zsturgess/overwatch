@@ -12,7 +12,7 @@ label[for="remember_me"] {
 /**
  * LISTS
  **/
-ul.groups, ul.users, ul.results {
+ul.groups, ul.users, ul.results, ul.settings {
     padding: 0;
 }
 
@@ -20,12 +20,12 @@ ul.tests {
     padding: 0 0 30px 40px;
 }
 
-ul.groups li, ul.users li, ul.tests li, ul.results li {
+ul.groups li, ul.users li, ul.tests li, ul.results li, ul.settings li {
     list-style: none;
     padding: 10px 0 0;
 }
 
-div.group, div.test, div.user, div.result {
+div.group, div.test, div.user, div.result, div.setting {
     border: 1px solid #aaaaaa;
     border-left: 6px solid #888888;
     border-right: none;
@@ -45,7 +45,7 @@ div.result a.info {
     font-style: italic;
 }
 
-ul.groups div a, ul.users div a, ul.results div a {
+ul.groups div a, ul.users div a, ul.results div a, ul.settings div a {
     float: right;
     margin-left: 25px;
 }

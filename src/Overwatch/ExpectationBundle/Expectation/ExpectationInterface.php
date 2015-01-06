@@ -1,6 +1,6 @@
 <?php
 
-namespace Overwatch\ExpectationBundle\Helper;
+namespace Overwatch\ExpectationBundle\Expectation;
 
 /**
  * ExpectationInterfaces

@@ -25,7 +25,7 @@ class ResultReporterCompilerPass implements CompilerPassInterface {
         
         foreach ($taggedServices as $id => $tags) {
             $definition->addMethodCall(
-                'addTransport',
+                'add',
                 array(new Reference($id))
             );
         }

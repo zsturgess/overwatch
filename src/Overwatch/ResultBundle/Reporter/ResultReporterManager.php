@@ -22,7 +22,7 @@ class ResultReporterManager {
     }
     
     public function add(ResultReporterInterface $reporter) {
-        $this->resultReporters = $reporter;
+        $this->resultReporters[] = $reporter;
     }
     
     public function notifyAll(TestResult $result) {

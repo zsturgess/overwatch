@@ -34,6 +34,11 @@ overwatchApp.config(function($routeProvider) {
                 templateUrl: 'partials/manageUsers.html',
                 controller: 'ManageUsersController'
             })
+            .when('/alerts', {
+                title: 'Manage Alert Settings',
+                templateUrl: 'partials/manageAlertSettings.html',
+                controller: 'ManageAlertSettingsController'
+            })
             .otherwise({
                 redirectTo: '/'
             })

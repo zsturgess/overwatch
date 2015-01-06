@@ -1,0 +1,19 @@
+<ul class="breadcrumbs">
+    <li><a href="#/">Overwatch</a></li>
+    <li>Manage Alert Settings</li>
+</ul>
+
+<h1>Manage Alert Settings</h1>
+<ul class="settings">
+    <li data-ng-repeat="(settingId, setting) in settings">
+        <div class="setting" data-ng-class="{passed: isUsersSetting(settingId)}">
+            {{ setting }}
+            <a data-ng-click="saveSetting(settingId)" data-ng-hide="isUsersSetting(settingId)"><i class="icon-bell"></i> Change my setting to this</a>
+            <a data-ng-show="isUsersSetting(settingId)"><i class="icon-user"></i> This is your current setting</a>
+        </div>
+    </li>
+    <li>
+        &nbsp;
+        <a><strong>Warning:</strong> You may still get some notifications intended for the group, as set up by your system administrator.</a>
+    </li>
+</ul>

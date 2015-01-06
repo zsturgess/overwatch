@@ -278,3 +278,32 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
     
     fetchUsers();
 });
+
+overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $scope, $http) {
+    $scope.settings = [];
+    
+    var fetchSettings = function() {
+        $http.get(Routing.generate('overwatch_user_api_getalertsettings'))
+            .success(function(settings) {
+                $scope.settings = settings;
+                showLoading(false);
+            })
+        ;
+    }
+    
+    $scope.isUsersSetting = function(id) {
+        return (currentUser.alertSetting === id);
+    };
+    
+    $scope.saveSetting = function(id) {
+        showLoading(true);
+        $http.put(Routing.generate('overwatch_user_api_setalertsetting', {setting: id}))
+            .success(function() {
+                currentUser.alertSetting = id;
+                showLoading(false);
+            })
+        ;
+    };
+    
+    fetchSettings();
+});
