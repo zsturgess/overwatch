@@ -1,6 +1,5 @@
-overwatchApp.controller('DashboardController', function(showLoading, isGranted, $scope, $http, $window) {
+overwatchApp.controller('DashboardController', function(showLoading, isGranted, $scope, $http, $window, $interval) {
     $scope.groups = [];
-    
     var fetchGroups = function() {
         $http.get(Routing.generate('overwatch_test_testgroupapi_getallgroups'))
             .success(function(groups){
@@ -9,6 +8,11 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
             })
         ;
     };
+    var interval = $interval(fetchGroups, 60000);
+    
+    $scope.$on('$destroy', function() {
+        $interval.cancel(interval);
+    });
     
     $scope.isGranted = function(role, group) {
         return isGranted(role, group.name);
@@ -146,7 +150,7 @@ overwatchApp.controller('AddTestController', function(showLoading, $scope, $http
     }
 });
 
-overwatchApp.controller('ViewTestController', function(showLoading, $scope, $http, $routeParams) {
+overwatchApp.controller('ViewTestController', function(showLoading, $scope, $http, $routeParams, $interval) {
     $scope.test = {};
     $scope.lastRequestedResultSize = 0;
     
@@ -171,6 +175,14 @@ overwatchApp.controller('ViewTestController', function(showLoading, $scope, $htt
         showLoading(true);
         $scope.loadResults($scope.lastRequestedResultSize + 10);
     }
+    
+    var interval = $interval(function() {
+        $scope.loadResults($scope.lastRequestedResultSize)
+    }, 60000);
+    
+    $scope.$on('$destroy', function() {
+        $interval.cancel(interval);
+    });
 });
 
 overwatchApp.controller('EditTestController', function(showLoading, $scope, $http, $routeParams, $location) {
