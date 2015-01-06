@@ -8,23 +8,23 @@ Overwatch is an extensible PHP monitoring system built on top of the excellent [
 Installation
 ------------
 
-All the installation instructions are located in the documentation at:
+All the [installation instructions](app/Resources/docs/installing.md) are located in the documentation at:
 
     app/Resources/docs/installing.md
 
 Documentation
 -------------
 
-The bulk of the documentation is located in markdown files in the code:
+The bulk of the [documentation](app/Resources/docs/index.md) is located in markdown files in the code:
 
     app/Resources/docs/index.md
 
 License
 -------
 
-This project is under the MIT license. See the complete license in the code:
+This project is under the MIT license. See the [complete license](LICENSE):
 
-    app/Resources/docs/LICENSE
+    LICENSE
 
 About
 -----
