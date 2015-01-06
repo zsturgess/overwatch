@@ -3,7 +3,7 @@ Overwatch
 
 Overwatch is an extensible PHP monitoring system built on top of the excellent [Symfony Framework](https://github.com/symfony/symfony-standard), with a frontend interface engineered in [AngularJS](https://angularjs.org/).
 
-*Warning:* Overwatch is still in the process of being developed.
+**Warning:** Overwatch is still in the process of being developed, and is unstable. Also, some of the code was written at 3am and needs a complete overhaul. You have been warned.
 
 Installation
 ------------
@@ -30,9 +30,9 @@ About
 -----
 
 Overwatch is a creation of Zac Sturgess.
-See also the list of contributors.
+See also the [list of contributors](https://github.com/zsturgess/overwatch/graphs/contributors).
 
 Reporting an issue or a feature request
 ---------------------------------------
 
-Issues and feature requests are tracked in the Github issue tracker.
+Issues and feature requests are tracked in the [Github issue tracker](https://github.com/zsturgess/overwatch/issues).
