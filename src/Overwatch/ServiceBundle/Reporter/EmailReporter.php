@@ -9,13 +9,11 @@ use Overwatch\ResultBundle\Reporter\ResultReporterInterface;
  * EmailReporter
  */
 class EmailReporter implements ResultReporterInterface  {
-    private $mailer;
-    private $templating;
+    private $container;
     private $config;
     
-    public function __construct($mailer, $templating, $config) {
-        $this->mailer = $mailer;
-        $this->templating = $templating;
+    public function __construct($container, $config) {
+        $this->container = $container;
         $this->config = $config;
     }
     
@@ -41,7 +39,7 @@ class EmailReporter implements ResultReporterInterface  {
             ->setFrom($this->config['report_from'])
             ->setTo($users)
             ->setBody(
-                $this->templating->render(
+                $this->container->get('templating')->render(
                     'OverwatchServiceBundle:Email:result.txt.twig',
                     ["result" => $result]
                 ),
@@ -49,6 +47,6 @@ class EmailReporter implements ResultReporterInterface  {
             )
         ;
         
-        $this->mailer->send($message);
+        $this->container->get('mailer')->send($message);
     }
 }
