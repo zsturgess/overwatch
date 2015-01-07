@@ -2,13 +2,13 @@
 
 namespace Overwatch\ExpectationBundle\Tests\Controller;
 
-use Overwatch\UserBundle\Tests\Base\BaseFunctionalTest;
+use Overwatch\UserBundle\Tests\Base\BaseFunctional;
 
 /**
  * ApiControllerTest
  * Functional test of API method provided by the APIController
  */
-class ApiControllerTest extends BaseFunctionalTest {
+class ApiControllerTest extends BaseFunctional {
     public function testGetAll() {
         $expectations = [
             "toPing",

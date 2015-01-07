@@ -11,14 +11,14 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  *
  * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
  */
-class BaseFunctionalTest extends WebTestCase {
-    private $client = null;
+class BaseFunctional extends WebTestCase {
+    protected $client = null;
 
     public function setUp() {
         $this->client = static::createClient();
     }
     
-    private function logIn($role) {
+    protected function logIn($role) {
         $session = $this->client->getContainer()->get('session');
 
         $firewall = 'overwatch';
