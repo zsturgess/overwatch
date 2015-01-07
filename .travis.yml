@@ -5,7 +5,7 @@ php:
 before_script:
     - cp app/config/parameters.yml.dist app/config/parameters.yml
     - mysql -e 'create database overwatch;'
-    - composer install
+    - composer install --prefer-source --no-dev
     - php app/console doctrine:schema:create
 script: phpunit -c app/
 
