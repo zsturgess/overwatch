@@ -8,7 +8,7 @@ namespace Overwatch\ExpectationBundle\Exception;
  * expectation by alias.
  */
 class ExpectationNotFoundException extends \OutOfBoundsException {
-    public function __construct($alias, $code, $previous) {
+    public function __construct($alias, $code = 0, $previous = NULL) {
         parent::__construct(
             "Expectation with $alias could not be found.",
             $code,

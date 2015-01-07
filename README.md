@@ -5,6 +5,8 @@ Overwatch is an extensible PHP monitoring system built on top of the excellent [
 
 **Warning:** Overwatch is still in the process of being developed, and is unstable. Also, some of the code was written at 3am and needs a complete overhaul. You have been warned.
 
+[![Build Status](https://api.travis-ci.org/zsturgess/overwatch.svg?branch=master)](https://travis-ci.org/zsturgess/overwatch/)
+
 Installation
 ------------
 

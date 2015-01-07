@@ -1,0 +1,14 @@
+language: php
+php:
+  - 5.6
+
+before_script:
+    - cp app/config/parameters.yml.dist app/config/parameters.yml
+    - mysql -e 'create database overwatch;'
+    - composer install --prefer-source
+    - php app/console doctrine:schema:create
+script: phpunit -c app/
+
+branches:
+  only:
+    - master
