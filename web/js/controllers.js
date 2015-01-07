@@ -15,6 +15,10 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
     });
     
     $scope.isGranted = function(role, group) {
+        if (typeof group === 'undefined') {
+            return isGranted(role);
+        }
+        
         return isGranted(role, group.name);
     }
     
