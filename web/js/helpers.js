@@ -74,6 +74,17 @@ overwatchApp.filter('ucfirst', function() {
     };
 });
 
+//From http://stackoverflow.com/a/27222204 (Thanks @Anam!)
+overwatchApp.filter('strLimit', function($filter) {
+   return function(input, limit) {
+      if (input.length <= limit) {
+          return input;
+      }
+
+      return $filter('limitTo')(input, limit) + '...';
+   };
+});
+
 //From https://github.com/uttesh/ngtimeago/blob/master/ngtimeago.js (Thanks @uttesh!)
 overwatchApp.filter('timeago', function() {
     return function(input, p_allowFuture) {

@@ -7,7 +7,7 @@
 <ul class="results">
     <li data-ng-repeat="result in test.results">
         <div class="result {{ result.status|lowercase }}">
-            <span title="{{ result.status|lowercase|ucfirst }}">{{ result.info }}</span>
+            <span title="{{ result.status|lowercase|ucfirst }}: {{ result.info }}">{{ result.info|strLimit:90 }}</span>
             <a title="{{ test.result.createdAt*1000|date:'medium' }}">{{ test.result.createdAt|timeago }}</a>
         </div>
     </li>
