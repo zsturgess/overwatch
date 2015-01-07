@@ -22,7 +22,8 @@
         "friendsofsymfony/jsrouting-bundle": "~1.5"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "phpunit/phpunit": "~4.4"
     },
     "scripts": {
         "post-root-package-install": [
