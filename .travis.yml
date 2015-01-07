@@ -1,12 +1,10 @@
 language: php
 php:
-  - 5.4
-  - 5.5
   - 5.6
 
 before_script:
     - cp app/config/parameters.yml.dist app/config/parameters.yml
-    - php app/console doctrine:database:create
-    - php app/console doctrine:schema:create
+    - mysql -e 'create database overwatch;'
     - composer install
+    - php app/console doctrine:schema:create
 script: phpunit -c app/
