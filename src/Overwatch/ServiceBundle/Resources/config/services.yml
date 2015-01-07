@@ -11,6 +11,6 @@ services:
             -  { name: overwatch_expectation.expectation, alias: toResolveTo } 
     overwatch_service.email_reporter:
         class: Overwatch\ServiceBundle\Reporter\EmailReporter
-        arguments: ["@mailer", "%overwatch_service.email_reporter%"]
+        arguments: ["@mailer", "@templating", "%overwatch_service.email_reporter%"]
         tags:
             -  { name: overwatch_result.result_reporter }
