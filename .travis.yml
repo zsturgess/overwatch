@@ -8,3 +8,7 @@ before_script:
     - composer install
     - php app/console doctrine:schema:create
 script: phpunit -c app/
+
+branches:
+  only:
+    - master
