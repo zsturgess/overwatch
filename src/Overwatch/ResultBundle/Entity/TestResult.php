@@ -179,6 +179,10 @@ class TestResult implements \JsonSerializable
         $results = $this->getTest()->getResults();
         $lastResult = $results->get($results->count() - 2);
         
+        if ($lastResult === NULL) {
+            return true;
+        }
+        
         return ($this->getStatus() !== $lastResult->getStatus());
     }
 }
