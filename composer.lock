@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e42eda68efbc3b2fffe11bbcaad31d95",
+    "hash": "e32702b776bfdf581e48c1777bc99a14",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1242,6 +1242,46 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "qandidate/symfony-json-request-transformer",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qandidate-labs/symfony-json-request-transformer.git",
+                "reference": "6ccb81c49491d88f23da2c8e2f6f7e485bda5bd6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qandidate-labs/symfony-json-request-transformer/zipball/6ccb81c49491d88f23da2c8e2f6f7e485bda5bd6",
+                "reference": "6ccb81c49491d88f23da2c8e2f6f7e485bda5bd6",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/http-kernel": "~2.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Qandidate\\Common\\Symfony\\HttpKernel\\EventListener": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander",
+                    "email": "iam.asm89@gmail.com"
+                },
+                {
+                    "name": "Qandidate.com",
+                    "homepage": "http://labs.qandidate.com/"
+                }
+            ],
+            "description": "A Symfony 2 event listener for decoding JSON encoded request content",
+            "time": "2014-08-12 11:54:28"
         },
         {
             "name": "sensio/distribution-bundle",
