@@ -2,6 +2,7 @@
 
 namespace Overwatch\ExpectationBundle\Tests\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
 use Overwatch\UserBundle\Tests\Base\BaseFunctional;
 
 /**
@@ -21,5 +22,12 @@ class ApiControllerTest extends BaseFunctional {
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertJson($this->client->getResponse()->getContent());
         $this->assertJsonStringEqualsJsonString(json_encode($expectations), $this->client->getResponse()->getContent());
+    }
+    
+    public function testGetAllInsufficentPerms() {
+        $this->logIn('ROLE_USER');
+        $this->client->request('GET', '/api/expectations');
+        
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
     }
 }
