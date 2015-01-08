@@ -176,6 +176,10 @@ class TestResult implements \JsonSerializable
      * @return boolean
      */
     public function isAChange() {
+        if ($this->getTest() === NULL) {
+            return true;
+        }
+        
         $results = $this->getTest()->getResults();
         $lastResult = $results->get($results->count() - 2);
         
