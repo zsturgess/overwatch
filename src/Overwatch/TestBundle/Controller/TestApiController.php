@@ -39,18 +39,12 @@ class TestApiController extends Controller {
             throw new AccessDeniedHttpException("You must be an admin of this group to create a test in it.");
         }
         
-        $content = $request->getContent();
-        if (empty($content)) {
-            return new JsonResponse("You must pass some information to create the new test with", 422);
-        }
-        $params = json_decode($content, true);
-        
         $test = new Test();
         $test
-            ->setActual(isset($params['actual']) ? $params['actual'] : null)
-            ->setExpectation(isset($params['expectation']) ? $params['expectation'] : null)
-            ->setExpected(isset($params['expected']) ? $params['expected'] : null)
-            ->setName(isset($params['name']) ? $params['name'] : null)
+            ->setActual($request->request->get('actual'))
+            ->setExpectation($request->request->get('expectation'))
+            ->setExpected($request->request->get('expected'))
+            ->setName($request->request->get('name'))
             ->setGroup($group)
         ;
         
@@ -103,15 +97,9 @@ class TestApiController extends Controller {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to edit it");
         }
         
-        $content = $request->getContent();
-        if (empty($content)) {
-            return new JsonResponse("You must pass some information to update the test with", 422);
-        }
-        $params = json_decode($content, true);
-        
         foreach (['name', 'actual', 'expectation', 'expected'] as $field) {
-            if ($params[$field]) {
-                $test->{"set".ucfirst($field)}($params[$field]);
+            if ($request->request->has($field)) {
+                $test->{"set".ucfirst($field)}($request->request->get($field));
             }
         }
         
