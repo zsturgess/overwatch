@@ -21,7 +21,8 @@ class DatabaseAwareTestCase extends WebTestCase {
         $this->loadFixtures([
             'Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures',
             'Overwatch\TestBundle\DataFixtures\ORM\TestFixtures',
-            'Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures'
+            'Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures',
+            'Overwatch\UserBundle\DataFixtures\ORM\UserFixtures'
         ]);
         
         $this->em = $this->getContainer()->get('doctrine')->getManager();
