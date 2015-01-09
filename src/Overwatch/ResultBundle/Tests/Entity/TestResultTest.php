@@ -8,7 +8,7 @@ use Overwatch\TestBundle\Entity\Test;
 
 /**
  * TestResultTest
- * 
+ * A unit test for the TestResult Entity
  */
 class TestResultTest extends \PHPUnit_Framework_TestCase {
     private $test;

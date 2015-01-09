@@ -3,13 +3,13 @@
 namespace Overwatch\ExpectationBundle\Tests\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Overwatch\UserBundle\Tests\Base\BaseFunctional;
+use Overwatch\UserBundle\Tests\Base\FunctionalTestCase;
 
 /**
  * ApiControllerTest
  * Functional test of API method provided by the APIController
  */
-class ApiControllerTest extends BaseFunctional {
+class ApiControllerTest extends FunctionalTestCase {
     public function testGetAll() {
         $expectations = [
             "toPing",

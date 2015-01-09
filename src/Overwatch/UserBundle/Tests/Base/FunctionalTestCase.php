@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  *
  * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
  */
-class BaseFunctional extends WebTestCase {
+class FunctionalTestCase extends WebTestCase {
     protected $client = null;
 
     public function setUp() {
