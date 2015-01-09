@@ -19,8 +19,7 @@ class ApiControllerTest extends FunctionalTestCase {
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/expectations');
 
-        $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertJson($this->client->getResponse()->getContent());
+        $this->assertJsonResponse($this->client->getResponse());
         $this->assertJsonStringEqualsJsonString(json_encode($expectations), $this->client->getResponse()->getContent());
     }
     

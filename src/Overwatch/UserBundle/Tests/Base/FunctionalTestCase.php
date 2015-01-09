@@ -3,8 +3,6 @@
 namespace Overwatch\UserBundle\Tests\Base;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * BaseFunctionalTest
@@ -12,21 +10,11 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
  */
 class FunctionalTestCase extends WebTestCase {
+    use ApiTestHelperTrait;
+    
     protected $client = null;
 
     public function setUp() {
         $this->client = static::createClient();
-    }
-    
-    protected function logIn($role) {
-        $session = $this->client->getContainer()->get('session');
-
-        $firewall = 'overwatch';
-        $token = new UsernamePasswordToken('admin', null, $firewall, [$role]);
-        $session->set('_security_'.$firewall, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
     }
 }

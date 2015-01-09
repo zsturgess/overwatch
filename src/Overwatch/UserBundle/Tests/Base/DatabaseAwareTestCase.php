@@ -10,9 +10,14 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
  * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
  */
 class DatabaseAwareTestCase extends WebTestCase {
+    use ApiTestHelperTrait;
+    
     protected $em;
+    protected $client;
     
     public function setUp() {
+        $this->client = static::createClient();
+        
         $this->loadFixtures([
             'Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures',
             'Overwatch\TestBundle\DataFixtures\ORM\TestFixtures',
@@ -20,9 +25,5 @@ class DatabaseAwareTestCase extends WebTestCase {
         ]);
         
         $this->em = $this->getContainer()->get('doctrine')->getManager();
-    }
-    
-    public function assertCollectionContainsObject($object, $collection) {
-        return $this->assertContains(json_encode($object), json_encode($collection));
     }
 }
