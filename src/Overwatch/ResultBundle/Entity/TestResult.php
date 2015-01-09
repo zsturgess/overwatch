@@ -101,10 +101,10 @@ class TestResult implements \JsonSerializable
      * @ORM\PrePersist
      * @return TestResult
      */
-    public function setCreatedAt()
+    public function setCreatedAt($timestamp = "now")
     {
         if ($this->createdAt === NULL) {
-            $this->createdAt = new \DateTime;
+            $this->createdAt = new \DateTime($timestamp);
         }
         
         return $this;
@@ -176,6 +176,10 @@ class TestResult implements \JsonSerializable
      * @return boolean
      */
     public function isAChange() {
+        if ($this->getTest() === NULL) {
+            return true;
+        }
+        
         $results = $this->getTest()->getResults();
         $lastResult = $results->get($results->count() - 2);
         
