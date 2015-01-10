@@ -29,7 +29,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/results');
         
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $this->assertForbidden($this->client->getResponse());
     }
     
     public function testGetRecentGroupResults() {
@@ -46,7 +46,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/results/group/' . TestGroupFixtures::$groups['group-1']->getId());
         
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $this->assertForbidden($this->client->getResponse());
     }
     
     public function testGetResultsForTest() {
@@ -64,6 +64,6 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/results/test/' . TestFixtures::$tests['test-1']->getId());
         
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $this->assertForbidden($this->client->getResponse());
     }
 }

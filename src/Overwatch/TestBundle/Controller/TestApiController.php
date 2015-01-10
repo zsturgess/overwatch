@@ -73,7 +73,7 @@ class TestApiController extends Controller {
             throw new AccessDeniedHttpException("You must be a member of this group to view tests in it");
         }
         
-        return new JsonResponse($group->getTests());
+        return new JsonResponse($group->getTests()->toArray());
     }
     
     /**

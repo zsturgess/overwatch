@@ -3,8 +3,8 @@
 namespace Overwatch\UserBundle\Tests\Base;
 
 use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Overwatch\UserBundle\Entity\User;
 
 /**
  * ApiTestHelperTrait
@@ -20,6 +20,10 @@ trait ApiTestHelperTrait {
         $this->assertJson($response->getContent());
     }
     
+    public function assertForbidden($response) {
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+    
     protected function logIn($role) {
         $session = $this->client->getContainer()->get('session');
         $firewall = 'overwatch';
@@ -30,6 +34,17 @@ trait ApiTestHelperTrait {
 
         $cookie = new Cookie($session->getName(), $session->getId());
         $this->client->getCookieJar()->set($cookie);
+    }
+    
+    protected function makeJsonRequest($method, $url, $body = []) {
+        return $this->client->request(
+            $method,
+            $url,
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($body)
+        );
     }
     
     protected function getResponseContent($asJson = FALSE) {
