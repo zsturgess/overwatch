@@ -64,5 +64,6 @@ class EmailReporterTest extends DatabaseAwareTestCase {
         $this->assertContains($result->getStatus(), $message->getBody());
         $this->assertContains($result->getInfo(), $message->getBody());
         $this->assertContains($result->getCreatedAt()->format('F j, Y H:i'), $message->getBody());
+        $this->markTestIncomplete("User-group relationship is faulty, so asserting that the email goes To one user only fails.");
     }
 }
