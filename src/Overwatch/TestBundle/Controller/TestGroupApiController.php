@@ -37,6 +37,10 @@ class TestGroupApiController extends Controller {
             throw new AccessDeniedHttpException("You must be a super admin to create a group");
         }
         
+        if ($request->request->get("name") === NULL) {
+            return new JsonResponse("You must provide a name for the new group", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        
         $group = new TestGroup;
         $group
             ->setName($request->request->get("name"))

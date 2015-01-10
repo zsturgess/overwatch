@@ -27,8 +27,15 @@ class TestGroupFixtures extends AbstractFixture implements OrderedFixtureInterfa
         ;
         $em->persist($group2);
         
+        $group3 = new TestGroup;
+        $group3
+            ->setName("Group 3 - Empty")
+        ;
+        $em->persist($group3);
+        
         $this->addReference('group-1', $group1);
         $this->addReference('group-2', $group2);
+        $this->addReference('group-3', $group3);
         $em->flush();
     }
     
