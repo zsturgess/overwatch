@@ -36,11 +36,23 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
         ;
         $em->persist($user2);
         
+        $user3 = new User;
+        $user3
+            ->setAlertSetting(AlertSetting::NONE)
+            ->setEmail("overwatch.group.admin@example.com")
+            ->setEnabled(true)
+            ->setPlainPassword("p4ssw0rd")
+            ->setRoles(["ROLE_ADMIN"])
+        ;
+        $em->persist($user3);
+        
         $this->getReference('group-1')->addUser($user1);
         $this->getReference('group-1')->addUser($user2);
+        $this->getReference('group-2')->addUser($user3);
         
         $this->addReference('user-1', $user1);
         $this->addReference('user-2', $user2);
+        $this->addReference('user-3', $user3);
         
         $em->flush();
     }

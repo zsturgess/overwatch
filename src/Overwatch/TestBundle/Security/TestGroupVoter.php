@@ -56,13 +56,13 @@ class TestGroupVoter implements VoterInterface {
 
         switch($attributes[0]) {
             case self::VIEW:
-                if ($user->hasGroup($group)) {
+                if ($user->hasGroup($group->getName())) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
 
             case self::EDIT:
-                if ($user->hasGroup($group) && $user->hasRole("ROLE_ADMIN")) {
+                if ($user->hasGroup($group->getName()) && $user->hasRole("ROLE_ADMIN")) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
