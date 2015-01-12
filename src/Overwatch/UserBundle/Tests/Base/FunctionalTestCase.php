@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * BaseFunctionalTest
- *
- * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
+ * Extends Symfony's WebTestCase with custom logic. Uses ApiTestHelperTrait.
+ * For use when we don't need the full fixture functionality of DatabaseAwareTestCase
  */
 class FunctionalTestCase extends WebTestCase {
     use ApiTestHelperTrait;

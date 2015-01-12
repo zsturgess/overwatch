@@ -108,7 +108,7 @@ class ApiController extends Controller {
      */
     public function toggleLockUser(User $user) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to locate a user by email address.");
+            throw new AccessDeniedHttpException("You must be a super admin to lock a user.");
         }
         
         if ($user->getId() === $this->getUser()->getId()) {
@@ -127,7 +127,7 @@ class ApiController extends Controller {
      */
     public function setUserRole(User $user, $role) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to locate a user by email address.");
+            throw new AccessDeniedHttpException("You must be a super admin to re-rank a user.");
         }
         
         if ($user->getId() === $this->getUser()->getId()) {

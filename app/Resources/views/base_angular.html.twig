@@ -18,6 +18,6 @@
 <script src="{{ asset('js/helpers.js') }}"></script>
 <script type="text/javascript">
     var currentUser = {{ app.user|json_encode()|raw }};
-    currentUser.groups = {{ app.user.getGroupNames|json_encode()|raw }};
+    {% if app.user.getGroupNames is defined %}currentUser.groups = {{ app.user.getGroupNames|json_encode()|raw }};{% endif %}
 </script>
 {% endblock %}
