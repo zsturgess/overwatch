@@ -7,8 +7,7 @@ use Overwatch\ResultBundle\Reporter\ResultReporterManager;
 
 /**
  * ResultReporterManagerTest
- *
- * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
+ * Unit test of ResultReporterManager
  */
 class ResultReporterManagerTest extends \PHPUnit_Framework_TestCase {
     protected $rrm;

@@ -6,8 +6,8 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
  * DatabaseAwareTestCase
- *
- * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
+ * Extends LiipFunctionalTestBundle's web test case to add custom logic.
+ * Includes ApiTestHelperTrait.
  */
 class DatabaseAwareTestCase extends WebTestCase {
     use ApiTestHelperTrait;
