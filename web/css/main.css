@@ -163,15 +163,30 @@ ul.breadcrumbs li a:after {
 }
 
 /**
- * LOADING OVERLAY
+ * LOADING & DIALOG OVERLAYS
  **/
-#loading {
+#loading, .dialog-bg {
     background: rgba(0, 0, 0, 0.6);
     height: 100%;
     left: 0;
     position: fixed;
     top: 0;
     width: 100%;
+}
+
+.dialog {
+    background: #dddddd;
+    height:250px;
+    left:50%;
+    margin:-125px 0 0 -300px;
+    padding: 0 15px 15px;
+    position:absolute;
+    top:50%;
+    width:600px;
+}
+
+.dialog button {
+    width: 30%;
 }
 
 .spinner {
