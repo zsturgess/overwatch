@@ -12,7 +12,7 @@ before_script:
     - wget -P bin/ http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
     - composer install --prefer-source
     - php app/console doctrine:schema:create --env=test
-    - java -jar bin/selenium-server-standalone-2.37.0.jar &
+    - java -jar bin/selenium-server-standalone-2.44.0.jar &
 script: phpunit -c app/
 
 branches:
