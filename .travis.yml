@@ -7,12 +7,13 @@ before_install:
     - sh -e /etc/init.d/xvfb start
 before_script:
     - cp app/config/parameters.yml.dist app/config/parameters.yml
-    - mysql -e 'create database overwatch;'
+    - sed -i 's/%database_name%/%database_name%_test/' app/config/base_config.yml
     - mysql -e 'create database overwatch_test;'
     - wget -P bin/ http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
     - composer install --prefer-source
     - php app/console doctrine:schema:create --env=test
     - java -jar bin/selenium-server-standalone-2.44.0.jar &
+    - php app/console server:start
 script: phpunit -c app/
 
 branches:
