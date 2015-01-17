@@ -11,8 +11,6 @@ use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 class ExpectationListTest extends WebDriverTestCase {
     public function testExpectationListPopulates() {
         $this->logInAsUser('user-1');
-        
-        $this->waitForLoadingAnimation();
         $this->clickFirstGroupAddTestButton();
         
         $this->waitForLoadingAnimation();
@@ -24,6 +22,7 @@ class ExpectationListTest extends WebDriverTestCase {
     }
     
     private function clickFirstGroupAddTestButton() {
+        $this->waitForLoadingAnimation();
         $this->webDriver->findElement(
             \WebDriverBy::cssSelector('.groups > li:nth-child(1) > ul:nth-child(2) > li:nth-child(3) > div:nth-child(1) > a:nth-child(2)')
         )->click();

@@ -43,6 +43,18 @@ class WebDriverTestCase  extends DatabaseAwareTestCase {
         });
     }
     
+    public function waitForAlert() {
+        $this->webDriver->wait()->until(
+            \WebDriverExpectedCondition::alertIsPresent()
+        );
+    }
+    
+    public function getHeaderText() {
+        return $this->webDriver->findElement(
+            \WebDriverBy::cssSelector("#page h1")
+        )->getText();
+    }
+    
     public function tearDown() {
         parent::tearDown();
         
