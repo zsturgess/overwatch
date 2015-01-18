@@ -90,6 +90,7 @@ class DashboardTest extends WebDriverTestCase {
         
         $this->waitForAlert();
         $this->webDriver->switchTo()->alert()->dismiss();
+        $this->assertCount(3, $this->getGroups());
         
         $this->getGroups()[2]->findElement(
             //Delete group button
