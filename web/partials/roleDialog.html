@@ -1,0 +1,12 @@
+<div class="dialog-bg">
+    <div class="dialog">
+        <h1>Pick a new role</h1>
+        <p><strong>User</strong>s can only see tests in their groups. They cannot add, edit or delete tests.</p>
+        <p><strong>Admin</strong>s can only see tests in their groups. They can add, edit or delete tests in their groups.</p>
+        <p><strong>Super Admin</strong>s can see, add, edit and delete tests in any group, regardless of if they are part of that group. They can add, edit and delete groups and which users are part of those groups. They will only be notified of results for groups of which they are a member.</p>
+        <button data-ng-click="close('ROLE_USER')">User</button>
+        <button data-ng-click="close('ROLE_ADMIN')">Admin</button>
+        <button data-ng-click="close('ROLE_SUPER_ADMIN')">Super Admin</button>
+        <a data-ng-click="close('CANCEL')">Cancel</a>
+    </div>
+</div>

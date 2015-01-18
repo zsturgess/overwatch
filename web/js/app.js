@@ -1,5 +1,6 @@
 var overwatchApp = angular.module('overwatch', [
-    'ngRoute'
+    'ngRoute',
+    'angularModalService'
 ]);
 
 overwatchApp.config(function($routeProvider) {

@@ -227,7 +227,7 @@ overwatchApp.controller('EditTestController', function(showLoading, $scope, $htt
     }
 });
 
-overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $http, $window) {
+overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $http, $window, ModalService) {
     $scope.users = [];
     $scope.updatedRoles = [];
     $scope.currentUserId = currentUser.id;
@@ -256,18 +256,23 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
     };
     
     $scope.updateRole = function(id) {
-        var realRoles = {A: "ROLE_ADMIN", S: "ROLE_SUPER_ADMIN", U: "ROLE_USER"};
-        var role = $window.prompt("What role should this user be? (Enter one of S [Super Admin], A [Admin] or U [User])", "U");
-        if (["A", "S", "U"].indexOf(role) === -1) {
-            return;
-        }
-        
-        showLoading(true);
-        $http.put(Routing.generate('overwatch_user_api_setuserrole', {id: id, role: realRoles[role]}))
-            .success(function() {
-                fetchUsers();
-            })
-        ;
+        ModalService.showModal({
+          templateUrl: "/partials/roleDialog.html",
+          controller: "RoleDialogController"
+        }).then(function(modal) {
+          modal.close.then(function(result) {
+            if (result === 'CANCEL') {
+                return;
+            }
+            
+            showLoading(true);
+            $http.put(Routing.generate('overwatch_user_api_setuserrole', {id: id, role: result}))
+                .success(function() {
+                    fetchUsers();
+                })
+            ;
+          });
+        });   
     };
     
     $scope.lockUser = function(id) {
@@ -322,4 +327,10 @@ overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $
     };
     
     fetchSettings();
+});
+
+overwatchApp.controller('RoleDialogController', function($scope, close) {
+    $scope.close = function(result) {
+ 	close(result);
+    };
 });
