@@ -24,6 +24,7 @@ class WebDriverTestCase  extends DatabaseAwareTestCase {
     public function logInAsUser($userReference) {
         $user = UserFixtures::$users[$userReference];
         $this->webDriver->get("http://127.0.0.1:8000");
+        $this->webDriver->findElement(\WebDriverBy::id('username'))->clear();
         $this->webDriver->findElement(\WebDriverBy::id('username'))->click();
         $this->webDriver->getKeyboard()->sendKeys($user->getEmail());
         $this->webDriver->findElement(\WebDriverBy::id('password'))->click();
