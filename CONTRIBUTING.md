@@ -8,6 +8,6 @@ For any changes you wish to make, you should create an issue on the issue tracke
 
 To get started on your patch, fork the [main overwatch repository](https://github.com/zsturgess/overwatch). Start a new branch for your work, avoid committing directly to the master branch, even on your own fork.
 
-All commit messages should contain the issue number that is being worked towards. Commits that make no code changes, such as changes to documentation or comments should have [skip ci] in the commit message to instruct Travis CI to skip testing for the commit.
+All commit messages should contain the issue number that is being worked towards. Overwatch uses Travis CI to run automated tests against pull requests, so commits that make no code changes, such as changes to documentation or comments should have [skip ci] in the commit message.
 
-Once your patch is ready (including writing any tests), submit a pull request on the main overwatch repository's master branch.
+Once your patch is ready (including writing any tests or documentation, and checking the existing tests do not fail), submit a pull request on the main overwatch repository's master branch.
