@@ -1,5 +1,5 @@
 #ToResolveTo Expectation
-The _toResolveTo_ expectation expects the actual to respond to an ICMP ping.
+The _toResolveTo_ expectation expects the actual to have a DNS record with the same value as the expected.
 
 ##Example
 ```
