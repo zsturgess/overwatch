@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode("to_ping")
                     ->children()
                         ->floatNode("timeout")
-                            ->info("Time, in seconds, to wait for a ping response before timing out and marking as unmet. Optionally, use with 'utimeout' to specify milliseconds.")
+                            ->info("Time, in seconds, to wait for a ping response before timing out and marking as unmet.")
                             ->defaultValue(2)
                             ->min(0)
                         ->end()
