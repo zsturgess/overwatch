@@ -12,7 +12,9 @@ Expectations and result reporters are simple classes that reside in your bundle,
 Expectations should implement `Overwatch\ExpectationBundle\Expectation\ExpectationInterface`. When a test needs your expectation, Overwatch will call the `run()` method on your class, passing the actual and expected values as arguments.
 
 Overwatch will assume that the expectation was successful if no exception is thrown by your expectation, and will use any return value as extra information to show on the test result screen.
+
 Overwatch supplies `Overwatch\ExpectationBundle\Exception\ExpectationUnsatisfactoryException` and `Overwatch\ExpectationBundle\Exception\ExpectationFailedException`, which you should throw if the test being run should be marked as Unsatisfactory or Failed. The exception's error message will be shown as extra information on the test result screen.
+
 If your expectation class throws any other exception, Overwatch will mark the test as having encountered an error. Again, the exception's error message will be shown as extra information on the test result screen.
 
 Expectations should be registered as services with Symfony. The service should be tagged with `overwatch_expectation.expectation` and the alias for your expectation, for example:
