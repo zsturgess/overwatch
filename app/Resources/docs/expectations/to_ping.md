@@ -6,6 +6,7 @@ The _toPing_ expectation expects the hostname or IP address given as the actual 
 Expect 8.8.8.8 toPing
 ```
 This expectation will take any valid IP address or hostname as the actual value.
+
 This expectation will ignore any value provided as the expected value.
 
 ##Configuration
