@@ -8,8 +8,9 @@ email_reporter:
   reporter_from: overwatch@example.com
 ```
 
-*enabled* (boolean) If false, will not attempt to send any emails. Defaults to true.
-*reporter_from* (string) The from address the result reporter will use. Defaults to `overwatch@example.com` (but see notes). 
+**enabled** (boolean) If false, will not attempt to send any emails. Defaults to true.
+
+**reporter_from** (string) The from address the result reporter will use. Defaults to `overwatch@example.com` (but see notes). 
 
 ##Notes
 EmailReporter will attempt to use the SMTP credentials provided during installation.
