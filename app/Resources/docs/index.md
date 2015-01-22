@@ -17,6 +17,6 @@ Overwatch is also set up in such a way to allow the creation of 3rd Party "addon
 Tests are run by the overwatch:tests:run command (`php app/console overwatch:tests:run`) and the results are saved into the database.
 
 Overwatch will pass test results off to _result reporters_ as it saves them to the database. Overwatch comes bundled with the following result reporters:
-- _EmailReporter_ - Will send a notification e-mail to each user in the same group as the test, if the user's notification settings allow
+- [EmailReporter](result-reporters/email_reporter.md) - Will send a notification e-mail to each user in the same group as the test, if the user's notification settings allow
 
 Overwatch is also set up in such a way to allow the creation of 3rd Party "addon" result reporters, see [Extending Overwatch](extending.md)
