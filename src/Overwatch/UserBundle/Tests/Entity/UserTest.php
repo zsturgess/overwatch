@@ -4,6 +4,7 @@ namespace Overwatch\UserBundle\Tests\Entity;
 
 use Overwatch\ResultBundle\Entity\TestResult;
 use Overwatch\ResultBundle\Enum\ResultStatus;
+use Overwatch\TestBundle\Entity\TestGroup;
 use Overwatch\UserBundle\Entity\User;
 use Overwatch\UserBundle\Enum\AlertSetting;
 
@@ -65,7 +66,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
         $this->user->setAlertSetting(AlertSetting::ALL);
         
         foreach (ResultStatus::getAll() as $status) {
-            $result = new TestResult;
+            $result = $this->getMockResult();
             $result
                 ->setStatus($status)
                 ->setInfo("Stahp shut up and take my money scumbag stacy trollface.")
@@ -76,8 +77,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
     }
     
     public function testShouldBeAlertedWithChangingFailedResult() {
-        $result = $this->getMock('Overwatch\ResultBundle\Entity\TestResult', ['isAChange']);
-        $result->method('isAChange')->willReturn(TRUE);
+        $result = $this->getMockResult(TRUE);
         $result
             ->setStatus(ResultStatus::FAILED)
             ->setInfo("Stahp shut up and take my money scumbag stacy trollface.")
@@ -94,8 +94,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
     }
     
     public function testShouldBeAlertedWithChangingPassedResult() {
-        $result = $this->getMock('Overwatch\ResultBundle\Entity\TestResult', ['isAChange']);
-        $result->method('isAChange')->willReturn(TRUE);
+        $result = $this->getMockResult(TRUE);
         $result
             ->setStatus(ResultStatus::PASSED)
             ->setInfo("Stahp shut up and take my money scumbag stacy trollface.")
@@ -112,8 +111,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
     }
     
     public function testShouldBeAlertedWithUnchangingFailedResult() {
-        $result = $this->getMock('Overwatch\ResultBundle\Entity\TestResult', ['isAChange']);
-        $result->method('isAChange')->willReturn(FALSE);
+        $result = $this->getMockResult();
         $result
             ->setStatus(ResultStatus::FAILED)
             ->setInfo("Stahp shut up and take my money scumbag stacy trollface.")
@@ -130,8 +128,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
     }
     
     public function testShouldBeAlertedWithUnchangingPassedResult() {
-        $result = $this->getMock('Overwatch\ResultBundle\Entity\TestResult', ['isAChange']);
-        $result->method('isAChange')->willReturn(FALSE);
+        $result = $this->getMockResult();
         $result
             ->setStatus(ResultStatus::PASSED)
             ->setInfo("Stahp shut up and take my money scumbag stacy trollface.")
@@ -145,5 +142,40 @@ class UserTest extends \PHPUnit_Framework_TestCase {
         
         $this->user->setAlertSetting(AlertSetting::CHANGE_ALL);
         $this->assertFalse($this->user->shouldBeAlerted($result));
+    }
+    
+    public function testShouldBeAlertedWithUserNotInResultGroup() {
+        $result = $this->getMockResult(TRUE, FALSE);
+        $result
+            ->setStatus(ResultStatus::FAILED)
+            ->setInfo("Stahp shut up and take my money scumbag stacy trollface.")
+        ;
+        
+        foreach (AlertSetting::getAll() as $setting => $description) {
+            $this->user->setAlertSetting($setting);
+            $this->assertFalse($this->user->shouldBeAlerted($result));
+        }
+    }
+    
+    private function getMockTest($userInGroup = TRUE) {
+        $group = new TestGroup;
+        $group->setName("MemeGroup1");
+        
+        $test = $this->getMock('Overwatch\TestBundle\Entity\Test', ['getGroup']);
+        $test->method('getGroup')->willReturn($group);
+        
+        if ($userInGroup === TRUE) {
+            $group->addUser($this->user);
+        }
+        
+        return $test;
+    }
+    
+    private function getMockResult($isAChange = FALSE, $userInGroup = TRUE) {
+        $result = $this->getMock('Overwatch\ResultBundle\Entity\TestResult', ['isAChange', 'getTest']);
+        $result->method('isAChange')->willReturn($isAChange);
+        $result->method('getTest')->willReturn($this->getMockTest($userInGroup));
+        
+        return $result;
     }
 }

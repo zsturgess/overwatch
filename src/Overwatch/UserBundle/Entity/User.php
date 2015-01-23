@@ -103,6 +103,10 @@ class User extends BaseUser implements \JsonSerializable
             return false;
         }
         
+        if (!$this->hasGroup($result->getTest()->getGroup()->getName())) {
+            return false;
+        }
+        
         if ($setting === AlertSetting::ALL) {
             return true;
         }
