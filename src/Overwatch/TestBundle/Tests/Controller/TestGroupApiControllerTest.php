@@ -89,20 +89,18 @@ class TestGroupApiControllerTest extends DatabaseAwareTestCase {
     
     public function testGetAllGroupsAsUser() {
         $this->loginAs(
-            $this->em->find("Overwatch\UserBundle\Entity\User", UserFixtures::$users['user-1']->getId()),
+            $this->em->find("Overwatch\UserBundle\Entity\User", UserFixtures::$users['user-2']->getId()),
             "overwatch"
         );
         $this->client = $this->makeClient(); //When using loginAs, we must use a new client
         $this->client->request('GET', '/api/groups');
         
         $this->assertJsonResponse($this->client->getResponse());
-        //Another case where the user-group relationship isn't working.
-        //$this->assertCount(1, $this->getResponseContent());
+        $this->assertCount(1, $this->getResponseContent());
         $this->assertCollectionContainsObject(
             $this->em->find("Overwatch\TestBundle\Entity\TestGroup", TestGroupFixtures::$groups['group-1']->getId()),
             $this->getResponseContent()
         );
-        $this->markTestIncomplete("User-group relationship is faulty, so asserting that only 1 group returns fails.");
     }
     
     public function testGetGroup() {
