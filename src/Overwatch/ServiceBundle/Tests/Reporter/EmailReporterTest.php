@@ -42,7 +42,7 @@ class EmailReporterTest extends DatabaseAwareTestCase {
     }
     
     public function testNotification() {
-        $result = TestResultFixtures::$results['result-3'];
+        $result = $this->em->find("Overwatch\ResultBundle\Entity\TestResult", TestResultFixtures::$results['result-3']->getId());
         
         $this->reporter->notify($result);
         $this->assertCount(1, $this->mailerSpy->getInvocations());
@@ -55,15 +55,10 @@ class EmailReporterTest extends DatabaseAwareTestCase {
         
         
         $this->assertEquals([self::FROM_MAIL => NULL], $message->getFrom());
-        //var_dump(json_encode(UserFixtures::$users['user-1']->getGroups()->toArray()));
-        //var_dump(json_encode(\Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures::$groups['group-1']->getUsers()->toArray()));
-        //These two statements really should match and don't. They cause this following test to fail:
-        //$this->assertEquals([UserFixtures::$users['user-1']->getEmail()], $message->getTo());
-        //I can't see why. Am I blind?
+        $this->assertEquals([UserFixtures::$users['user-1']->getEmail() => NULL], $message->getTo());
         $this->assertContains($result->getTest()->getName(), $message->getBody());
         $this->assertContains($result->getStatus(), $message->getBody());
         $this->assertContains($result->getInfo(), $message->getBody());
         $this->assertContains($result->getCreatedAt()->format('F j, Y H:i'), $message->getBody());
-        $this->markTestIncomplete("User-group relationship is faulty, so asserting that the email goes To one user only fails.");
     }
 }
