@@ -9,6 +9,11 @@ services:
         arguments: ["%overwatch_service.to_resolve_to%"]
         tags:
             -  { name: overwatch_expectation.expectation, alias: toResolveTo } 
+    overwatch_service.to_respond_http:
+        class: Overwatch\ServiceBundle\Expectation\ToRespondHttpExpectation
+        arguments: ["%overwatch_service.to_respond_http%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toRespondHttp }
     overwatch_service.email_reporter:
         class: Overwatch\ServiceBundle\Reporter\EmailReporter
         arguments: ["@service_container", "%overwatch_service.email_reporter%"]

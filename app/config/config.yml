@@ -4,5 +4,6 @@ imports:
 overwatch_service:
     to_ping: ~
     to_resolve_to: ~
+    to_respond_http: ~
     email_reporter:
         report_from: %mailer_from%
