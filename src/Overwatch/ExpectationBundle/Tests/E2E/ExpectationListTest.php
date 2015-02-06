@@ -17,7 +17,8 @@ class ExpectationListTest extends WebDriverTestCase {
         $this->assertEquals([
             "",
             "toPing",
-            "toResolveTo"
+            "toResolveTo",
+            "toRespondHttp"
         ], $this->getSelectOptionValues('#page > div > form > select'));
     }
     

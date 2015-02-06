@@ -3,6 +3,7 @@
 namespace Overwatch\ResultBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Overwatch\ResultBundle\Enum\ResultStatus;
 
 /**
@@ -104,6 +105,10 @@ class TestResult implements \JsonSerializable
     public function setCreatedAt($timestamp = "now")
     {
         if ($this->createdAt === NULL) {
+            if ($timestamp instanceof LifecycleEventArgs) {
+                $timestamp = "now";
+            }
+            
             $this->createdAt = new \DateTime($timestamp);
         }
         
