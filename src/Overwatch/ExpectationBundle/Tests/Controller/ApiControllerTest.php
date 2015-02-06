@@ -13,7 +13,8 @@ class ApiControllerTest extends FunctionalTestCase {
     public function testGetAll() {
         $expectations = [
             "toPing",
-            "toResolveTo"
+            "toResolveTo",
+            "toRespondHttp"
         ];
         
         $this->logIn('ROLE_ADMIN');
