@@ -59,6 +59,14 @@ class ViewTestTest extends WebDriverTestCase {
     }
     
     private function assertTimestampEquals($expected, $actual) {
-        $this->assertEquals(new \DateTime($expected), new \DateTime($actual));
+        if (!$expected instanceof \DateTime) {
+            $expected = new \DateTime($expected);
+        }
+        
+        if (!$actual instanceof \DateTime) {
+            $actual = new \DateTime($actual);
+        }
+        
+        $this->assertEquals($expected, $actual);
     }
 }
