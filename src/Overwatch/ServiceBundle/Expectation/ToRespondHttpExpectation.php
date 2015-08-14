@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * ToResolveToExpectation
  * Expectation classes are the actual runners of tests.
- * This is the runner for the "toRespongHttp" expectation.
+ * This is the runner for the "toRespondHttp" expectation.
  */
 class ToRespondHttpExpectation implements ExpectationInterface {
     private $config;
