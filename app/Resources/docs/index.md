@@ -10,6 +10,7 @@ The `toXxx` part is called the _expectation_. The part before the expectation is
 Overwatch comes bundled with the following expectations:
 - [toPing](expectations/to_ping.md) - Expects the hostname or IP address given as the actual to respond to an ICMP ping
 - [toResolveTo](expectations/to_resolve_to.md) - Expects the hostname given as the actual to have a DNS record with the value of the expected
+- [toRespondHttp](expectations/to_respond_http.md) - Expects the URL given as the actual to respond with a HTTP code
 
 Overwatch is also set up in such a way to allow the creation of 3rd Party "addon" expectations, see [Extending Overwatch](extending.md)
 
