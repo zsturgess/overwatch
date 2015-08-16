@@ -10,10 +10,10 @@ before_script:
     - cp app/config/parameters.yml.dist app/config/parameters.yml
     - sed -i 's/%database_name%/%database_name%_test/' app/config/base_config.yml
     - mysql -e 'create database overwatch_test;'
-    - wget -P bin/ http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
+    - wget -NP bin/ http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.0.jar
     - composer install --prefer-dist
     - php app/console doctrine:schema:create --env=test
-    - java -jar bin/selenium-server-standalone-2.44.0.jar > /dev/null 2>&1 &
+    - java -jar bin/selenium-server-standalone-2.47.0.jar > /dev/null 2>&1 &
     - php app/console server:start
 script: phpunit -c app/
 
@@ -24,4 +24,5 @@ branches:
 cache:
   directories:
     - vendor
+    - bin/selenium-server-standalone-2.47.0.jar
     - $HOME/.composer/cache
