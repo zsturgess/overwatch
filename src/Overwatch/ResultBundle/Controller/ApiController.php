@@ -71,8 +71,8 @@ class ApiController extends Controller {
             [
                 "test" => $test
             ],
-            $request->query->get('pageSize', 10),
-            $request->query->get('page', 1)
+            $request->query->get('pageSize'),
+            $request->query->get('page')
         );
         
         return new JsonResponse($results);
