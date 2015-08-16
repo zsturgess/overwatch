@@ -20,4 +20,5 @@
 
 ###Running the tests
 > If there is a warning on the Overwatch dashboard directing you here, it is likely that your system administrator has not scheduled the test runner as laid out below.
+
 Tests are run with `php app/console overwatch:tests:run` and it is recommended to schedule it (crond on linux, or launchd on OSX). Some expectations (such as `toPing`) may require that the command be run with admin rights, so if you plan on using them ensure the task is scheduled to run in a way and by a user that runs it with admin rights. If Overwatch detects that the average age of the most recent test result is greater than 6 hours, a warning will be shown on the dashboard.
