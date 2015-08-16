@@ -271,7 +271,7 @@ ul.breadcrumbs li a:after {
 }
 
 .icon-camera:before {
-	content: "\e600";
+	content: "\e601";
 }
 
 .icon-pencil:before {
@@ -324,4 +324,8 @@ ul.breadcrumbs li a:after {
 
 .icon-exit:before {
 	content: "\ea14";
+}
+
+.icon-warning:before {
+	content: "\e600";
 }
