@@ -22,6 +22,31 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
         return isGranted(role, group.name);
     }
     
+    $scope.shouldWarnOfTestAge = function() {
+        var diffToAverage;
+        var ageAverage = {
+            total: 0,
+            count: 0
+        };
+        
+        angular.forEach($scope.groups, function(group) {
+            angular.forEach(group.tests, function(test) {
+                if (typeof test.result.createdAt !== 'undefined') {
+                    this.total += test.result.createdAt;
+                    this.count++;
+                }
+            }, this);
+        }, ageAverage);
+        
+        if (ageAverage.count === 0) {
+            return false;
+        }
+        
+        diffToAverage = (Date.now() / 1000) - (ageAverage.total / ageAverage.count);
+        
+        return (diffToAverage > (6 * 60 * 60));
+    };
+    
     $scope.removeTest = function(id) {
         if (!$window.confirm('Are you sure you want to remove this test? All historical data for this test will also be deleted.')) {
             return;

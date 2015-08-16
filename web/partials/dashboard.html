@@ -4,6 +4,10 @@
 </ul>
 
 <h1>Dashboard</h1>
+<div data-ng-show="shouldWarnOfTestAge()">
+    <strong><i class="icon-warning"></i> Warning!</strong>
+    Your tests haven't had a new result in a little while. The results may no longer be valid. You should check that the test runner is scheduled to run frequently. For more information, check <a href="https://github.com/zsturgess/overwatch/blob/master/app/Resources/docs/installing.md#running-the-tests" target="_blank">the installation instructions</a>.
+</div>
 <ul class="groups">
     <li data-ng-repeat="group in groups">
         <div class="group">

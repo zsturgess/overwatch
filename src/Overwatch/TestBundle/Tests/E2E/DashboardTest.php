@@ -2,6 +2,7 @@
 
 namespace Overwatch\TestBundle\Tests\E2E;
 
+use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
@@ -55,6 +56,47 @@ class DashboardTest extends WebDriverTestCase {
             \WebDriverBy::cssSelector("ul.tests li:last-child a:nth-child(2)")
         )->isDisplayed());
         $this->assertFalse($this->getAddGroupButton()->isDisplayed());
+    }
+    
+    public function testResultAgeWarningHidden() {
+        foreach (['user-1', 'user-2', 'user-3'] as $user) {
+            $this->logInAsUser($user);
+            $this->waitForLoadingAnimation();
+
+            $this->assertFalse($this->webDriver->findElement(
+                //Test Result Age Warning
+                \WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
+            )->isDisplayed());
+
+            $this->webDriver->get("http://127.0.0.1:8000/logout");
+        }
+    }
+    
+    public function testResultAgeWarningShown() {        
+        $query = "UPDATE TestResult SET created_at = '" . date("Y-m-d H:i:s", time() - (10 * 60 * 60)) . "' WHERE 1";
+        $sql = $this->em->getConnection()->prepare($query);
+        $sql->execute();
+        
+        foreach (['user-1', 'user-2'] as $user) {
+            $this->logInAsUser($user);
+            $this->waitForLoadingAnimation();
+
+            $this->assertTrue($this->webDriver->findElement(
+                //Test Result Age Warning
+                \WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
+            )->isDisplayed());
+
+            $this->webDriver->get("http://127.0.0.1:8000/logout");
+        }
+        
+        //User 3 has no results, so should not be shown the message
+        $this->logInAsUser('user-3');
+        $this->waitForLoadingAnimation();
+
+        $this->assertFalse($this->webDriver->findElement(
+            //Test Result Age Warning
+            \WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
+        )->isDisplayed());
     }
     
     public function testDisplayResults() {
