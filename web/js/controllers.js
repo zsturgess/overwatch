@@ -1,12 +1,13 @@
-overwatchApp.controller('DashboardController', function(showLoading, isGranted, $scope, $http, $window, $interval) {
+overwatchApp.controller('DashboardController', function(showLoading, isGranted, $scope, $http, overwatchApiAuth, $window, $interval) {
     $scope.groups = [];
     var fetchGroups = function() {
-        $http.get(Routing.generate('overwatch_test_testgroupapi_getallgroups'))
-            .success(function(groups){
-                $scope.groups = groups;
-                showLoading(false);
-            })
-        ;
+        $http.get(
+            Routing.generate('overwatch_test_testgroupapi_getallgroups'),
+            overwatchApiAuth.getHttpConfig()
+        ).success(function(groups){
+            $scope.groups = groups;
+            showLoading(false);
+        });
     };
     var interval = $interval(fetchGroups, 60000);
     
@@ -53,7 +54,7 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
         }
         
         showLoading(true);
-        $http.delete(Routing.generate('overwatch_test_testapi_deletetest', {'id': id}))
+        $http.delete(Routing.generate('overwatch_test_testapi_deletetest', {'id': id}), overwatchApiAuth.getHttpConfig())
             .success(function(){
                 fetchGroups();
             })
@@ -66,7 +67,7 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
         }
         
         showLoading(true);
-        $http.delete(Routing.generate('overwatch_test_testgroupapi_deletegroup', {'id': id}))
+        $http.delete(Routing.generate('overwatch_test_testgroupapi_deletegroup', {'id': id}), overwatchApiAuth.getHttpConfig())
             .success(function(){
                 fetchGroups();
             })
@@ -80,7 +81,7 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
         }
         
         showLoading(true);
-        $http.post(Routing.generate('overwatch_test_testgroupapi_creategroup'), {'name': name})
+        $http.post(Routing.generate('overwatch_test_testgroupapi_creategroup'), {'name': name}, overwatchApiAuth.getHttpConfig())
                 .success(function(){
                     fetchGroups();
                 })
@@ -90,11 +91,11 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
     fetchGroups();
 });
 
-overwatchApp.controller('EditGroupController', function(showLoading, $scope, $http, $routeParams, $location, $window) {
+overwatchApp.controller('EditGroupController', function(showLoading, $scope, $http, overwatchApiAuth, $routeParams, $location, $window) {
     $scope.group = {};
     
     var fetchGroup = function() {
-        $http.get(Routing.generate('overwatch_test_testgroupapi_getgroup', {id: $routeParams.id}))
+        $http.get(Routing.generate('overwatch_test_testgroupapi_getgroup', {id: $routeParams.id}), overwatchApiAuth.getHttpConfig())
             .success(function(group) {
                 $scope.group = group;
                 showLoading(false);
@@ -108,7 +109,7 @@ overwatchApp.controller('EditGroupController', function(showLoading, $scope, $ht
         }
         
         showLoading(true);
-        $http.delete(Routing.generate('overwatch_test_testgroupapi_removeuserfromgroup', {groupId: $scope.group.id, userId: id}))
+        $http.delete(Routing.generate('overwatch_test_testgroupapi_removeuserfromgroup', {groupId: $scope.group.id, userId: id}), overwatchApiAuth.getHttpConfig())
             .success(function(){
                 fetchGroup();
             })
@@ -124,7 +125,7 @@ overwatchApp.controller('EditGroupController', function(showLoading, $scope, $ht
         showLoading(true);
         $http.get(Routing.generate('overwatch_user_api_finduser', {email: email}))
             .success(function(user) {
-                $http.post(Routing.generate('overwatch_test_testgroupapi_addusertogroup', {groupId: $scope.group.id, userId: user.id}))
+                $http.post(Routing.generate('overwatch_test_testgroupapi_addusertogroup', {groupId: $scope.group.id, userId: user.id}), overwatchApiAuth.getHttpConfig())
                     .success(function() {
                         fetchGroup();
                     })
@@ -145,7 +146,7 @@ overwatchApp.controller('EditGroupController', function(showLoading, $scope, $ht
         }
         
         showLoading(true);
-        $http.put(Routing.generate('overwatch_test_testgroupapi_updategroup', {id: $scope.group.id}), {name: name})
+        $http.put(Routing.generate('overwatch_test_testgroupapi_updategroup', {id: $scope.group.id}), {name: name}, overwatchApiAuth.getHttpConfig())
             .success(function(group) {
                 $scope.group = group;
                 currentUser.groups.push(group.name);
@@ -157,12 +158,12 @@ overwatchApp.controller('EditGroupController', function(showLoading, $scope, $ht
     fetchGroup();
 });
 
-overwatchApp.controller('AddTestController', function(showLoading, $scope, $http, $routeParams, $location) {
+overwatchApp.controller('AddTestController', function(showLoading, $scope, $http, overwatchApiAuth, $routeParams, $location) {
     $scope.title = "Add test";
     $scope.test = {};
     $scope.expectations = [];
     
-    $http.get(Routing.generate('overwatch_expectation_api_getall'))
+    $http.get(Routing.generate('overwatch_expectation_api_getall'), overwatchApiAuth.getHttpConfig())
         .success(function(expectations) {
             $scope.expectations = expectations;
             showLoading(false);
@@ -171,7 +172,7 @@ overwatchApp.controller('AddTestController', function(showLoading, $scope, $http
     
     $scope.save = function() {
         showLoading(true);
-        $http.post(Routing.generate('overwatch_test_testapi_createtest', {id: $routeParams.id}), $scope.test)
+        $http.post(Routing.generate('overwatch_test_testapi_createtest', {id: $routeParams.id}), $scope.test, overwatchApiAuth.getHttpConfig())
             .success(function() {
                 $location.path('/');
             })
@@ -179,11 +180,11 @@ overwatchApp.controller('AddTestController', function(showLoading, $scope, $http
     }
 });
 
-overwatchApp.controller('ViewTestController', function(showLoading, $scope, $http, $routeParams, $interval) {
+overwatchApp.controller('ViewTestController', function(showLoading, $scope, $http, overwatchApiAuth, $routeParams, $interval) {
     $scope.test = {};
     $scope.lastRequestedResultSize = 0;
     
-    $http.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
+    $http.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}), overwatchApiAuth.getHttpConfig())
         .success(function(test) {
             $scope.test = test;
             $scope.loadResults(10);
@@ -191,7 +192,7 @@ overwatchApp.controller('ViewTestController', function(showLoading, $scope, $htt
     ;
     
     $scope.loadResults = function(limit) {
-        $http.get(Routing.generate('overwatch_result_api_getresultsfortest', {id: $routeParams.id}) + '?pageSize=' + limit)
+        $http.get(Routing.generate('overwatch_result_api_getresultsfortest', {id: $routeParams.id}) + '?pageSize=' + limit, overwatchApiAuth.getHttpConfig())
             .success(function(results) {
                 $scope.test.results = results;
                 $scope.lastRequestedResultSize = limit;
@@ -214,13 +215,13 @@ overwatchApp.controller('ViewTestController', function(showLoading, $scope, $htt
     });
 });
 
-overwatchApp.controller('EditTestController', function(showLoading, $scope, $http, $routeParams, $location) {
+overwatchApp.controller('EditTestController', function(showLoading, $scope, $http, overwatchApiAuth, $routeParams, $location) {
     $scope.title = "Edit test";
     $scope.test = {};
     $scope.expectations = [];
     $scope.waitingFor = 2;
     
-    $http.get(Routing.generate('overwatch_expectation_api_getall'))
+    $http.get(Routing.generate('overwatch_expectation_api_getall'), overwatchApiAuth.getHttpConfig())
         .success(function(expectations) {
             $scope.expectations = expectations;
             $scope.waitingFor--;
@@ -231,7 +232,7 @@ overwatchApp.controller('EditTestController', function(showLoading, $scope, $htt
         })
     ;
     
-    $http.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
+    $http.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}), overwatchApiAuth.getHttpConfig())
         .success(function(test) {
             $scope.test = test;
             $scope.waitingFor--;
@@ -244,7 +245,7 @@ overwatchApp.controller('EditTestController', function(showLoading, $scope, $htt
     
     $scope.save = function() {
         showLoading(true);
-        $http.put(Routing.generate('overwatch_test_testapi_updatetest', {id: $routeParams.id}), $scope.test)
+        $http.put(Routing.generate('overwatch_test_testapi_updatetest', {id: $routeParams.id}), $scope.test, overwatchApiAuth.getHttpConfig())
             .success(function() {
                 $location.path('/test/' + $routeParams.id);
             })
@@ -252,13 +253,13 @@ overwatchApp.controller('EditTestController', function(showLoading, $scope, $htt
     }
 });
 
-overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $http, $window, ModalService) {
+overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $http, overwatchApiAuth, $window, ModalService) {
     $scope.users = [];
     $scope.updatedRoles = [];
     $scope.currentUserId = currentUser.id;
     
     var fetchUsers = function() {
-        $http.get(Routing.generate('overwatch_user_api_getallusers'))
+        $http.get(Routing.generate('overwatch_user_api_getallusers'), overwatchApiAuth.getHttpConfig())
             .success(function(users) {
                 $scope.users = users;
                 showLoading(false);
@@ -273,7 +274,7 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
         }
         
         showLoading(true);
-        $http.post(Routing.generate('overwatch_user_api_createuser', {'email': email}))
+        $http.post(Routing.generate('overwatch_user_api_createuser', {'email': email}), overwatchApiAuth.getHttpConfig())
             .success(function(data) {
                 fetchUsers();
             })
@@ -291,7 +292,7 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
             }
             
             showLoading(true);
-            $http.put(Routing.generate('overwatch_user_api_setuserrole', {id: id, role: result}))
+            $http.put(Routing.generate('overwatch_user_api_setuserrole', {id: id, role: result}), overwatchApiAuth.getHttpConfig())
                 .success(function() {
                     fetchUsers();
                 })
@@ -302,7 +303,7 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
     
     $scope.lockUser = function(id) {
         showLoading(true);
-        $http.put(Routing.generate('overwatch_user_api_togglelockuser', {id: id}))
+        $http.put(Routing.generate('overwatch_user_api_togglelockuser', {id: id}), overwatchApiAuth.getHttpConfig())
             .success(function() {
                 fetchUsers();
             })
@@ -315,7 +316,7 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
         }
         
         showLoading(true);
-        $http.delete(Routing.generate('overwatch_user_api_deleteuser', {id: id}))
+        $http.delete(Routing.generate('overwatch_user_api_deleteuser', {id: id}), overwatchApiAuth.getHttpConfig())
             .success(function() {
                 fetchUsers();
             })
@@ -329,7 +330,7 @@ overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $
     $scope.settings = [];
     
     var fetchSettings = function() {
-        $http.get(Routing.generate('overwatch_user_api_getalertsettings'))
+        $http.get(Routing.generate('overwatch_user_api_getalertsettings'), overwatchApiAuth.getHttpConfig())
             .success(function(settings) {
                 $scope.settings = settings;
                 showLoading(false);
@@ -343,7 +344,7 @@ overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $
     
     $scope.saveSetting = function(id) {
         showLoading(true);
-        $http.put(Routing.generate('overwatch_user_api_setalertsetting', {setting: id}))
+        $http.put(Routing.generate('overwatch_user_api_setalertsetting', {setting: id}), overwatchApiAuth.getHttpConfig())
             .success(function() {
                 currentUser.alertSetting = id;
                 showLoading(false);

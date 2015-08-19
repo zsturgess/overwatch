@@ -52,6 +52,29 @@ overwatchApp.factory('isGranted', function() {
     }
 });
 
+overwatchApp.factory('overwatchApiAuth', function() {
+    return {
+        getHttpConfig: function() {
+            return {
+                headers: {
+                    'X-Api-User': this.getUser(),
+                    'X-Api-Timestamp': this.getTimestamp(),
+                    'X-Api-Token': this.getToken()
+                }
+            };
+        },
+        getToken: function () {
+            return CryptoJS.HmacSHA256('timestamp=' + this.getTimestamp(), currentUser.apiKey);
+        },
+        getUser: function () {
+            return currentUser.id;
+        },
+        getTimestamp: function () {
+            return new Date().getTime().toString().substr(0, 10);
+        }
+    };
+});
+
 overwatchApp.filter('roleToCss', function() {
     //we're re-using the test CSS classes here, so they look a little odd...
     return function(input) {
