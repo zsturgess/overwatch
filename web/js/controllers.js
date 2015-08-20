@@ -123,9 +123,9 @@ overwatchApp.controller('EditGroupController', function(showLoading, $scope, $ht
         }
         
         showLoading(true);
-        $http.get(Routing.generate('overwatch_user_api_finduser', {email: email}))
+        $http.get(Routing.generate('overwatch_user_api_finduser', {email: email}), overwatchApiAuth.getHttpConfig())
             .success(function(user) {
-                $http.post(Routing.generate('overwatch_test_testgroupapi_addusertogroup', {groupId: $scope.group.id, userId: user.id}), overwatchApiAuth.getHttpConfig())
+                $http.post(Routing.generate('overwatch_test_testgroupapi_addusertogroup', {groupId: $scope.group.id, userId: user.id}), {}, overwatchApiAuth.getHttpConfig())
                     .success(function() {
                         fetchGroup();
                     })
@@ -274,7 +274,7 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
         }
         
         showLoading(true);
-        $http.post(Routing.generate('overwatch_user_api_createuser', {'email': email}), overwatchApiAuth.getHttpConfig())
+        $http.post(Routing.generate('overwatch_user_api_createuser', {'email': email}), {}, overwatchApiAuth.getHttpConfig())
             .success(function(data) {
                 fetchUsers();
             })
@@ -292,7 +292,7 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
             }
             
             showLoading(true);
-            $http.put(Routing.generate('overwatch_user_api_setuserrole', {id: id, role: result}), overwatchApiAuth.getHttpConfig())
+            $http.put(Routing.generate('overwatch_user_api_setuserrole', {id: id, role: result}), {}, overwatchApiAuth.getHttpConfig())
                 .success(function() {
                     fetchUsers();
                 })
@@ -303,7 +303,7 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
     
     $scope.lockUser = function(id) {
         showLoading(true);
-        $http.put(Routing.generate('overwatch_user_api_togglelockuser', {id: id}), overwatchApiAuth.getHttpConfig())
+        $http.put(Routing.generate('overwatch_user_api_togglelockuser', {id: id}), {}, overwatchApiAuth.getHttpConfig())
             .success(function() {
                 fetchUsers();
             })
@@ -326,7 +326,7 @@ overwatchApp.controller('ManageUsersController', function(showLoading, $scope, $
     fetchUsers();
 });
 
-overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $scope, $http) {
+overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $scope, $http, overwatchApiAuth) {
     $scope.settings = [];
     
     var fetchSettings = function() {
@@ -344,7 +344,7 @@ overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $
     
     $scope.saveSetting = function(id) {
         showLoading(true);
-        $http.put(Routing.generate('overwatch_user_api_setalertsetting', {setting: id}), overwatchApiAuth.getHttpConfig())
+        $http.put(Routing.generate('overwatch_user_api_setalertsetting', {setting: id}), {}, overwatchApiAuth.getHttpConfig())
             .success(function() {
                 currentUser.alertSetting = id;
                 showLoading(false);
