@@ -73,3 +73,16 @@ div.user-key {
     margin-right: 15px;
     padding-left: 5px;
 }
+
+/**
+ * MY ACCOUNT
+ **/
+.change-password {
+    float: left;
+    width: 49%;
+}
+
+.api-access {
+    float: right;
+    width: 49%;
+}

@@ -2,9 +2,8 @@
 
 namespace Overwatch\UserBundle\Tests\Base;
 
-use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
 /**
  * ApiTestHelperTrait
@@ -25,15 +24,16 @@ trait ApiTestHelperTrait {
     }
     
     protected function logIn($role) {
-        $session = $this->client->getContainer()->get('session');
-        $firewall = 'overwatch';
+        $firewall = 'overwatchApi';
         
-        $token = new UsernamePasswordToken('admin', null, $firewall, [$role]);
-        $session->set('_security_'.$firewall, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
+        $token = new PreAuthenticatedToken(
+            'testUser',
+            null,
+            $firewall,
+            [$role]
+        );
+        
+        $this->client->getContainer()->get('security.context')->setToken($token);
     }
     
     protected function makeJsonRequest($method, $url, $body = []) {

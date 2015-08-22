@@ -6,12 +6,14 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Overwatch\UserBundle\Enum\AlertSetting;
 use Overwatch\ResultBundle\Enum\ResultStatus;
+use Symfony\Component\Security\Core\Util\SecureRandom;
 
 /**
  * User
  * 
  * @ORM\Entity
  * @ORM\Table(name="User")
+ * @ORM\HasLifecycleCallbacks
  */
 class User extends BaseUser implements \JsonSerializable
 {
@@ -27,6 +29,11 @@ class User extends BaseUser implements \JsonSerializable
      * @ORM\JoinTable(name="UsersTestGroups")
      */
     protected $groups;
+    
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    protected $apiKey = NULL;
     
     /**
      * @ORM\Column(type="integer")
@@ -90,6 +97,29 @@ class User extends BaseUser implements \JsonSerializable
         return $this;
     }
     
+    public function getApiKey() {
+        return $this->apiKey;
+    }
+    
+    public function resetApiKey() {
+        $random = new SecureRandom();
+        $this->apiKey = sha1($random->nextBytes(10));
+        
+        return $this;
+    }
+    
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function generateApiKey() {
+        if (empty($this->getApiKey())) {
+            $this->resetApiKey();
+        }
+        
+        return $this;
+    }
+    
     /**
      * Should this user be alerted for the passed TestResult?
      * 
@@ -132,5 +162,19 @@ class User extends BaseUser implements \JsonSerializable
         }
         
         return false;
+    }
+
+    /**
+     * Set apiKey
+     *
+     * @param string $apiKey
+     *
+     * @return User
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
     }
 }

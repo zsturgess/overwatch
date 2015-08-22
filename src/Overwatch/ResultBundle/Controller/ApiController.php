@@ -27,9 +27,11 @@ class ApiController extends Controller {
             throw new AccessDeniedHttpException("You must be a super admin to see all results");
         }
         
+        $size = $request->query->get('pageSize', 10);
+        
         $results = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getResults(
             [],
-            $request->query->get('pageSize', 10),
+            ($size >= 100) ? 10 : $size,
             $request->query->get('page', 1)
         );
         
@@ -67,11 +69,13 @@ class ApiController extends Controller {
             throw new AccessDeniedHttpException("You must be a member of this test's group to see it's results");
         }
         
+        $size = $request->query->get('pageSize', 10);
+        
         $results = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getResults(
             [
                 "test" => $test
             ],
-            $request->query->get('pageSize', 10),
+            ($size >= 100) ? 10 : $size,
             $request->query->get('page', 1)
         );
         
