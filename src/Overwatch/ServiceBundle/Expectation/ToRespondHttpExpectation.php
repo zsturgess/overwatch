@@ -25,11 +25,20 @@ class ToRespondHttpExpectation implements ExpectationInterface {
         $actual = filter_var($actual, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
 
         try {
-            $response = $this->client->get($actual, ['allow_redirects' => false]);
+            $response = $this->client->get(
+                $actual,
+                [
+                    'allow_redirects' => false,
+                    'timeout' => $this->config["timeout"]
+                ]
+            );
         } catch (\Exception $e) {
+            //Transform exception under certain circumstances, else re-throw.
             if ($e instanceof \GuzzleHttp\Exception\RequestException && !$e->hasResponse()) {
-                throw new Result\ExpectationFailedException("Expected $actual to respond HTTP $expected, actually failed to respond");
+                throw new Result\ExpectationFailedException("Expected $actual to respond HTTP $expected, actually failed to respond", 0, $e);
             }
+            
+            throw $e;
         }
         
         $result = $response->getStatusCode();
