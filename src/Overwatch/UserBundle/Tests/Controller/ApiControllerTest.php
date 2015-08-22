@@ -15,7 +15,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     public function testCreateUser() {
         $email = 'abc@example.com';
         
-        $this->loginAs(UserFixtures::$users['user-1'], 'overwatch');
+        $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->enableProfiler();
         $this->client->request('POST', '/api/users/' . $email);
@@ -107,7 +107,13 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     }
     
     public function testSetAlertSetting() {
-        $this->loginAs(UserFixtures::$users['user-2'], 'overwatch');
+        $this->loginAs(
+            $this->em->find(
+                'Overwatch\UserBundle\Entity\User',
+                UserFixtures::$users['user-2']->getId()
+            ),
+            'overwatchApi'
+        );
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/alertSetting/1');
         
@@ -119,7 +125,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     }
     
     public function testToggleLockUser() {
-        $this->loginAs(UserFixtures::$users['user-1'], 'overwatch');
+        $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-2']->getId() . '/lock');
         
@@ -141,7 +147,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     }
     
     public function testToggleLockUserDisallowSelf() {
-        $this->loginAs(UserFixtures::$users['user-1'], 'overwatch');
+        $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-1']->getId() . '/lock');
         
@@ -149,7 +155,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     }
     
     public function testSetUserRole() {
-        $this->loginAs(UserFixtures::$users['user-1'], 'overwatch');
+        $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-2']->getId() . '/role/ROLE_ADMIN');
         
@@ -171,7 +177,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     }
     
     public function testSetUserRoleDisallowSelf() {
-        $this->loginAs(UserFixtures::$users['user-1'], 'overwatch');
+        $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-1']->getId() . '/role/ROLE_USER');
         
@@ -179,7 +185,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     }
     
     public function testDeleteUser() {
-        $this->loginAs(UserFixtures::$users['user-1'], 'overwatch');
+        $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('DELETE', '/api/users/' . UserFixtures::$users['user-2']->getId());
         
@@ -197,7 +203,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     }
     
     public function testDeleteUserDisallowSelf() {
-        $this->loginAs(UserFixtures::$users['user-1'], 'overwatch');
+        $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('DELETE', '/api/users/' . UserFixtures::$users['user-1']->getId());
         
