@@ -49,7 +49,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
     
     public function testGetAlertSettings() {
         $this->logIn("ROLE_USER");
-        $this->client->request('GET', '/api/users/alertSettings');
+        $this->client->request('GET', '/api/alertSettings');
         
         $this->assertJsonResponse($this->client->getResponse());
         $this->assertJsonStringEqualsJsonString(

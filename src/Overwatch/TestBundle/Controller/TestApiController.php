@@ -2,6 +2,7 @@
 
 namespace Overwatch\TestBundle\Controller;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,8 +32,51 @@ class TestApiController extends Controller {
     }
 
     /**
+     * Returns the details of the given test
+     * 
+     * @Route("/{id}")
+     * @Method({"GET"})
+     *  @ApiDoc(
+     *     resource=true,
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the test to return", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
+     */
+    public function getTest(Test $test) {
+        if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
+            throw new AccessDeniedHttpException("You must be a member of this test's group to view it");
+        }
+        
+        return new JsonResponse($test);
+    }
+    
+    /**
+     * Creates a test in the given group
+     * 
      * @Route("/group/{id}")
      * @Method({"POST"})
+     * @ApiDoc(
+     *     resource=true,
+     *     parameters={
+     *         {"name"="name", "description"="A user-friendly name for the test", "required"=true, "format"="Github Status", "dataType"="string"},
+     *         {"name"="actual", "description"="The actual value to test against", "required"=true, "format"="status.github.com", "dataType"="string"},
+     *         {"name"="expectation", "description"="The expectation to test with", "required"=true, "format"="toResolveTo", "dataType"="string"},
+     *         {"name"="expected", "description"="The expected value to test against", "required"=false, "format"="octostatus-production.github.com", "dataType"="string"},
+     *     },
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the group to create the test under", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33"
+     *     }
+     * )
      */
     public function createTest(Request $request, TestGroup $group) {
         if (!$this->isGranted(TestGroupVoter::EDIT, $group)) {
@@ -65,8 +109,20 @@ class TestApiController extends Controller {
     }
     
     /**
+     * Returns a list of tests in the given group
+     * 
      * @Route("/group/{id}")
      * @Method({"GET"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the group to return tests from", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
      */
     public function getTestsInGroup(TestGroup $group) {
         if (!$this->isGranted(TestGroupVoter::VIEW, $group)) {
@@ -77,20 +133,25 @@ class TestApiController extends Controller {
     }
     
     /**
-     * @Route("/{id}")
-     * @Method({"GET"})
-     */
-    public function getTest(Test $test) {
-        if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
-            throw new AccessDeniedHttpException("You must be a member of this test's group to view it");
-        }
-        
-        return new JsonResponse($test);
-    }
-    
-    /**
+     * Updates the details of the given test
+     * 
      * @Route("/{id}")
      * @Method({"PUT"})
+     * @ApiDoc(
+     *     parameters={
+     *         {"name"="name", "description"="A user-friendly name for the test", "required"=false, "format"="Github Status", "dataType"="string"},
+     *         {"name"="actual", "description"="The actual value to test against", "required"=false, "format"="status.github.com", "dataType"="string"},
+     *         {"name"="expectation", "description"="The expectation to test with", "required"=false, "format"="toResolveTo", "dataType"="string"},
+     *         {"name"="expected", "description"="The expected value to test against", "required"=false, "format"="octostatus-production.github.com", "dataType"="string"},
+     *     },
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the test to edit the details of", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33"
+     *     }
+     * )
      */
     public function updateTest(Request $request, Test $test) {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
@@ -108,8 +169,19 @@ class TestApiController extends Controller {
     }
     
     /**
+     * Deletes the given test
+     * 
      * @Route("/{id}")
      * @Method({"DELETE"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the test to delete", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33"
+     *     }
+     * )
      */
     public function deleteTest(Test $test) {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {

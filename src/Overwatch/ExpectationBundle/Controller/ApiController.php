@@ -2,6 +2,7 @@
 
 namespace Overwatch\ExpectationBundle\Controller;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,8 +17,17 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ApiController extends Controller {
     /**
+     * Returns a list of all the expectations that are installed and available to use in tests
+     * 
      * @Route("")
      * @Method({"GET"})
+     * @ApiDoc(
+     *     resource=true,
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33"
+     *     }
+     * )
      */
     public function getAll() {
         if (!$this->isGranted("ROLE_ADMIN")) {
