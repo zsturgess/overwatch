@@ -29,6 +29,8 @@ to_respond_http:
     - 302
     - 307
     - 308
+  timeout: 2
 ```
 **allowable_codes** (array) List of HTTP status codes to treat as a test pass when an expected value is not provided.
 **unsatisfactory_codes** (array) List of HTTP status codes to treat as an unsatisfactory result when an expected value is not provided.
+**timeout** (float) Time, in seconds, to wait for a HTTP response before timing out. Use 0 for no timeout.
