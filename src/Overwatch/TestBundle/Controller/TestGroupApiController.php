@@ -2,6 +2,7 @@
 
 namespace Overwatch\TestBundle\Controller;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -29,8 +30,19 @@ class TestGroupApiController extends Controller {
     }
     
     /**
+     * Creates a new group
+     * 
      * @Route("")
      * @Method({"POST"})
+     * @ApiDoc(
+     *     resource=true,
+     *     parameters={
+     *         {"name"="name", "description"="A user-friendly name for the group", "required"=true, "format"="Group 1", "dataType"="string"},
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function createGroup(Request $request) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
@@ -53,8 +65,17 @@ class TestGroupApiController extends Controller {
     }
     
     /**
+     * Returns a list of all groups the current user has access to
+     * 
      * @Route("")
      * @Method({"GET"})
+     * @ApiDoc(
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
      */
     public function getAllGroups() {
         if ($this->isGranted("ROLE_SUPER_ADMIN")) {
@@ -69,8 +90,20 @@ class TestGroupApiController extends Controller {
     }
     
     /**
+     * Returns the details of the specified group
+     * 
      * @Route("/{id}")
      * @Method({"GET"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the group to return", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
      */
     public function getGroup(TestGroup $group) {
         if (!$this->isGranted(TestGroupVoter::VIEW, $group)) {
@@ -81,8 +114,21 @@ class TestGroupApiController extends Controller {
     }
     
     /**
+     * Updates the given group
+     * 
      * @Route("/{id}")
      * @Method({"PUT"})
+     * @ApiDoc(
+     *     parameters={
+     *         {"name"="name", "description"="A user-friendly name for the group", "required"=false, "format"="Group 1", "dataType"="string"}
+     *     },
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the group to edit", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * ) 
      */
     public function updateGroup(Request $request, TestGroup $group) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
@@ -99,8 +145,18 @@ class TestGroupApiController extends Controller {
     }
     
     /**
+     * Deletes the given group
+     * 
      * @Route("/{id}")
      * @Method({"DELETE"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the group to delete", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function deleteGroup(Request $request, TestGroup $group) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
@@ -118,10 +174,22 @@ class TestGroupApiController extends Controller {
     }
     
     /**
+     * Adds the given user to the given group
+     * 
      * @Route("/{groupId}/user/{userId}")
      * @Method({"POST"})
      * @ParamConverter("group", class="OverwatchTestBundle:TestGroup", options={"id" = "groupId"})
      * @ParamConverter("user", class="OverwatchUserBundle:User", options={"id" = "userId"})
+     * @ApiDoc(
+     *     resource=true,
+     *     requirements={
+     *         {"name"="userId", "description"="The ID of the user", "dataType"="integer", "requirement"="\d+"},
+     *         {"name"="groupId", "description"="The ID of the group", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function addUserToGroup(TestGroup $group, User $user) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
@@ -135,10 +203,21 @@ class TestGroupApiController extends Controller {
     }
     
     /**
+     * Removes the given user from the given group
+     * 
      * @Route("/{groupId}/user/{userId}")
      * @Method({"DELETE"})
      * @ParamConverter("group", class="OverwatchTestBundle:TestGroup", options={"id" = "groupId"})
      * @ParamConverter("user", class="OverwatchUserBundle:User", options={"id" = "userId"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="userId", "description"="The ID of the user", "dataType"="integer", "requirement"="\d+"},
+     *         {"name"="groupId", "description"="The ID of the group", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function removeUserFromGroup(TestGroup $group, User $user) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {

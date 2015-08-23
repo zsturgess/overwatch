@@ -2,6 +2,7 @@
 
 namespace Overwatch\UserBundle\Controller;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -15,7 +16,7 @@ use Overwatch\UserBundle\Enum\AlertSetting;
 /**
  * ApiController
  * Handles API requests made for Users
- * @Route("/api/users")
+ * @Route("/api")
  */
 class ApiController extends Controller {
     private $_em;
@@ -26,12 +27,61 @@ class ApiController extends Controller {
     }
     
     /**
-     * @Route("/{email}")
+     * Returns the list of possible alert settings
+     * 
+     * @Route("/alertSettings")
+     * @Method({"GET"})
+     * @ApiDoc(
+     *     resource=true,
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
+     */
+    public function getAlertSettings() {
+        return new JsonResponse(AlertSetting::getAll());
+    }
+    
+    /**
+     * Returns a list of all users
+     * 
+     * @Route("/users")
+     * @Method({"GET"})
+     * @ApiDoc(
+     *     resource=true,
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
+     */
+    public function getAllUsers() {
+        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
+            throw new AccessDeniedHttpException("You must be a super admin to get all users.");
+        }
+        
+        $users = $this->_em->getRepository("OverwatchUserBundle:User")->findAll();
+        return new JsonResponse($users);
+    }
+    
+    /**
+     * Creates a new user with the given e-mail address
+     * 
+     * @Route("/users/{email}")
      * @Method({"POST"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="email", "description"="The e-mail address of the user to create", "dataType"="email", "requirement"="Valid e-mail address"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function createUser($email) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to locate a user by email address.");
+            throw new AccessDeniedHttpException("You must be a super admin to create a user.");
         }
         
         $password = substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(openssl_random_pseudo_bytes(9))),0,8);
@@ -58,17 +108,19 @@ class ApiController extends Controller {
     }
     
     /**
-     * @Route("/alertSettings")
-     * @Method({"GET"})
-     */
-    public function getAlertSettings() {
-        return new JsonResponse(AlertSetting::getAll());
-    }
-    
-    /**
-     * @Route("/{email}")
+     * Returns the user associated with the given e-mail address
+     * 
+     * @Route("/users/{email}")
      * @Method({"GET"})
      * @ParamConverter("user", class="OverwatchUserBundle:User")
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="email", "description"="The e-mail address to search by", "dataType"="email", "requirement"="Valid e-mail address"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function findUser(User $user) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
@@ -79,21 +131,20 @@ class ApiController extends Controller {
     }
     
     /**
-     * @Route("")
-     * @Method({"GET"})
-     */
-    public function getAllUsers() {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to locate a user by email address.");
-        }
-        
-        $users = $this->_em->getRepository("OverwatchUserBundle:User")->findAll();
-        return new JsonResponse($users);
-    }
-    
-    /**
-     * @Route("/alertSetting/{setting}")
+     * Updates the current user's alert settings to the given setting
+     * 
+     * @Route("/users/alertSetting/{setting}")
      * @Method({"PUT","POST"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="setting", "description"="The new alert setting for the user", "dataType"="integer", "requirement"="[0-4]"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
      */
     public function setAlertSetting($setting) {
         $this->getUser()->setAlertSetting($setting);
@@ -103,8 +154,18 @@ class ApiController extends Controller {
     }
     
     /**
-     * @Route("/{id}/lock")
+     * Locks or unlocks the given user
+     * 
+     * @Route("/users/{id}/lock")
      * @Method({"PUT","POST"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the user to lock", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function toggleLockUser(User $user) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
@@ -122,8 +183,19 @@ class ApiController extends Controller {
     }
     
     /**
-     * @Route("/{id}/role/{role}")
+     * Updates the given user to the given role
+     * 
+     * @Route("/users/{id}/role/{role}")
      * @Method({"PUT","POST"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the user to update", "dataType"="integer", "requirement"="\d+"},
+     *         {"name"="role", "description"="The new role for the user", "dataType"="role", "requirement"="ROLE_USER|ROLE_ADMIN|ROLE_SUPER_ADMIN"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function setUserRole(User $user, $role) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
@@ -144,8 +216,18 @@ class ApiController extends Controller {
     }
     
     /**
-     * @Route("/{id}")
+     * Deletes the given user
+     * 
+     * @Route("/users/{id}")
      * @Method({"DELETE"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the user to delete", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function deleteUser(User $user) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {

@@ -11,7 +11,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         overwatchApi:
-            pattern: ^/api/
+            pattern: ^/api/(?!doc$)
             stateless: true
             simple_preauth:
                 authenticator: overwatch_user.api_authenticator

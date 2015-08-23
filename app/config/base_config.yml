@@ -74,6 +74,15 @@ fos_user:
 fos_js_routing:
     routes_to_expose: [ '^overwatch_[a-z]+_[a-z]*api_' ]
     
+nelmio_api_doc:
+    name: Overwatch API Documentation
+    cache:
+        enabled: true
+    request_listener:
+        enabled: false
+    sandbox:
+        enabled: false
+    
 services:
   kernel.event_listener.json_request_transformer:
     class: Qandidate\Common\Symfony\HttpKernel\EventListener\JsonRequestTransformerListener

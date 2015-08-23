@@ -2,6 +2,7 @@
 
 namespace Overwatch\ResultBundle\Controller;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,8 +20,20 @@ use Overwatch\TestBundle\Security\TestGroupVoter;
  */
 class ApiController extends Controller {    
     /**
+     * Returns the latest results from across all tests
+     * 
      * @Route("")
      * @Method({"GET"})
+     * @ApiDoc(
+     *     resource=true,
+     *     filters={
+     *         {"name"="pageSize", "description"="How many results to return per page","type"="Integer","default"=10,"maximum"=100},
+     *         {"name"="page", "description"="The page number to return results from","type"="Integer","default"=1}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919"
+     *     }
+     * )
      */
     public function getResults(Request $request) {
         if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
@@ -39,8 +52,20 @@ class ApiController extends Controller {
     }
     
     /**
+     * Returns the latest result for each test in the requested group
+     * 
      * @Route("/group/{id}")
      * @Method({"GET"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the group for which to return results for", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
      */
     public function getRecentGroupResults(TestGroup $group) {
         if (!$this->isGranted(TestGroupVoter::VIEW, $group)) {
@@ -61,8 +86,24 @@ class ApiController extends Controller {
     }
     
     /**
+     * Returns the latest results for the given test
+     * 
      * @Route("/test/{id}")
      * @Method({"GET"})
+     * @ApiDoc(
+     *     filters={
+     *         {"name"="pageSize", "description"="How many results to return per page","type"="Integer","default"=10,"maximum"=100},
+     *         {"name"="page", "description"="The page number to return results from","type"="Integer","default"=1}
+     *     },
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the test for which to return results for", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
      */
     public function getResultsForTest(Request $request, Test $test) {   
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
