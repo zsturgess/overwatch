@@ -86,3 +86,11 @@ div.user-key {
     float: right;
     width: 49%;
 }
+
+.api-actions a:first-child {
+    float: left;
+}
+
+.api-actions a:last-child {
+    float: right;
+}

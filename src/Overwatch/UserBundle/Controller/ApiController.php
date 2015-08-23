@@ -115,7 +115,7 @@ class ApiController extends Controller {
      * @ParamConverter("user", class="OverwatchUserBundle:User")
      * @ApiDoc(
      *     requirements={
-     *         {"name"="email", "description"="The e-mail address of the user to create", "dataType"="email", "requirement"="Valid e-mail address"}
+     *         {"name"="email", "description"="The e-mail address to search by", "dataType"="email", "requirement"="Valid e-mail address"}
      *     },
      *     tags={
      *         "Super Admin" = "#ff1919"
@@ -222,7 +222,7 @@ class ApiController extends Controller {
      * @Method({"DELETE"})
      * @ApiDoc(
      *     requirements={
-     *         {"name"="id", "description"="The ID of the user to lock", "dataType"="integer", "requirement"="\d+"}
+     *         {"name"="id", "description"="The ID of the user to delete", "dataType"="integer", "requirement"="\d+"}
      *     },
      *     tags={
      *         "Super Admin" = "#ff1919"

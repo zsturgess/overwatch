@@ -60,7 +60,7 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey) {
         $credentials = $token->getCredentials();
         
-        if ((time() - (int) $credentials[self::TIMESTAMP]) > 60) {
+        if (abs(time() - (int) $credentials[self::TIMESTAMP]) > 60) {
             throw new AuthenticationException('API credentials invalid. The timestamp is more than 60 seconds old.');
         }
         
@@ -77,9 +77,6 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
         );
         
         if ($apiToken !== $credentials[self::TOKEN]) {
-            var_dump($user->getApiKey());
-            var_dump($credentials[self::TOKEN]);
-            var_dump($apiToken);
             throw new AuthenticationException("API credentials invalid. Token verification failed");
         }
         
@@ -96,9 +93,6 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
     }
     
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
-        return new JsonResponse([
-            "error" => "Forbidden",
-            "message" => $exception->getMessage()
-        ], JsonResponse::HTTP_FORBIDDEN);
+        return new JsonResponse($exception->getMessage(), JsonResponse::HTTP_UNAUTHORIZED);
     }
 }
