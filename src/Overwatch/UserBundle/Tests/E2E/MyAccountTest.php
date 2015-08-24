@@ -3,7 +3,6 @@
 namespace Overwatch\UserBundle\Tests\E2E;
 
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
-use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
 
 /**
  * MyAccountTest
