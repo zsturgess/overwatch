@@ -2,6 +2,9 @@
 
 namespace Overwatch\TestBundle\Tests\E2E;
 
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverKeys;
+use Facebook\WebDriver\WebDriverSelect;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 
@@ -20,13 +23,13 @@ class AddEditTestTest extends WebDriverTestCase {
     public function testEditTest() {
         $this->webDriver->findElement(
             //View first test
-            \WebDriverBy::cssSelector('ul.groups > li:nth-child(1) li:nth-child(1) a:nth-child(3)')
+            WebDriverBy::cssSelector('ul.groups > li:nth-child(1) li:nth-child(1) a:nth-child(3)')
         )->click();
         $this->waitForLoadingAnimation();
         
         $this->webDriver->findElement(
             //Edit test
-            \WebDriverBy::cssSelector("ul.results li:last-child a")
+            WebDriverBy::cssSelector("ul.results li:last-child a")
         )->click();
         $this->waitForLoadingAnimation();
         
@@ -37,7 +40,7 @@ class AddEditTestTest extends WebDriverTestCase {
         
         $this->getTestField("name")->clear();
         $this->getTestField("name")->sendKeys("UnUnTestium");
-        $this->getTestField("name")->sendKeys(\WebDriverKeys::ENTER);
+        $this->getTestField("name")->sendKeys(WebDriverKeys::ENTER);
         $this->waitForLoadingAnimation();
         $this->assertEquals("UnUnTestium", $this->getHeaderText());
     }
@@ -45,14 +48,14 @@ class AddEditTestTest extends WebDriverTestCase {
     public function testAddTest() {
         $this->webDriver->findElement(
             //Add test button
-            \WebDriverBy::cssSelector("ul.tests li:last-child a:nth-child(2)")
+            WebDriverBy::cssSelector("ul.tests li:last-child a:nth-child(2)")
         )->click();
         
         $this->getTestField("name")->sendKeys("Github Status Resolves");
         $this->getTestField("actual")->sendKeys("status.github.com");
         $this->getTestField("expectation")->sendKeys("toResolveTo");
         $this->getTestField("expected")->sendKeys("octostatus-production.github.com");
-        $this->getTestField("expected")->sendKeys(\WebDriverKeys::ENTER);
+        $this->getTestField("expected")->sendKeys(WebDriverKeys::ENTER);
         
         $this->waitForLoadingAnimation();
         $this->assertCount(3, $this->getTestsForFirstGroup());
@@ -67,7 +70,7 @@ class AddEditTestTest extends WebDriverTestCase {
         }
         
         if ($field === "expectation") {
-            $select = new \WebDriverSelect(
+            $select = new WebDriverSelect(
                 $this->getTestField('expectation')   
             );
             
@@ -80,15 +83,15 @@ class AddEditTestTest extends WebDriverTestCase {
     
     private function getTestField($field) {
         return $this->webDriver->findElement(
-            \WebDriverBy::cssSelector("*[data-ng-model='test.$field']")
+            WebDriverBy::cssSelector("*[data-ng-model='test.$field']")
         );
     }
     
     private function getTestsForFirstGroup() {
         return $this->webDriver->findElements(
-            \WebDriverBy::cssSelector(".groups > li.ng-scope")
+            WebDriverBy::cssSelector(".groups > li.ng-scope")
         )[0]->findElements(
-            \WebDriverBy::cssSelector(".tests li.ng-scope")
+            WebDriverBy::cssSelector(".tests li.ng-scope")
         );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Overwatch\ResultBundle\Tests\E2E;
 
+use Facebook\WebDriver\WebDriverBy;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
@@ -44,7 +45,7 @@ class ViewTestTest extends WebDriverTestCase {
     private function clickThroughToTest($number) {
         $this->waitForLoadingAnimation();
         $this->webDriver->findElement(
-            \WebDriverBy::cssSelector('.tests li:nth-child(' . $number . ') .test a:nth-child(3)')
+            WebDriverBy::cssSelector('.tests li:nth-child(' . $number . ') .test a:nth-child(3)')
         )->click();
     }
     
@@ -52,7 +53,7 @@ class ViewTestTest extends WebDriverTestCase {
         $selector = '.result' . $selector;
         
         $results = $this->webDriver->findElements(
-            \WebDriverBy::cssSelector($selector)
+            WebDriverBy::cssSelector($selector)
         );
         
         return $results;

@@ -2,6 +2,7 @@
 
 namespace Overwatch\UserBundle\Tests\E2E;
 
+use Facebook\WebDriver\WebDriverBy;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 use Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
@@ -48,7 +49,7 @@ class AppNavigationTest extends WebDriverTestCase {
             $this->assertEquals(
                 "http://127.0.0.1:8000/#/",
                 $this->getBreadcrumbs()[0]->findElement(
-                    \WebDriverBy::cssSelector("a")
+                    WebDriverBy::cssSelector("a")
                 )->getAttribute("href"),
                 "The breadcrumb link on $page does not equal '#/'"
             );
@@ -73,7 +74,7 @@ class AppNavigationTest extends WebDriverTestCase {
             
             $this->assertContains(
                 $this->webDriver->findElement(
-                    \WebDriverBy::cssSelector("#page h1")
+                    WebDriverBy::cssSelector("#page h1")
                 )->getText(),
                 end($breadcrumbs)->getText(),
                 "Final breadcrumb text on $page does not match the page's title"
@@ -83,7 +84,7 @@ class AppNavigationTest extends WebDriverTestCase {
     
     private function getBreadcrumbs() {
         return $this->webDriver->findElements(
-            \WebDriverBy::cssSelector("ul.breadcrumbs li")
+            WebDriverBy::cssSelector("ul.breadcrumbs li")
         );
     }
 }

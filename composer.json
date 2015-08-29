@@ -29,7 +29,7 @@
         "liip/functional-test-bundle": "~1.0",
         "sensio/generator-bundle": "~2.3",
         "phpunit/phpunit": "~4.8",
-        "facebook/webdriver": "~0.6"
+        "facebook/webdriver": "~1.0"
     },
     "scripts": {
         "post-root-package-install": [

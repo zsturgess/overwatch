@@ -2,8 +2,8 @@
 
 namespace Overwatch\UserBundle\Tests\E2E;
 
+use Facebook\WebDriver\WebDriverBy;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
-use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
 
 /**
  * ChangeAlertSettingTest
@@ -17,7 +17,7 @@ class ChangeAlertSettingTest extends WebDriverTestCase {
         $this->waitForLoadingAnimation();
         
         $this->webDriver->findElement(
-            \WebDriverBy::cssSelector("#sidebar li:nth-child(3) a")
+            WebDriverBy::cssSelector("#sidebar li:nth-child(3) a")
         )->click();
         $this->waitForLoadingAnimation();
     }
@@ -42,13 +42,13 @@ class ChangeAlertSettingTest extends WebDriverTestCase {
         }
         
         return $this->getSettingRow($number)->findElement(
-            \WebDriverBy::cssSelector("a$selector")
+            WebDriverBy::cssSelector("a$selector")
         );
     }
     
     private function getSettingRow($number) {
         return $this->webDriver->findElement(
-            \WebDriverBy::cssSelector(".settings li:nth-child($number)")
+            WebDriverBy::cssSelector(".settings li:nth-child($number)")
         );
     }
 }
