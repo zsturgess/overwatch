@@ -2,6 +2,7 @@
 
 namespace Overwatch\UserBundle\Tests\E2E;
 
+use Facebook\WebDriver\WebDriverBy;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
 
@@ -47,7 +48,7 @@ class ManageUsersTest extends WebDriverTestCase {
         $this->webDriver->get("http://127.0.0.1:8000/logout");
         $this->logInAsUser('user-2');
         $this->assertEquals("http://127.0.0.1:8000/login", $this->webDriver->getCurrentURL());
-        $this->assertEquals("User account is locked.", $this->webDriver->findElement(\WebDriverBy::cssSelector("#page > div"))->getText());
+        $this->assertEquals("User account is locked.", $this->webDriver->findElement(WebDriverBy::cssSelector("#page > div"))->getText());
         
         $this->logInAsUser1();
         $this->getUsers(":nth-child(2) div a:nth-child(3)")[0]->click();
@@ -77,13 +78,13 @@ class ManageUsersTest extends WebDriverTestCase {
         $this->webDriver->get("http://127.0.0.1:8000/logout");
         $this->logInAsUser('user-2');
         $this->assertEquals("http://127.0.0.1:8000/login", $this->webDriver->getCurrentURL());
-        $this->assertEquals("Bad credentials.", $this->webDriver->findElement(\WebDriverBy::cssSelector("#page > div"))->getText());
+        $this->assertEquals("Bad credentials.", $this->webDriver->findElement(WebDriverBy::cssSelector("#page > div"))->getText());
     }
     
     public function testEditUserRole() {
         $this->getUsers(":nth-child(2) div a:nth-child(4)")[0]->click();
         $this->webDriver->findElement(
-            \WebDriverBy::cssSelector("div.dialog button:nth-child(6)")
+            WebDriverBy::cssSelector("div.dialog button:nth-child(6)")
         )->click();
         $this->waitForLoadingAnimation();
         $this->assertContains("unsatisfactory", $this->getUsers(" div.user")[2]->getAttribute("class"));
@@ -92,7 +93,7 @@ class ManageUsersTest extends WebDriverTestCase {
     public function testRegisterNewUser() {
         $this->webDriver->findElement(
             //Register button
-            \WebDriverBy::cssSelector("ul.users li:last-child a")
+            WebDriverBy::cssSelector("ul.users li:last-child a")
         )->click();
         $this->waitForAlert();
         $this->webDriver->switchTo()->alert()->dismiss();
@@ -100,7 +101,7 @@ class ManageUsersTest extends WebDriverTestCase {
         
         $this->webDriver->findElement(
             //Register button
-            \WebDriverBy::cssSelector("ul.users li:last-child a")
+            WebDriverBy::cssSelector("ul.users li:last-child a")
         )->click();
         $this->waitForAlert();
         $this->webDriver->switchTo()->alert()->sendKeys('void@example.com');
@@ -111,7 +112,7 @@ class ManageUsersTest extends WebDriverTestCase {
     
     private function getUsers($suffix = "") {
         return $this->webDriver->findElements(
-            \WebDriverBy::cssSelector(".users li.ng-scope" . $suffix)
+            WebDriverBy::cssSelector(".users li.ng-scope" . $suffix)
         );
     }
     
@@ -120,7 +121,7 @@ class ManageUsersTest extends WebDriverTestCase {
         $this->waitForLoadingAnimation();
         
         $this->webDriver->findElement(
-            \WebDriverBy::cssSelector("#sidebar li:nth-child(2) a")
+            WebDriverBy::cssSelector("#sidebar li:nth-child(2) a")
         )->click();
         $this->waitForLoadingAnimation();
     }

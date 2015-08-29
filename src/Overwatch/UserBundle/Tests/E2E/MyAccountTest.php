@@ -2,6 +2,7 @@
 
 namespace Overwatch\UserBundle\Tests\E2E;
 
+use Facebook\WebDriver\WebDriverBy;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 
 /**
@@ -17,7 +18,7 @@ class MyAccountTest extends WebDriverTestCase {
         $this->waitForLoadingAnimation();
         
         $this->webDriver->findElement(
-            \WebDriverBy::cssSelector("#sidebar li:nth-child(4) a")
+            WebDriverBy::cssSelector("#sidebar li:nth-child(4) a")
         )->click();
         $this->waitForLoadingAnimation();
     }
@@ -55,13 +56,13 @@ class MyAccountTest extends WebDriverTestCase {
     
     private function getApiKeyField() {
         return $this->webDriver->findElement(
-            \WebDriverBy::id("api-key")
+            WebDriverBy::id("api-key")
         );
     }
     
     private function clickApiKeyAction($number) {
         $this->webDriver->findElement(
-            \WebDriverBy::cssSelector(".api-actions a:nth-child($number)")
+            WebDriverBy::cssSelector(".api-actions a:nth-child($number)")
         )->click();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Overwatch\TestBundle\Tests\E2E;
 
-use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
+use Facebook\WebDriver\WebDriverBy;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
@@ -44,16 +44,16 @@ class DashboardTest extends WebDriverTestCase {
         
         $this->assertFalse($this->webDriver->findElement(
             //Edit group button
-            \WebDriverBy::cssSelector(".group a:nth-child(2)")
+            WebDriverBy::cssSelector(".group a:nth-child(2)")
         )->isDisplayed());
         $this->assertFalse($this->getFirstTestDeleteButton()->isDisplayed());
         $this->assertFalse($this->webDriver->findElement(
             //Second test's delete button
-            \WebDriverBy::cssSelector("ul.tests li:nth-child(2) a:nth-child(2)")
+            WebDriverBy::cssSelector("ul.tests li:nth-child(2) a:nth-child(2)")
         )->isDisplayed());
         $this->assertFalse($this->webDriver->findElement(
             //Add test button
-            \WebDriverBy::cssSelector("ul.tests li:last-child a:nth-child(2)")
+            WebDriverBy::cssSelector("ul.tests li:last-child a:nth-child(2)")
         )->isDisplayed());
         $this->assertFalse($this->getAddGroupButton()->isDisplayed());
     }
@@ -65,7 +65,7 @@ class DashboardTest extends WebDriverTestCase {
 
             $this->assertFalse($this->webDriver->findElement(
                 //Test Result Age Warning
-                \WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
+                WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
             )->isDisplayed());
 
             $this->webDriver->get("http://127.0.0.1:8000/logout");
@@ -83,7 +83,7 @@ class DashboardTest extends WebDriverTestCase {
 
             $this->assertTrue($this->webDriver->findElement(
                 //Test Result Age Warning
-                \WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
+                WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
             )->isDisplayed());
 
             $this->webDriver->get("http://127.0.0.1:8000/logout");
@@ -95,7 +95,7 @@ class DashboardTest extends WebDriverTestCase {
 
         $this->assertFalse($this->webDriver->findElement(
             //Test Result Age Warning
-            \WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
+            WebDriverBy::cssSelector("div[data-ng-show='shouldWarnOfTestAge()']")
         )->isDisplayed());
     }
     
@@ -104,7 +104,7 @@ class DashboardTest extends WebDriverTestCase {
         $this->waitForLoadingAnimation();
         
         $tests = $this->getGroups()[0]->findElements(
-            \WebDriverBy::cssSelector(".tests li.ng-scope div.passed")
+            WebDriverBy::cssSelector(".tests li.ng-scope div.passed")
         );
         
         $this->assertCount(2, $tests);
@@ -114,7 +114,7 @@ class DashboardTest extends WebDriverTestCase {
         $this->assertEquals($this->getHoverTextForTest(TestFixtures::$tests['test-2']), $this->getHoverTextForTest($tests[1]));
         
         $tests = $this->getGroups()[1]->findElements(
-            \WebDriverBy::cssSelector(".tests li.ng-scope div")
+            WebDriverBy::cssSelector(".tests li.ng-scope div")
         );
         $this->assertCount(1, $tests);
         $this->assertContains(TestFixtures::$tests['test-3']->getName(), $tests[0]->getText());
@@ -127,7 +127,7 @@ class DashboardTest extends WebDriverTestCase {
         
         $this->getGroups()[2]->findElement(
             //Delete group button
-            \WebDriverBy::cssSelector("ul.groups li:nth-child(3) li div a:nth-child(1)")
+            WebDriverBy::cssSelector("ul.groups li:nth-child(3) li div a:nth-child(1)")
         )->click();
         
         $this->waitForAlert();
@@ -136,7 +136,7 @@ class DashboardTest extends WebDriverTestCase {
         
         $this->getGroups()[2]->findElement(
             //Delete group button
-            \WebDriverBy::cssSelector("ul.groups li:nth-child(3) li div a:nth-child(1)")
+            WebDriverBy::cssSelector("ul.groups li:nth-child(3) li div a:nth-child(1)")
         )->click();
         
         $this->waitForAlert();
@@ -182,13 +182,13 @@ class DashboardTest extends WebDriverTestCase {
     
     private function getGroups() {
         return $this->webDriver->findElements(
-            \WebDriverBy::cssSelector(".groups > li.ng-scope")
+            WebDriverBy::cssSelector(".groups > li.ng-scope")
         );
     }
     
     private function getTestsForGroup($group) {
         return $this->getGroups()[$group]->findElements(
-            \WebDriverBy::cssSelector(".tests li.ng-scope")
+            WebDriverBy::cssSelector(".tests li.ng-scope")
         );
     }
     
@@ -200,19 +200,19 @@ class DashboardTest extends WebDriverTestCase {
         
         //Else, find actual hover text
         return $test->findElement(
-            \WebDriverBy::tagName("span")
+            WebDriverBy::tagName("span")
         )->getAttribute("title");
     }
     
     private function getAddGroupButton() {
         return $this->webDriver->findElement(
-            \WebDriverBy::cssSelector("ul.groups > li:last-child a")
+            WebDriverBy::cssSelector("ul.groups > li:last-child a")
         );
     }
     
     private function getFirstTestDeleteButton() {
         return $this->webDriver->findElement(
-            \WebDriverBy::cssSelector("ul.tests li:nth-child(1) a:nth-child(2)")
+            WebDriverBy::cssSelector("ul.tests li:nth-child(1) a:nth-child(2)")
         );
     }
 }

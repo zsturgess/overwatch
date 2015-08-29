@@ -2,6 +2,8 @@
 
 namespace Overwatch\ExpectationBundle\Tests\E2E;
 
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverSelect;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 
 /**
@@ -25,13 +27,13 @@ class ExpectationListTest extends WebDriverTestCase {
     private function clickFirstGroupAddTestButton() {
         $this->waitForLoadingAnimation();
         $this->webDriver->findElement(
-            \WebDriverBy::cssSelector('.groups > li:nth-child(1) > ul:nth-child(2) > li:nth-child(3) > div:nth-child(1) > a:nth-child(2)')
+            WebDriverBy::cssSelector('.groups > li:nth-child(1) > ul:nth-child(2) > li:nth-child(3) > div:nth-child(1) > a:nth-child(2)')
         )->click();
     }
     
     private function getSelectOptionValues($select) {
-        $select = new \WebDriverSelect($this->webDriver->findElement(
-            \WebDriverBy::cssSelector($select)
+        $select = new WebDriverSelect($this->webDriver->findElement(
+            WebDriverBy::cssSelector($select)
         ));
         
         $options = [];
