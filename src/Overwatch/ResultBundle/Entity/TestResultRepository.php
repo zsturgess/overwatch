@@ -20,12 +20,14 @@ class TestResultRepository extends EntityRepository {
         );
     }
     
-    public function getLatest($criteria) {
-        return $this->findOneBy(
+    public function getLatest($criteria, $pageSize = 10, $page = 1) {
+        return $this->findBy(
             $criteria,
             [
                 "createdAt" => "desc"
-            ]
+            ],
+            $pageSize,
+            ($page - 1) * $pageSize
         );
     }
 }

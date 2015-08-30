@@ -2,7 +2,6 @@
 
 namespace Overwatch\ResultBundle\Tests\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;

@@ -52,13 +52,17 @@ class ApiController extends Controller {
     }
     
     /**
-     * Returns the latest result for each test in the requested group
+     * Returns the latest results for each test in the requested group
      * 
      * @Route("/group/{id}")
      * @Method({"GET"})
      * @ApiDoc(
      *     requirements={
      *         {"name"="id", "description"="The ID of the group for which to return results for", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     filters={
+     *         {"name"="pageSize", "description"="How many results to return per test per page","type"="Integer","default"=10,"maximum"=100},
+     *         {"name"="page", "description"="The page number to return results from","type"="Integer","default"=1}
      *     },
      *     tags={
      *         "Super Admin" = "#ff1919",
@@ -67,18 +71,21 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function getRecentGroupResults(TestGroup $group) {
+    public function getRecentGroupResults(TestGroup $group, Request $request) {
         if (!$this->isGranted(TestGroupVoter::VIEW, $group)) {
             throw new AccessDeniedHttpException("You must be a member of this group to see results for it");
         }
         
         $results = [];
+        $size = $request->query->get('pageSize', 10);
         
         foreach ($group->getTests()->toArray() as $test) {
             $results[] = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getLatest(
                 [
                     "test" => $test
-                ]
+                ],
+                ($size >= 100) ? 10 : $size,
+                $request->query->get('page', 1)
             );
         }
         
