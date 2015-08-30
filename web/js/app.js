@@ -1,9 +1,10 @@
 var overwatchApp = angular.module('overwatch', [
     'ngRoute',
-    'angularModalService'
+    'angularModalService',
+    'ngIdle'
 ]);
 
-overwatchApp.config(function($routeProvider) {
+overwatchApp.config(function($routeProvider, IdleProvider) {
     $routeProvider
             .when('/', {
                 title: 'Dashboard',
@@ -44,4 +45,7 @@ overwatchApp.config(function($routeProvider) {
                 redirectTo: '/'
             })
     ;
+    
+    IdleProvider.idle(5 * 60);
+    IdleProvider.timeout(5);
 });
