@@ -1,4 +1,4 @@
-overwatchApp.run(function(showLoading, $rootScope, $window, $http) {
+overwatchApp.run(function(showLoading, $rootScope, $window, Idle) {
     $rootScope.$on('$routeChangeStart', function() {
         showLoading(true);
     });
@@ -10,6 +10,12 @@ overwatchApp.run(function(showLoading, $rootScope, $window, $http) {
             $window.document.title = "Overwatch";
         }
     });
+    
+    $rootScope.$on('IdleTimeout', function() {
+        $window.location.href = "/logout";
+    });
+    
+    Idle.watch();
 });
 
 overwatchApp.factory('showLoading', function($rootScope) {
