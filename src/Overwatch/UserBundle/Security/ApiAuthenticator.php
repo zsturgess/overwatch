@@ -77,7 +77,7 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
         );
         
         if ($apiToken !== $credentials[self::TOKEN]) {
-            throw new AuthenticationException("API credentials invalid. Token verification failed");
+            throw new AuthenticationException("API credentials invalid. Token verification failed.");
         }
         
         return new PreAuthenticatedToken(
