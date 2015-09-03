@@ -6,6 +6,7 @@ use Overwatch\UserBundle\Entity\User;
 use Overwatch\UserBundle\Security\ApiAuthenticator;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * ApiAuthenticatorTest
@@ -167,6 +168,19 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
             ApiAuthenticator::TIMESTAMP => $timestamp,
             ApiAuthenticator::TOKEN => $apiToken
         ], $token->getCredentials());
+        $this->assertEquals($this->user->getRoles()[0], $token->getRoles()[0]->getRole());
+    }
+    
+    public function testSupportsTokenWrongProviderKey() {
+        $this->assertFalse($this->apiAuth->supportsToken($this->createToken([]), "totally_not_correct_provider_key"));
+    }
+    
+    public function testSupportsTokenWrongType() {
+        $this->assertFalse($this->apiAuth->supportsToken(new UsernamePasswordToken("anon", [], self::PROVIDER_KEY), self::PROVIDER_KEY));
+    }
+    
+    public function testSupportsToken() {
+        $this->assertTrue($this->apiAuth->supportsToken($this->createToken([]), self::PROVIDER_KEY));
     }
     
     private function createRequestMock(array $headers = null) {
