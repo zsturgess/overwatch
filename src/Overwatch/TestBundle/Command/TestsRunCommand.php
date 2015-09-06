@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Overwatch\ResultBundle\Entity\FakeEntityManager;
+use Overwatch\ResultBundle\Entity\TestResult;
 use Overwatch\ResultBundle\Enum\ResultStatus;
 
 /**
@@ -69,8 +69,9 @@ class TestsRunCommand extends ContainerAwareCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $start = new \DateTime;
+        
         if ($input->getOption("discard-results")) {
-            $this->_em = new FakeEntityManager;
+            $this->_em = $this->getMockEntityManager();
         }
         
         $tests = $this->testRepo->findTests($input->getOption("test"));
@@ -86,12 +87,9 @@ class TestsRunCommand extends ContainerAwareCommand {
             
             //Don't output if we're not running verbosely and the test passes.
             if ($result->getStatus() !== ResultStatus::PASSED || $output->isVerbose()) {
-                $output->writeln(
-                    " > " . $test->getName() . " : " .
-                    $this->getColouredStatus($result->getStatus()) .
-                    " - " . $result->getInfo()
-                );
+                $output->writeln($this->getOutputString($result));
             }
+            
             $this->_em->persist($result);
         }
         
@@ -113,7 +111,7 @@ class TestsRunCommand extends ContainerAwareCommand {
         return "<" . $this->colours[$status] . ">" . $value . "</" . $this->colours[$status] . ">";
     }
     
-    private function getSummary($start) {
+    private function getSummary(\DateTime $start) {
         $end = new \DateTime;
         $runTime = $end->diff($start, true);
         $summary = "";
@@ -124,5 +122,24 @@ class TestsRunCommand extends ContainerAwareCommand {
         
         $summary .= "in " . $runTime->i . " minutes and " . $runTime->s . " seconds";
         return $summary;
+    }
+    
+    private function getOutputString(TestResult $result) {
+        return " > " . $result->getTest()->getName() . " : " .
+            $this->getColouredStatus($result->getStatus()) .
+            " - " . $result->getInfo();
+    }
+    
+    private function getMockEntityManager() {
+        $mockGenerator = new \PHPUnit_Framework_MockObject_Generator;
+        $mock = $mockGenerator->getMock('Doctrine\ORM\EntityManager', [], [], '', false);
+        $mock
+            ->expects(new \PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount())
+            ->method('flush')
+            ->will(new \PHPUnit_Framework_MockObject_Stub_ReturnCallback(function() {
+                echo "WARNING: Command ran with --discard-results, results NOT saved to database" . PHP_EOL;
+            }));
+            
+        return $mock;
     }
 }
