@@ -42,10 +42,4 @@ class TestResultRepositoryTest extends DatabaseAwareTestCase {
         $this->assertCount(1, $results);
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-2'], $results);
     }
-    
-    public function testGetLatest() {
-        $result = $this->repo->getLatest(["test" => TestFixtures::$tests['test-1']]);
-        
-        $this->assertCollectionContainsObject(TestResultFixtures::$results['result-3'], $result);
-    }
 }

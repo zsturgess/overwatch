@@ -80,7 +80,7 @@ class ApiController extends Controller {
         $size = $request->query->get('pageSize', 10);
         
         foreach ($group->getTests()->toArray() as $test) {
-            $results[] = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getLatest(
+            $results[] = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getResults(
                 [
                     "test" => $test
                 ],
