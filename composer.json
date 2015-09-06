@@ -29,6 +29,7 @@
         "liip/functional-test-bundle": "~1.0",
         "sensio/generator-bundle": "~2.3",
         "phpunit/phpunit": "~4.8",
+        "php-mock/php-mock-phpunit": "^0.3",
         "facebook/webdriver": "~1.0"
     },
     "scripts": {

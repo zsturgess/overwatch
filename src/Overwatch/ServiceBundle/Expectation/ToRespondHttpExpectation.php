@@ -16,19 +16,24 @@ class ToRespondHttpExpectation implements ExpectationInterface {
     private $config;
     private $client;
     
-    public function __construct($config) {
+    public function __construct($config, $client_options = []) {
         $this->config = $config;
-        $this->client = new Client();
+        $this->client = new Client($client_options);
     }
     
     public function run($actual, $expected = NULL) {
         $actual = filter_var($actual, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
+        
+        if ($actual === false) {
+            throw new \InvalidArgumentException("The actual value provided is not a valid URL");
+        }
 
         try {
             $response = $this->client->get(
                 $actual,
                 [
                     'allow_redirects' => false,
+                    'http_errors' => false,
                     'timeout' => $this->config["timeout"]
                 ]
             );
