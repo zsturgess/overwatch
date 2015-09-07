@@ -6,6 +6,9 @@ use Overwatch\ResultBundle\DependencyInjection\ResultReporterCompilerPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * @codeCoverageIgnore
+ */
 class OverwatchResultBundle extends Bundle
 {
     public function build(ContainerBuilder $container) {

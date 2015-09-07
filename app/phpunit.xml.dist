@@ -21,7 +21,6 @@
                 <directory>../src/*/*Bundle/Resources</directory>
                 <directory>../src/*/*Bundle/Tests</directory>
                 <directory>../src/*/*Bundle/DependencyInjection</directory>
-                <file>../src/*/*Bundle/*Bundle.php</file>
             </exclude>
         </whitelist>
     </filter>
@@ -30,6 +29,7 @@
         <log type="coverage-text"
              target="php://stdout"
              lowUpperBound="50"
-             highLowerBound="80" />
+             highLowerBound="80"
+             showUncoveredFiles="true" />
     </logging>
 </phpunit>

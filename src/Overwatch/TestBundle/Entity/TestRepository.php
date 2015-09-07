@@ -15,6 +15,10 @@ class TestRepository extends EntityRepository
             return $this->findAll();
         }
         
+        if (!is_array($search)) {
+            $search = [$search];
+        }
+        
         $tests = [];
         
         foreach ($search as $term) {
