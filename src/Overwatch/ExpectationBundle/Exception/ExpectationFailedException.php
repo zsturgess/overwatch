@@ -8,5 +8,7 @@ namespace Overwatch\ExpectationBundle\Exception;
  * Expectation classes MUST NOT throw this exception in response to unexpected exceptions,
  * or an unsatisfactory result, other exceptions will be caught and handled as errors
  * correctly by the ExpectionManager without further processing.
+ * 
+ * @codeCoverageIgnore
  */
 class ExpectationFailedException extends ExpectationResultException {}

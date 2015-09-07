@@ -5,6 +5,8 @@ namespace Overwatch\ResultBundle\Entity;
 /**
  * FakeEntityManager
  * A fake doctrine EntityManager to use when running tests:run with --discard-results
+ * 
+ * @codeCoverageIgnore
  */
 class FakeEntityManager {
     public function persist($obj = NULL) { }

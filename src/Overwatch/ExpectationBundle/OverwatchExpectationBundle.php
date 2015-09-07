@@ -6,6 +6,9 @@ use Overwatch\ExpectationBundle\DependencyInjection\ExpectationCompilerPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * @codeCoverageIgnore
+ */
 class OverwatchExpectationBundle extends Bundle
 {
     public function build(ContainerBuilder $container) {
