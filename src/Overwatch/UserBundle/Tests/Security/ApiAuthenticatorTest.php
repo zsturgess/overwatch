@@ -7,6 +7,8 @@ use Overwatch\UserBundle\Security\ApiAuthenticator;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 /**
  * ApiAuthenticatorTest
@@ -181,6 +183,32 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
     
     public function testSupportsToken() {
         $this->assertTrue($this->apiAuth->supportsToken($this->createToken([]), self::PROVIDER_KEY));
+    }
+    
+    public function testOnAuthenticationFailureWithAuthenticationException() {
+        $message = "Bacon ipsum dolor sit amet";
+        
+        $response = $this->apiAuth->onAuthenticationFailure(
+            $this->createRequestMock(),
+            new AuthenticationException($message)
+        );
+        
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertEquals(json_encode($message), $response->getContent());
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+    
+    public function testOnAuthenticationFailureWithBadCredentialsException() {
+        $message = "Bacon ipsum dolor sit amet";
+        
+        $response = $this->apiAuth->onAuthenticationFailure(
+            $this->createRequestMock(),
+            new BadCredentialsException($message)
+        );
+        
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertEquals(json_encode($message), $response->getContent());
+        $this->assertEquals(401, $response->getStatusCode());
     }
     
     private function createRequestMock(array $headers = null) {
