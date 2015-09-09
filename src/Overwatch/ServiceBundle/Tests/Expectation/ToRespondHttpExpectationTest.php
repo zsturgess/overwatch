@@ -21,6 +21,10 @@ class ToRespondHttpExpectationTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals("Responded HTTP 200 OK", $this->createExpectationWithMockedResponse(200)->run("https://github.com/zsturgess/overwatch", 200));
     }
     
+    public function testExpectationWithInvalidGivenStatus() {
+        $this->assertEquals("Responded HTTP 200 OK", $this->createExpectationWithMockedResponse(200)->run("https://github.com/zsturgess/overwatch", "LS"));
+    }
+    
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The actual value provided is not a valid URL
@@ -50,7 +54,7 @@ class ToRespondHttpExpectationTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Overwatch\ExpectationBundle\Exception\ExpectationFailedException
      * @expectedExceptionMessage https://github.com/zsturgess/overwatch responded HTTP 404, which is configured as a failed result
      */
-    public function testExpectationFailsWhenGivenInvalidExpected() {
+    public function testExpectationFailsWithInvalidGivenStatus() {
         $this->createExpectationWithMockedResponse(404)->run("https://github.com/zsturgess/overwatch", "LS");
     }
     
