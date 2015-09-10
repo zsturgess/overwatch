@@ -20,20 +20,8 @@ class EmailReporterTest extends DatabaseAwareTestCase {
     public function setUp() {
         parent::setUp();
         
-        $mailer = $this->getMockBuilder('\Swift_Mailer')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mailer
-            ->expects($this->mailerSpy = $this->any())
-            ->method('send')
-            ->willReturn(1)
-        ;
-                
-        $customContainer = $this->getContainer();
-        $customContainer->set('swiftmailer.mailer.default', $mailer);
-        
         $this->reporter = new EmailReporter(
-            $customContainer,
+            $this->getMockedEnvironment(),
             [
                 "enabled" => true,
                 "report_from" => self::FROM_MAIL
@@ -60,5 +48,36 @@ class EmailReporterTest extends DatabaseAwareTestCase {
         $this->assertContains($result->getStatus(), $message->getBody());
         $this->assertContains($result->getInfo(), $message->getBody());
         $this->assertContains($result->getCreatedAt()->format('F j, Y H:i'), $message->getBody());
+    }
+    
+    public function testDisabled() {
+        $reporter = new EmailReporter(
+            $this->getMockedEnvironment(),
+            [
+                "enabled" => false,
+                "report_from" => self::FROM_MAIL
+            ]
+        );
+        
+        $result = $this->em->find("Overwatch\ResultBundle\Entity\TestResult", TestResultFixtures::$results['result-3']->getId());
+        
+        $reporter->notify($result);
+        $this->assertCount(0, $this->mailerSpy->getInvocations());
+    }
+    
+    private function getMockedEnvironment() {
+        $mailer = $this->getMockBuilder('\Swift_Mailer')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mailer
+            ->expects($this->mailerSpy = $this->any())
+            ->method('send')
+            ->willReturn(1)
+        ;
+                
+        $customContainer = $this->getContainer();
+        $customContainer->set('swiftmailer.mailer.default', $mailer);
+        
+        return $customContainer;
     }
 }
