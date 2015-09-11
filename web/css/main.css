@@ -329,3 +329,12 @@ ul.breadcrumbs li a:after {
 .icon-warning:before {
 	content: "\e600";
 }
+
+.icon-play {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 0 6px 12px;
+    border-color: transparent transparent transparent #000;
+}

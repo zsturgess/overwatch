@@ -1,4 +1,4 @@
-overwatchApp.controller('DashboardController', function(showLoading, isGranted, $scope, $http, overwatchApiAuth, $window, $interval) {
+overwatchApp.controller('DashboardController', function(showLoading, isGranted, $scope, $http, overwatchApiAuth, $window, $location, $interval) {
     $scope.groups = [];
     var fetchGroups = function() {
         $http.get(
@@ -59,7 +59,7 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
                 fetchGroups();
             })
         ;
-    }
+    };
     
     $scope.removeGroup = function(id) {
         if (!$window.confirm('Are you sure you want to remove this group?')) {
@@ -72,7 +72,7 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
                 fetchGroups();
             })
         ;
-    }
+    };
     
     $scope.createGroup = function() {
         var name = $window.prompt("Please enter a name for the new group", "Untitled Group");
@@ -82,11 +82,20 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
         
         showLoading(true);
         $http.post(Routing.generate('overwatch_test_testgroupapi_creategroup'), {'name': name}, overwatchApiAuth.getHttpConfig())
-                .success(function(){
-                    fetchGroups();
-                })
+            .success(function(){
+                fetchGroups();
+            })
         ;
-    }
+    };
+    
+    $scope.runTest = function(id) {
+        showLoading(true);
+        $http.post(Routing.generate('overwatch_test_testapi_runtest', {'id': id}), null, overwatchApiAuth.getHttpConfig())
+            .success(function(){
+                $location.path("/test/" + id);
+            })
+        ;
+    };
     
     fetchGroups();
 });
