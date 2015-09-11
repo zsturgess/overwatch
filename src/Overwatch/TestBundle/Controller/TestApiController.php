@@ -193,4 +193,32 @@ class TestApiController extends Controller {
         
         return new JsonResponse(NULL, JsonResponse::HTTP_NO_CONTENT);
     }
+    
+    /**
+     * Runs a test
+     * 
+     * @Route("/{id}")
+     * @Method({"POST"})
+     * @ApiDoc(
+     *     requirements={
+     *         {"name"="id", "description"="The ID of the test to run", "dataType"="integer", "requirement"="\d+"}
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33"
+     *     }
+     * )
+     */
+    public function runTest(Test $test) {
+        if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
+            throw new AccessDeniedHttpException("You must be an admin in this test's group to run it");
+        }
+        
+        $result = $this->expectationManager->run($test);
+        
+        $this->_em->persist($result);
+        $this->_em->flush();
+        
+        return new JsonResponse($result, JsonResponse::HTTP_CREATED);
+    }
 }

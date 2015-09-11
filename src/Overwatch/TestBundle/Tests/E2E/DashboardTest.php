@@ -180,6 +180,22 @@ class DashboardTest extends WebDriverTestCase {
         $this->assertCount(1, $this->getTestsForGroup(0));
     }
     
+    public function testRunTest() {
+        $this->logInAsUser('user-1');
+        $this->waitForLoadingAnimation();
+        
+        $this->webDriver->findElement(
+            //First test's run button
+            WebDriverBy::cssSelector("ul.tests li:nth-child(1) a:nth-child(4)")
+        )->click();
+        $this->waitForLoadingAnimation();
+        
+        $this->assertEquals(TestFixtures::$tests['test-1']->getName(), $this->getHeaderText());
+        $this->assertCount(4, $this->webDriver->findElements(
+            WebDriverBy::cssSelector('.result span')
+        ));
+    }
+    
     private function getGroups() {
         return $this->webDriver->findElements(
             WebDriverBy::cssSelector(".groups > li.ng-scope")

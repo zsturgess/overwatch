@@ -222,4 +222,31 @@ class TestApiControllerTest extends DatabaseAwareTestCase {
         
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
+    
+    public function testRunTest() {
+        $this->logIn("ROLE_SUPER_ADMIN");
+        $this->client->request('POST', '/api/tests/' . TestFixtures::$tests['test-1']->getId());
+        
+        $test = $this->em->find("Overwatch\TestBundle\Entity\Test", TestFixtures::$tests['test-1']->getId());
+        
+        $this->assertJsonResponse($this->client->getResponse());
+        $this->assertJsonStringEqualsJsonString(
+            json_encode($test->getResults()->last()),
+            $this->getResponseContent(TRUE)
+        );
+    }
+    
+    public function testRunTestInsufficentPerms() {
+        $this->logIn("ROLE_USER");
+        $this->client->request('POST', '/api/tests/' . TestFixtures::$tests['test-1']->getId());
+        
+        $this->assertForbidden($this->client->getResponse());
+    }
+    
+    public function testRunTestInvalidTest() {
+        $this->logIn("ROLE_SUPER_ADMIN");
+        $this->client->request('POST', '/api/tests/1000');
+        
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
 }

@@ -21,6 +21,7 @@
                     <span title="Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }}">{{ test.name }}</span> (last tested {{ test.result.createdAt|timeago }})
                     <a data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-minus"></i> Delete</a>
                     <a href="#/test/{{ test.id }}" title="View/Edit test '{{ test.name }}'"><i class="icon-test"></i> View</a>
+                    <a data-ng-click="runTest(test.id)" title="Run test '{{ test.name }}' now" data-ng-show="isGranted('ADMIN', group)"><i class="icon-play"></i> Run</a>
                 </div>
             </li>
             <li>
