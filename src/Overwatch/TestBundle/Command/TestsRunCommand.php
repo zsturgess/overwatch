@@ -113,6 +113,9 @@ class TestsRunCommand extends ContainerAwareCommand {
         return "<" . $this->colours[$status] . ">" . $value . "</" . $this->colours[$status] . ">";
     }
     
+    /**
+     * @param \DateTime $start
+     */
     private function getSummary($start) {
         $end = new \DateTime;
         $runTime = $end->diff($start, true);

@@ -25,10 +25,16 @@ trait ConsoleTestHelperTrait {
         $this->assertRegExp('/, in [0-9]+ minutes and [0-9]+ seconds$/i', $this->output[count($this->output) - 1]);
     }
     
+    /**
+     * @param integer $count
+     */
     public function assertCountLinesOfOutput($count) {
         $this->assertCount($count, $this->output);
     }
     
+    /**
+     * @param integer $count
+     */
     public function assertCountRunTests($count = null) {
         if ($count === null) {
             $count = count(TestFixtures::$tests);

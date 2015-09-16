@@ -211,6 +211,9 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(401, $response->getStatusCode());
     }
     
+    /**
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
     private function createRequestMock(array $headers = null) {
         $headers = $this->mergeHeaders($headers);
         
@@ -241,6 +244,9 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         return $user;
     }
     
+    /**
+     * @return \Symfony\Component\Security\Core\User\UserProviderInterface
+     */
     private function createUserProviderMock() {
         return $this->getMockBuilder('FOS\UserBundle\Security\UserProvider')->disableOriginalConstructor()->getMock();
     }
