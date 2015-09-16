@@ -29,8 +29,7 @@
     <logging>
         <log type="coverage-text"
              target="php://stdout"
-             lowUpperBound="50"
-             highLowerBound="80"
-             showUncoveredFiles="true" />
+             lowUpperBound="60"
+             highLowerBound="80" />
     </logging>
 </phpunit>
