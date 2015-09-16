@@ -75,7 +75,7 @@ class TestResult implements \JsonSerializable
     /**
      * Set result
      *
-     * @param string $result
+     * @param string $status
      * @return TestResult
      */
     public function setStatus($status)

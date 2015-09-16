@@ -23,6 +23,9 @@ trait ApiTestHelperTrait {
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
     
+    /**
+     * @param string $role
+     */
     protected function logIn($role) {
         $firewall = 'overwatchApi';
         
@@ -36,6 +39,10 @@ trait ApiTestHelperTrait {
         $this->client->getContainer()->get('security.context')->setToken($token);
     }
     
+    /**
+     * @param string $method
+     * @param string $url
+     */
     protected function makeJsonRequest($method, $url, $body = []) {
         return $this->client->request(
             $method,

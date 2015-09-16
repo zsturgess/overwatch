@@ -29,6 +29,9 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
         $this->em = $em;
     }
     
+    /**
+     * @param string $providerKey
+     */
     public function createToken(Request $request, $providerKey) {
         if (
             !$request->headers->has(self::USER_ID) ||
@@ -57,6 +60,9 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
         );
     }
     
+    /**
+     * @param string $providerKey
+     */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey) {
         $credentials = $token->getCredentials();
         
@@ -88,6 +94,9 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
         );
     }
     
+    /**
+     * @param string $providerKey
+     */
     public function supportsToken(TokenInterface $token, $providerKey) {
         return $token instanceof PreAuthenticatedToken && $token->getProviderKey() === $providerKey;
     }
