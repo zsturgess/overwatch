@@ -38,7 +38,7 @@ class WebDriverTestCase  extends DatabaseAwareTestCase {
     }
     
     public function waitForUserInput() {
-        if (trim(fgets(fopen("php://stdin","r"))) != chr(13)) {
+        if (trim(fgets(fopen("php://stdin", "r"))) != chr(13)) {
             return;
         }
     }

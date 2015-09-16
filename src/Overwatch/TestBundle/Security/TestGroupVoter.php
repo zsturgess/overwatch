@@ -54,7 +54,7 @@ class TestGroupVoter implements VoterInterface {
             return VoterInterface::ACCESS_GRANTED;
         }
 
-        switch($attributes[0]) {
+        switch ($attributes[0]) {
             case self::VIEW:
                 if ($user->hasGroup($group->getName())) {
                     return VoterInterface::ACCESS_GRANTED;

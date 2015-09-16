@@ -8,7 +8,7 @@ use Overwatch\ResultBundle\Reporter\ResultReporterInterface;
 /**
  * EmailReporter
  */
-class EmailReporter implements ResultReporterInterface  {
+class EmailReporter implements ResultReporterInterface {
     private $container;
     private $config;
     

@@ -160,7 +160,7 @@ class TestApiController extends Controller {
         
         foreach (['name', 'actual', 'expectation', 'expected'] as $field) {
             if ($request->request->has($field)) {
-                $test->{"set".ucfirst($field)}($request->request->get($field));
+                $test->{"set" . ucfirst($field)}($request->request->get($field));
             }
         }
         

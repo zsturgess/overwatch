@@ -32,7 +32,7 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $command = new TestsRunCommand();
         $command->setContainer($this->getContainer());
         
-        $this->application = new Application('Overwatch', '0.0.1-test.'.time());
+        $this->application = new Application('Overwatch', '0.0.1-test.' . time());
         $this->application->add($command);
 
         $this->command = new CommandTester($command);
