@@ -155,7 +155,7 @@ class TestGroupApiControllerTest extends DatabaseAwareTestCase {
     
     public function testUpdateGroupInsufficentPerms() {
         $this->logIn("ROLE_USER");
-        $this->client->request('PUT', '/api/groups/' .  TestGroupFixtures::$groups['group-2']->getId());
+        $this->client->request('PUT', '/api/groups/' . TestGroupFixtures::$groups['group-2']->getId());
         
         $this->assertForbidden($this->client->getResponse());
     }
@@ -168,7 +168,7 @@ class TestGroupApiControllerTest extends DatabaseAwareTestCase {
     }
     
     public function testDeleteGroup() {
-         $this->logIn("ROLE_SUPER_ADMIN");
+        $this->logIn("ROLE_SUPER_ADMIN");
         $this->client->request('DELETE', '/api/groups/' .  TestGroupFixtures::$groups['group-3']->getId());
         
         $this->assertEquals(Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
@@ -177,7 +177,7 @@ class TestGroupApiControllerTest extends DatabaseAwareTestCase {
     
     public function testDeleteGroupPopulatedGroup() {
         $this->logIn("ROLE_SUPER_ADMIN");
-        $this->client->request('DELETE', '/api/groups/' .  TestGroupFixtures::$groups['group-2']->getId());
+        $this->client->request('DELETE', '/api/groups/' . TestGroupFixtures::$groups['group-2']->getId());
         
         $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $this->client->getResponse()->getStatusCode());
         $this->assertNotNull($this->em->find("Overwatch\TestBundle\Entity\TestGroup", TestGroupFixtures::$groups['group-2']->getId()));
@@ -185,7 +185,7 @@ class TestGroupApiControllerTest extends DatabaseAwareTestCase {
     
     public function testDeleteGroupInsufficentPerms() {
         $this->logIn("ROLE_ADMIN");
-        $this->client->request('DELETE', '/api/groups/' .  TestGroupFixtures::$groups['group-3']->getId());
+        $this->client->request('DELETE', '/api/groups/' . TestGroupFixtures::$groups['group-3']->getId());
         
         $this->assertForbidden($this->client->getResponse());
         $this->assertNotNull($this->em->find("Overwatch\TestBundle\Entity\TestGroup", TestGroupFixtures::$groups['group-2']->getId()));

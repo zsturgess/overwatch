@@ -34,7 +34,7 @@ class AppControllerTest extends FunctionalTestCase {
         $firewall = 'overwatch';
         
         $token = new UsernamePasswordToken('testUser', null, $firewall, [$role]);
-        $session->set('_security_'.$firewall, serialize($token));
+        $session->set('_security_' . $firewall, serialize($token));
         $session->save();
         $cookie = new Cookie($session->getName(), $session->getId());
         $this->client->getCookieJar()->set($cookie);

@@ -84,7 +84,7 @@ class ApiController extends Controller {
             throw new AccessDeniedHttpException("You must be a super admin to create a user.");
         }
         
-        $password = substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(openssl_random_pseudo_bytes(9))),0,8);
+        $password = substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(openssl_random_pseudo_bytes(9))), 0, 8);
         $user = $this->get('fos_user.util.user_manipulator')->create($email, $password, $email, true, false);
         
         //send user e-mail with their pass

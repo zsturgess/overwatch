@@ -22,7 +22,7 @@ class ToPingExpectation implements ExpectationInterface {
         $package = "\x08\x00\x7d\x4b\x00\x00\x00\x00PingHost";
         $socket  = socket_create(AF_INET, SOCK_RAW, 1);
         
-        socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => floor($this->config["timeout"]), 'usec' => (($this->config["timeout"] - floor($this->config["timeout"]))*1000)));
+        socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => floor($this->config["timeout"]), 'usec' => (($this->config["timeout"] - floor($this->config["timeout"])) * 1000)));
         socket_connect($socket, $actual, null);
         
         $sent = microtime(true);
