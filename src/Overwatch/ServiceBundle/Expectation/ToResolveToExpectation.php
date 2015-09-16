@@ -19,7 +19,7 @@ class ToResolveToExpectation implements ExpectationInterface {
     
     /**
      * @param string $actual
-     * @param string $expected
+     * @param string|null $expected
      */
     public function run($actual, $expected = NULL) {
         $dnsRecords = dns_get_record($actual);
