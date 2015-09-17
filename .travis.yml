@@ -14,7 +14,9 @@ before_script:
     - php app/console doctrine:schema:create --env=test
     - java -jar bin/selenium-server-standalone-2.47.0.jar > /dev/null 2>&1 &
     - php app/console server:start
-script: phpunit -c app/
+script: 
+    - phpunit -c app/
+    - php app/console security:check
 after_script:
     - php vendor/scrutinizer/ocular/bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
 branches:
