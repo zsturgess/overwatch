@@ -23,6 +23,7 @@ class ToResolveToExpectation implements ExpectationInterface {
      */
     public function run($actual, $expected = NULL) {
         $dnsRecords = dns_get_record($actual);
+        $found = "";
         
         foreach ($dnsRecords as $dnsRecord) {
             if (!in_array($dnsRecord["type"], $this->config["record_types"])) {

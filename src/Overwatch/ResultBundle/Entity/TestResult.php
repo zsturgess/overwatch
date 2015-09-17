@@ -95,6 +95,15 @@ class TestResult implements \JsonSerializable
     {
         return $this->status;
     }
+    
+    /**
+     * Was the result unsucessful?
+     * 
+     * @return bool
+     */
+    public function isUnsuccessful() {
+        return in_array($this->getStatus(), [ResultStatus::ERROR, ResultStatus::FAILED]);
+    }
 
     /**
      * Set createdAt

@@ -9,6 +9,6 @@ namespace Overwatch\ResultBundle\Entity;
  * @codeCoverageIgnore
  */
 class FakeEntityManager {
-    public function persist($obj = NULL) { }
-    public function flush($obj = NULL) { echo "WARNING: Command ran with --discard-results, results NOT saved to database" . PHP_EOL; }
+    public function persist() { }
+    public function flush() { echo "WARNING: Command ran with --discard-results, results NOT saved to database" . PHP_EOL; }
 }
