@@ -16,7 +16,7 @@ before_script:
     - php app/console server:start
 script: phpunit -c app/
 after_script:
-    - php bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
+    - php vendor/scrutinizer/ocular/bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
 branches:
     only:
         - master

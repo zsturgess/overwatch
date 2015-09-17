@@ -21,15 +21,11 @@ class TestsRunCommand extends ContainerAwareCommand {
     private $expectations;
     
     /**
-     * @var Doctrine\ORM\EntityManager
-     */
-    private $_em;
-    
-    /**
      * @var Overwatch\TestBundle\Entity\TestRepository 
      */
     private $testRepo;
     
+    private $_em;
     private $results = [];
     private $colours = [];
     
@@ -62,9 +58,11 @@ class TestsRunCommand extends ContainerAwareCommand {
         parent::setContainer($container);
         
         //Set up some shortcuts to services
-        $this->expectations = $container->get("overwatch_expectation.expectation_manager");
-        $this->_em = $container->get("doctrine.orm.entity_manager");
-        $this->testRepo = $this->_em->getRepository("OverwatchTestBundle:Test");
+        if ($container !== NULL) {
+            $this->expectations = $container->get("overwatch_expectation.expectation_manager");
+            $this->_em = $container->get("doctrine.orm.entity_manager");
+            $this->testRepo = $this->_em->getRepository("OverwatchTestBundle:Test");
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {

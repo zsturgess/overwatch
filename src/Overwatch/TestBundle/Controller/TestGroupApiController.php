@@ -158,7 +158,7 @@ class TestGroupApiController extends Controller {
      *     }
      * )
      */
-    public function deleteGroup(Request $request, TestGroup $group) {
+    public function deleteGroup(TestGroup $group) {
         if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
             throw new AccessDeniedHttpException("You must be a super admin to delete this group");
         }

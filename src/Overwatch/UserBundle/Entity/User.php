@@ -71,7 +71,8 @@ class User extends BaseUser implements \JsonSerializable
      */
     public function setEmail($email) {
         parent::setEmail($email);
-        parent::setUsername($email);
+        $this->setUsername($email);
+        
         return $this;
     }
     
@@ -142,7 +143,7 @@ class User extends BaseUser implements \JsonSerializable
         }
         
         if (
-            in_array($result->getStatus(), [ResultStatus::ERROR, ResultStatus::FAILED])
+            $result->isUnsuccessful()
             && ($setting === AlertSetting::CHANGE_ALL)
         ) {
             return true;
@@ -154,7 +155,7 @@ class User extends BaseUser implements \JsonSerializable
             }
             
             if (
-                in_array($result->getStatus(), [ResultStatus::ERROR, ResultStatus::FAILED])
+                $result->isUnsuccessful()
                 && $setting === AlertSetting::CHANGE_BAD
             ) {
                 return true;
