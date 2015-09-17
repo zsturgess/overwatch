@@ -16,6 +16,8 @@ before_script:
     - java -jar bin/selenium-server-standalone-2.47.0.jar > /dev/null 2>&1 &
     - php app/console server:start
 script: phpunit -c app/
+after_script:
+    - php bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
 
 branches:
   only:
