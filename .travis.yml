@@ -2,6 +2,7 @@ sudo: false
 language: php
 php:
   - 5.6
+
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
@@ -17,8 +18,20 @@ before_script:
 script:
   - phpunit -c app/
   - php app/console security:check
-after_script:
+before_deploy:
   - php vendor/scrutinizer/ocular/bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
+  - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
+  - composer install --no-dev --no-scripts --prefer-dist
+  - tar -czf overwatch-$TRAVIS_TAG.tar.gz app/ composer* *.md LICENSE src/ vendor/ web/
+deploy:
+  provider: releases
+  api_key:
+    secure: E1yWQpU6OdnHk4t3X6LeW5mLv7BmFgvueySWikevOYlFCLmuOQBYnhwNgePCu1yZYaoTYIzp+XehKcRPUpy6lELFzbVjHE3fkPX1VwpqwjppFcPCISgqvYyWgaIppGm5QvPuMBwBZC0RAeJw/yvuI7MCYLqmO+sfvqVfdkIl2ms=
+  file: overwatch-$TRAVIS_TAG.tar.gz
+  on:
+    tags: true
+  skip_cleanup: true
+
 branches:
   only:
     - master
@@ -31,15 +44,3 @@ env:
   global:
     secure: Q/QHMNwqp5Eyad40sD8e47yVac8dUMCGi3duXQgz8GhkmiUkHYdbKjowcn5zg0qi0AEEN8bhKU1evr5D5Qs1OSgoWsSbCzKxTPWqzaf2QJC9/Y3x3S5amHisyliLIyQWY76srnES+ZHQ+9YPB1x8LLYn0seNBoLDH4ykroC/IBU=
 
-before_deploy:
-  - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
-  - composer install --no-dev --no-scripts --prefer-dist
-  - tar -czf overwatch-$TRAVIS_TAG.tar.gz app/ composer* *.md LICENSE src/ vendor/ web/
-deploy:
-  provider: releases
-  api_key:
-    secure: E1yWQpU6OdnHk4t3X6LeW5mLv7BmFgvueySWikevOYlFCLmuOQBYnhwNgePCu1yZYaoTYIzp+XehKcRPUpy6lELFzbVjHE3fkPX1VwpqwjppFcPCISgqvYyWgaIppGm5QvPuMBwBZC0RAeJw/yvuI7MCYLqmO+sfvqVfdkIl2ms=
-  file: overwatch-$TRAVIS_TAG.tar.gz
-  on:
-    tags: true
-  skip_cleanup: true
