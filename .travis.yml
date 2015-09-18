@@ -32,9 +32,8 @@ env:
     secure: Q/QHMNwqp5Eyad40sD8e47yVac8dUMCGi3duXQgz8GhkmiUkHYdbKjowcn5zg0qi0AEEN8bhKU1evr5D5Qs1OSgoWsSbCzKxTPWqzaf2QJC9/Y3x3S5amHisyliLIyQWY76srnES+ZHQ+9YPB1x8LLYn0seNBoLDH4ykroC/IBU=
 
 before_deploy:
-  - git reset --hard HEAD && git clean -xdf
+  - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
   - composer install --no-dev --no-scripts --prefer-dist
-  - cp app/config/parameters.yml.dist app/config/parameters.yml
   - tar -czf overwatch-$TRAVIS_TAG.tar.gz app/ composer* *.md LICENSE src/ vendor/ web/
 deploy:
   provider: releases
