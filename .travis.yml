@@ -18,8 +18,8 @@ before_script:
 script:
   - phpunit -c app/
   - php app/console security:check
-before_deploy:
   - php vendor/scrutinizer/ocular/bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
+before_deploy:
   - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
   - composer install --no-dev --no-scripts --prefer-dist
   - tar -czf overwatch-$TRAVIS_TAG.tar.gz app/ composer* *.md LICENSE src/ vendor/ web/
