@@ -54,15 +54,15 @@ div.group a {
     padding: 5px;
 }
 
-div.passed {
+div.passed, div.role_user {
     border-left-color: #75ff47;
 }
 
-div.unsatisfactory {
+div.unsatisfactory, div.role_admin {
     border-left-color: #ffff33;
 }
 
-div.failed, div.error {
+div.failed, div.error, div.role_super_admin {
     border-left-color: #ff1919;
 }
 

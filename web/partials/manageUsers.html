@@ -6,7 +6,7 @@
 <h1>Manage Users</h1>
 <ul class="users">
     <li data-ng-repeat="user in users">
-        <div class="user {{ user.roles[0]|roleToCss }}">
+        <div class="user {{ user.roles[0]|lowercase }}">
             <span>{{ user.email }}</span>
             <a data-ng-click="removeUser(user.id)" title="Permanently delete '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="icon-user-minus"></i> Delete</a>
             <a data-ng-click="lockUser(user.id)" title="Lock '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="icon-key"></i> <span data-ng-show="!user.locked">Lock</span><span data-ng-show="user.locked">Unlock</span></a>
@@ -16,7 +16,7 @@
     </li>
     <li>
         <div>
-            <div class="user-key failed"> Super Admin</div> <div class="user-key unsatisfactory"> Admin</div> <div class="user-key passed"> User</div>
+            <div class="user-key role_super_admin"> Super Admin</div> <div class="user-key role_admin"> Admin</div> <div class="user-key role_user"> User</div>
             <a data-ng-click="createUser()" title="Add a user"><i class="icon-user-plus"></i> Register new user</a>
         </div> 
     </li>
