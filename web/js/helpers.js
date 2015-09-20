@@ -60,13 +60,11 @@ overwatchApp.factory('isGranted', function() {
 
 overwatchApp.factory('overwatchApiAuth', function() {
     return {
-        getHttpConfig: function() {
+        getHttpHeaders: function() {
             return {
-                headers: {
-                    'X-Api-User': this.getUser(),
-                    'X-Api-Timestamp': this.getTimestamp(),
-                    'X-Api-Token': this.getToken()
-                }
+                'X-Api-User': this.getUser(),
+                'X-Api-Timestamp': this.getTimestamp(),
+                'X-Api-Token': this.getToken()
             };
         },
         getToken: function () {
@@ -77,6 +75,54 @@ overwatchApp.factory('overwatchApiAuth', function() {
         },
         getTimestamp: function () {
             return new Date().getTime().toString().substr(0, 10);
+        }
+    };
+});
+
+overwatchApp.service('overwatchApi', function(overwatchApiAuth, $http) {
+    return {
+        call: function(config) {
+            if (config.hasOwnProperty('headers')) {
+                config.headers = angular.merge(config.headers, overwatchApiAuth.getHttpHeaders());
+            } else {
+                config.headers = overwatchApiAuth.getHttpHeaders();
+            }
+            
+            return $http(config);
+        },
+        transformUrl: function(url) {
+            if (url.indexOf('/api/') !== 0) {
+                url = Routing.generate(url);
+            }
+            
+            return url;
+        },
+        
+        get: function(url) {
+            return this.call({
+                method: 'GET',
+                url: this.transformUrl(url)
+            });
+        },
+        post: function(url, data) {
+            return this.call({
+                method: 'POST',
+                data: data,
+                url: this.transformUrl(url)
+            });
+        },
+        put: function(url, data) {
+            return this.call({
+                method: 'PUT',
+                data: data,
+                url: this.transformUrl(url)
+            });
+        },
+        delete: function(url) {
+            return this.call({
+                method: 'DELETE',
+                url: this.transformUrl(url)
+            });
         }
     };
 });
