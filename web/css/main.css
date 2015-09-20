@@ -176,13 +176,13 @@ ul.breadcrumbs li a:after {
 
 .dialog {
     background: #dddddd;
-    height:250px;
+    height:300px;
     left:50%;
-    margin:-125px 0 0 -300px;
+    margin:-150px 0 0 -350px;
     padding: 0 15px 15px;
     position:absolute;
     top:50%;
-    width:600px;
+    width:700px;
 }
 
 .dialog button {

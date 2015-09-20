@@ -20,11 +20,11 @@ class ManageUsersTest extends WebDriverTestCase {
         $this->assertEquals("Manage Users", $this->getHeaderText());
         $this->assertCount(3, $this->getUsers());
         $this->assertContains(UserFixtures::$users['user-1']->getEmail(), $this->getUsers()[0]->getText());
-        $this->assertContains("failed", $this->getUsers(" div.user")[0]->getAttribute("class"));
+        $this->assertContains("role_super_admin", $this->getUsers(" div.user")[0]->getAttribute("class"));
         $this->assertContains(UserFixtures::$users['user-2']->getEmail(), $this->getUsers()[1]->getText());
-        $this->assertContains("passed", $this->getUsers(" div.user")[1]->getAttribute("class"));
+        $this->assertContains("role_user", $this->getUsers(" div.user")[1]->getAttribute("class"));
         $this->assertContains(UserFixtures::$users['user-3']->getEmail(), $this->getUsers()[2]->getText());
-        $this->assertContains("unsatisfactory", $this->getUsers(" div.user")[2]->getAttribute("class"));
+        $this->assertContains("role_admin", $this->getUsers(" div.user")[2]->getAttribute("class"));
     }
     
     public function testCannotEditMe() {
@@ -87,7 +87,17 @@ class ManageUsersTest extends WebDriverTestCase {
             WebDriverBy::cssSelector("div.dialog button:nth-child(6)")
         )->click();
         $this->waitForLoadingAnimation();
-        $this->assertContains("unsatisfactory", $this->getUsers(" div.user")[2]->getAttribute("class"));
+        $this->assertContains("role_admin", $this->getUsers(" div.user")[2]->getAttribute("class"));
+    }
+    
+    public function testEditRoleAndCancel() {
+        $before = $this->getUsers(" div.user")[2]->getAttribute("class");
+        $this->getUsers(":nth-child(2) div a:nth-child(4)")[0]->click();
+        $this->webDriver->findElement(
+            WebDriverBy::cssSelector("div.dialog a:last-child")
+        )->click();
+        $this->waitForLoadingAnimation();
+        $this->assertEquals($before, $this->getUsers(" div.user")[2]->getAttribute("class"));
     }
     
     public function testRegisterNewUser() {

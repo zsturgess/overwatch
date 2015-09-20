@@ -60,13 +60,11 @@ overwatchApp.factory('isGranted', function() {
 
 overwatchApp.factory('overwatchApiAuth', function() {
     return {
-        getHttpConfig: function() {
+        getHttpHeaders: function() {
             return {
-                headers: {
-                    'X-Api-User': this.getUser(),
-                    'X-Api-Timestamp': this.getTimestamp(),
-                    'X-Api-Token': this.getToken()
-                }
+                'X-Api-User': this.getUser(),
+                'X-Api-Timestamp': this.getTimestamp(),
+                'X-Api-Token': this.getToken()
             };
         },
         getToken: function () {
@@ -81,19 +79,52 @@ overwatchApp.factory('overwatchApiAuth', function() {
     };
 });
 
-overwatchApp.filter('roleToCss', function() {
-    //we're re-using the test CSS classes here, so they look a little odd...
-    return function(input) {
-        if (input === "ROLE_SUPER_ADMIN") {
-            return "failed";
-        } else if (input === "ROLE_ADMIN") {
-            return "unsatisfactory";
-        } else if (input === "ROLE_USER") {
-            return "passed";
-        } else {
-            return "";
+overwatchApp.service('overwatchApi', function(overwatchApiAuth, $http) {
+    return {
+        call: function(config) {
+            if (config.hasOwnProperty('headers')) {
+                config.headers = angular.merge(config.headers, overwatchApiAuth.getHttpHeaders());
+            } else {
+                config.headers = overwatchApiAuth.getHttpHeaders();
+            }
+            
+            return $http(config);
+        },
+        transformUrl: function(url) {
+            if (url.indexOf('/api/') !== 0) {
+                url = Routing.generate(url);
+            }
+            
+            return url;
+        },
+        
+        get: function(url) {
+            return this.call({
+                method: 'GET',
+                url: this.transformUrl(url)
+            });
+        },
+        post: function(url, data) {
+            return this.call({
+                method: 'POST',
+                data: data,
+                url: this.transformUrl(url)
+            });
+        },
+        put: function(url, data) {
+            return this.call({
+                method: 'PUT',
+                data: data,
+                url: this.transformUrl(url)
+            });
+        },
+        delete: function(url) {
+            return this.call({
+                method: 'DELETE',
+                url: this.transformUrl(url)
+            });
         }
-    }
+    };
 });
 
 //From https://gist.github.com/keithics/9911022 (Thanks @keithics!)
