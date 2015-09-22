@@ -42,4 +42,11 @@ class TestResultRepositoryTest extends DatabaseAwareTestCase {
         $this->assertCount(1, $results);
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-2'], $results);
     }
+    
+    public function testGetResultsOlderThan() {
+        $cutoff = new \DateTime("-90 minutes");
+        $results = $this->repo->getResultsOlderThan($cutoff);
+        $this->assertEquals(TestResultFixtures::$results['result-1']->getId(), $results->next()[0]->getId());
+        $this->assertFalse($results->next());
+    }
 }
