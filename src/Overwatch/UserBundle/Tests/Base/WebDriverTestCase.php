@@ -2,6 +2,7 @@
 
 namespace Overwatch\UserBundle\Tests\Base;
 
+use Facebook\WebDriver\Exception\TimeOutException;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\WebDriverCapabilityType;
 use Facebook\WebDriver\WebDriverBy;
@@ -24,6 +25,16 @@ class WebDriverTestCase  extends DatabaseAwareTestCase {
         
         $capabilities = [WebDriverCapabilityType::BROWSER_NAME => 'firefox'];
         $this->webDriver = RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities);
+    }
+    
+    public function runBare() {
+        try {
+            parent::runBare();
+        } catch (TimeOutException $e) {
+            //If there's a timeout the first time, retry, but don't catch
+            //anything the second time around (i.e. there's only 1 retry attempt)
+            parent::runBare();
+        }
     }
     
     public function logInAsUser($userReference) {
