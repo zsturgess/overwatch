@@ -17,7 +17,7 @@ before_script:
 - php app/console server:start
 script:
 - phpunit -c app/
-- php app/console security:check
+- php vendor/scrutinizer/ocular/bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
 before_deploy:
 - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
 - composer install --no-dev --no-scripts --prefer-dist
