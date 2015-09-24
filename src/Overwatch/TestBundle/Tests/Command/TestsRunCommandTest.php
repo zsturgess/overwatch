@@ -21,7 +21,6 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
     
     private $application;
     private $command;
-    private $output = null;
     private $resultRepo;
     
     public function setUp() {
@@ -183,20 +182,6 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $this->assertRecentResultsPersisted();
     }
     
-    private function execute($params = [], $options = []) {
-        $params['command'] = self::COMMAND_NAME;
-        $returnCode = $this->command->execute($params, $options);
-        
-        $this->output = explode(PHP_EOL, $this->command->getDisplay());
-        $lastLine = array_pop($this->output);
-        
-        if (!empty($lastLine)) {
-            array_push($this->output, $lastLine);
-        }
-        
-        return $returnCode;
-    }
-    
     private function createSocketMocks() {
         foreach ([
             "socket_create",
@@ -225,7 +210,7 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $mock->expects($this->any())->willReturnOnConsecutiveCalls(
             $this->returnCallback(function() { usleep(500); return true; }),
             $this->returnCallback(function() { usleep(1000500); return true; }),
-            $this->returnCallback(function() { return false; })
+            $this->returnValue(false)
         );
     }
 }

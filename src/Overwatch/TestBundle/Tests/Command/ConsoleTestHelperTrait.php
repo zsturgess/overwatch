@@ -8,10 +8,11 @@ use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
  * ConsoleTestHelperTrait
  */
 trait ConsoleTestHelperTrait {
+    protected $output = null;
+    
     public function assertHasStandardOutput() {
         $this->assertStringStartsWith($this->application->getName(), $this->output[0]);
         $this->assertContains($this->application->getVersion(), $this->output[0]);
-        $this->assertRegExp("/, running [0-9]+ tests$/i", $this->output[0]);
         
         foreach ($this->output as $lineNum => $line) {
             if ($lineNum === 0 || $lineNum === count($this->output) - 1) {
@@ -20,9 +21,6 @@ trait ConsoleTestHelperTrait {
             
             $this->assertStringStartsWith(' > ', $line);
         }
-        
-        $this->assertResults();
-        $this->assertRegExp('/, in [0-9]+ minutes and [0-9]+ seconds$/i', $this->output[count($this->output) - 1]);
     }
     
     /**
@@ -48,6 +46,7 @@ trait ConsoleTestHelperTrait {
             "/^$failed FAILED, $error ERROR, $unsatisfactory UNSATISFACTORY, $passed PASSED/",
             $this->output[count($this->output) - 1]
         );
+        $this->assertRegExp('/, in [0-9]+ minutes and [0-9]+ seconds$/i', $this->output[count($this->output) - 1]);
     }
     
     public function assertRecentResultsPersisted($count = 3) {
@@ -65,5 +64,19 @@ trait ConsoleTestHelperTrait {
         $result = $this->resultRepo->getResults([], 1);
         
         $this->assertGreaterThan(500, $result[0]->getCreatedAt()->getTimestamp());
+    }
+    
+    protected function execute($params = [], $options = []) {
+        $params['command'] = self::COMMAND_NAME;
+        $returnCode = $this->command->execute($params, $options);
+        
+        $this->output = explode(PHP_EOL, $this->command->getDisplay());
+        $lastLine = array_pop($this->output);
+        
+        if (!empty($lastLine)) {
+            array_push($this->output, $lastLine);
+        }
+        
+        return $returnCode;
     }
 }

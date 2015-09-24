@@ -22,3 +22,31 @@
 > If there is a warning on the Overwatch dashboard directing you here, it is likely that your system administrator has not scheduled the test runner as laid out below.
 
 Tests are run with `php app/console overwatch:tests:run` and it is recommended to schedule it (crond on linux, or launchd on OSX). Some expectations (such as `toPing`) may require that the command be run with admin rights, so if you plan on using them ensure the task is scheduled to run in a way and by a user that runs it with admin rights. If Overwatch detects that the average age of the most recent test result is greater than 6 hours, a warning will be shown on the dashboard.
+
+###Cleaning up results
+Old results are cleaned up with `php app/console overwatch:results:cleanup`. By default, the command will perform no operation. You should pass the `--delete` and/or `--compress` options to configure what operations the command will apply.
+
+####Deleting old results
+If you want to delete all items that are older than a certain given age, use the `--delete` option. Any value that could be used to construct a PHP DateTime object is accepted.
+
+Examples:
+ - `php app/console overwatch:results:cleanup --delete="2015-09-01 05:00:00"` will delete all results older than the given timestamp
+ - `php app/console overwatch:results:cleanup --delete="-6 months"` will delete all results older than 6 months
+ - `php app/console overwatch:results:cleanup --delete="last year"` will delete all results older than the start of the current year
+
+####Compressing old results
+Overwatch can "compress" history by deleting test results that did not represent a change with the `--compress` option. Any value that could be used to construct a PHP DateTime object is accepted.
+
+For example, a test history of: (1) PASS, (2) PASS, (3) PASS, (4) FAIL, (5) PASS
+Would compress to: (4) FAIL, (5) PASS
+
+Examples:
+ - `php app/console overwatch:results:cleanup --compress="2015-09-01 05:00:00"` will compress all results older than the given timestamp
+ - `php app/console overwatch:results:cleanup --compress="-3 months" --delete="last year"` will compress all results older than 3 months and delete all results older than the start of the current year
+
+####Archiving old results
+You can combine the `--delete` and/or `--compress` options with the `--archive` option. The `--archive` option takes no value.
+
+Examples:
+ - `php app/console overwatch:results:cleanup --archive --compress="2015-09-01 05:00:00"` will compress all results older than the given timestamp
+ - `php app/console overwatch:results:cleanup --archive --compress="-3 months" --delete="last year"` will compress all results older than 3 months and delete all results older than the start of the current year

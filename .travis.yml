@@ -1,46 +1,43 @@
 sudo: false
 language: php
 php:
-  - 5.6
-
+- 5.6
 before_install:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 before_script:
-  - cp app/config/parameters.yml.dist app/config/parameters.yml
-  - sed -i 's/%database_name%/%database_name%_test/' app/config/base_config.yml
-  - mysql -e 'create database overwatch_test;'
-  - composer install --prefer-dist
-  - wget -P bin/ http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.0.jar
-  - php app/console doctrine:schema:create --env=test
-  - java -jar bin/selenium-server-standalone-2.47.0.jar > /dev/null 2>&1 &
-  - php app/console server:start
+- bin/travis_github_authenticate.sh
+- cp app/config/parameters.yml.dist app/config/parameters.yml
+- sed -i 's/%database_name%/%database_name%_test/' app/config/base_config.yml
+- mysql -e 'create database overwatch_test;'
+- composer install --prefer-dist
+- wget -P bin/ http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.0.jar
+- php app/console doctrine:schema:create --env=test
+- java -jar bin/selenium-server-standalone-2.47.0.jar > /dev/null 2>&1 &
+- php app/console server:start
 script:
-  - phpunit -c app/
-  - php app/console security:check
-  - php vendor/scrutinizer/ocular/bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
+- phpunit -c app/
+- php app/console security:check
 before_deploy:
-  - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
-  - composer install --no-dev --no-scripts --prefer-dist
-  - tar -czf overwatch-$TRAVIS_TAG.tar.gz app/ composer* *.md LICENSE src/ vendor/ web/
+- git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
+- composer install --no-dev --no-scripts --prefer-dist
+- tar -czf overwatch-$TRAVIS_TAG.tar.gz app/ composer* *.md LICENSE src/ vendor/ web/
 deploy:
   provider: releases
   api_key:
-    secure: E1yWQpU6OdnHk4t3X6LeW5mLv7BmFgvueySWikevOYlFCLmuOQBYnhwNgePCu1yZYaoTYIzp+XehKcRPUpy6lELFzbVjHE3fkPX1VwpqwjppFcPCISgqvYyWgaIppGm5QvPuMBwBZC0RAeJw/yvuI7MCYLqmO+sfvqVfdkIl2ms=
+    secure: E8e5xwnkbMruKeWFH4t2enUxsAkulSP+KhTrWxpYBe9uU7oG6i9/pQOWIf5XZYFMjtALSNpaIBwJ9mibD5ZatZA5oelFkS0upes4P8NmCohjemdWm9QcH5vcweGzAeNLFFIz9wcuWpiiu+RB137RddTVTkWCFolzucSSu66pvfE=
   file: overwatch-$TRAVIS_TAG.tar.gz
   on:
     tags: true
   skip_cleanup: true
-
 branches:
   only:
-    - master
-    - /^v[0-9]+\.[0-9]+\.[0-9]+/
+  - master
+  - /^v[0-9]+\.[0-9]+\.[0-9]+/
 cache:
   directories:
-    - vendor
-    - $HOME/.composer/cache
+  - vendor
+  - $HOME/.composer/cache
 env:
   global:
-    secure: Q/QHMNwqp5Eyad40sD8e47yVac8dUMCGi3duXQgz8GhkmiUkHYdbKjowcn5zg0qi0AEEN8bhKU1evr5D5Qs1OSgoWsSbCzKxTPWqzaf2QJC9/Y3x3S5amHisyliLIyQWY76srnES+ZHQ+9YPB1x8LLYn0seNBoLDH4ykroC/IBU=
-
+    secure: OoMBMuFgb3Ha+olcK1AeH+tTlCh/jDS5cDBFAs5Zp8CCqE7pjt1PxqY5DjuUweRDiIwCouoSRJLcr1Trw2/DMW9pTkZv2PdFWgvdlQInddQPVWNAg0C7PHp9EmFdXp8CeuqraqxDx3QrB9ZcPVv+F5Y2eJNQMO8r7OUY71nLZC4=

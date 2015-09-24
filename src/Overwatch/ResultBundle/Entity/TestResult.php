@@ -63,6 +63,21 @@ class TestResult implements \JsonSerializable
     }
     
     /**
+     * Serialise object to string
+     */
+    public function __toString() {
+        $test = $this->getTest();
+        
+        return
+            "[" . $this->getCreatedAt()->format("Y-m-d H:i:s") . "] " .
+            $test->getName() . " " .
+            strtoupper($this->getStatus()) . " " .
+            "(Expect " . $test->getActual() . $test->getExpectation() . $test->getExpected() . " - " .
+            $this->getInfo() . ")"
+        ;
+    }
+    
+    /**
      * Get id
      *
      * @return integer 

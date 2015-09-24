@@ -19,4 +19,19 @@ class TestResultRepository extends EntityRepository {
             ($page - 1) * $pageSize
         );
     }
+    
+    public function getResultsOlderThan(\DateTime $date) {
+        $qb = $this->createQueryBuilder("r");
+        $qb
+            ->where(
+                $qb->expr()->lt(
+                    'r.createdAt',
+                    ':timestamp'
+                )
+            )
+            ->setParameter('timestamp', $date)
+        ;
+        
+        return $qb->getQuery()->iterate();
+    }
 }
