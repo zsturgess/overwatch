@@ -6,6 +6,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -49,6 +50,7 @@ class ApiController extends Controller {
      * 
      * @Route("/users")
      * @Method({"GET"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     resource=true,
      *     tags={
@@ -57,10 +59,6 @@ class ApiController extends Controller {
      * )
      */
     public function getAllUsers() {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to get all users.");
-        }
-        
         $users = $this->_em->getRepository("OverwatchUserBundle:User")->findAll();
         return new JsonResponse($users);
     }
@@ -70,6 +68,7 @@ class ApiController extends Controller {
      * 
      * @Route("/users/{email}")
      * @Method({"POST"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     requirements={
      *         {"name"="email", "description"="The e-mail address of the user to create", "dataType"="email", "requirement"="Valid e-mail address"}
@@ -80,10 +79,6 @@ class ApiController extends Controller {
      * )
      */
     public function createUser($email) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to create a user.");
-        }
-        
         $password = substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(openssl_random_pseudo_bytes(9))), 0, 8);
         $user = $this->get('fos_user.util.user_manipulator')->create($email, $password, $email, true, false);
         
@@ -112,6 +107,7 @@ class ApiController extends Controller {
      * 
      * @Route("/users/{email}")
      * @Method({"GET"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ParamConverter("user", class="OverwatchUserBundle:User")
      * @ApiDoc(
      *     requirements={
@@ -123,10 +119,6 @@ class ApiController extends Controller {
      * )
      */
     public function findUser(User $user) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to locate a user by email address.");
-        }
-        
         return new JsonResponse($user);
     }
     
@@ -158,6 +150,7 @@ class ApiController extends Controller {
      * 
      * @Route("/users/{id}/lock")
      * @Method({"PUT","POST"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     requirements={
      *         {"name"="id", "description"="The ID of the user to lock", "dataType"="integer", "requirement"="\d+"}
@@ -168,10 +161,6 @@ class ApiController extends Controller {
      * )
      */
     public function toggleLockUser(User $user) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to lock a user.");
-        }
-        
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not toggle locks on yourself.");
         }
@@ -187,6 +176,7 @@ class ApiController extends Controller {
      * 
      * @Route("/users/{id}/role/{role}")
      * @Method({"PUT","POST"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     requirements={
      *         {"name"="id", "description"="The ID of the user to update", "dataType"="integer", "requirement"="\d+"},
@@ -198,10 +188,6 @@ class ApiController extends Controller {
      * )
      */
     public function setUserRole(User $user, $role) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to re-rank a user.");
-        }
-        
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not set roles on yourself.");
         }
@@ -220,6 +206,7 @@ class ApiController extends Controller {
      * 
      * @Route("/users/{id}")
      * @Method({"DELETE"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     requirements={
      *         {"name"="id", "description"="The ID of the user to delete", "dataType"="integer", "requirement"="\d+"}
@@ -230,10 +217,6 @@ class ApiController extends Controller {
      * )
      */
     public function deleteUser(User $user) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to locate a user by email address.");
-        }
-        
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not delete yourself.");
         }

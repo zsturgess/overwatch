@@ -6,6 +6,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,6 +35,7 @@ class TestGroupApiController extends Controller {
      * 
      * @Route("")
      * @Method({"POST"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     resource=true,
      *     parameters={
@@ -45,10 +47,6 @@ class TestGroupApiController extends Controller {
      * )
      */
     public function createGroup(Request $request) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to create a group");
-        }
-        
         if ($request->request->get("name") === NULL) {
             return new JsonResponse("You must provide a name for the new group", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -94,6 +92,7 @@ class TestGroupApiController extends Controller {
      * 
      * @Route("/{id}")
      * @Method({"GET"})
+     * @Security("is_granted('view', group)")
      * @ApiDoc(
      *     requirements={
      *         {"name"="id", "description"="The ID of the group to return", "dataType"="integer", "requirement"="\d+"}
@@ -106,10 +105,6 @@ class TestGroupApiController extends Controller {
      * )
      */
     public function getGroup(TestGroup $group) {
-        if (!$this->isGranted(TestGroupVoter::VIEW, $group)) {
-            throw new AccessDeniedHttpException("You must be a member of this group to view it");
-        }
-        
         return new JsonResponse($group);
     }
     
@@ -118,6 +113,7 @@ class TestGroupApiController extends Controller {
      * 
      * @Route("/{id}")
      * @Method({"PUT"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     parameters={
      *         {"name"="name", "description"="A user-friendly name for the group", "required"=false, "format"="Group 1", "dataType"="string"}
@@ -131,10 +127,6 @@ class TestGroupApiController extends Controller {
      * ) 
      */
     public function updateGroup(Request $request, TestGroup $group) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to update this group");
-        }
-        
         if ($request->request->has("name")) {
             $group->setName($request->request->get("name"));
             
@@ -149,6 +141,7 @@ class TestGroupApiController extends Controller {
      * 
      * @Route("/{id}")
      * @Method({"DELETE"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     requirements={
      *         {"name"="id", "description"="The ID of the group to delete", "dataType"="integer", "requirement"="\d+"}
@@ -159,10 +152,6 @@ class TestGroupApiController extends Controller {
      * )
      */
     public function deleteGroup(TestGroup $group) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to delete this group");
-        }
-        
         if ($group->getUsers()->count() + $group->getTests()->count() !== 0) {
             return new JsonResponse("This group still has users and/or tests in it. You must remove them before continuing.", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -178,6 +167,7 @@ class TestGroupApiController extends Controller {
      * 
      * @Route("/{groupId}/user/{userId}")
      * @Method({"POST"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ParamConverter("group", class="OverwatchTestBundle:TestGroup", options={"id" = "groupId"})
      * @ParamConverter("user", class="OverwatchUserBundle:User", options={"id" = "userId"})
      * @ApiDoc(
@@ -192,10 +182,6 @@ class TestGroupApiController extends Controller {
      * )
      */
     public function addUserToGroup(TestGroup $group, User $user) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to add users to groups");
-        }
-        
         $group->addUser($user);
         $this->_em->flush();
         
@@ -207,6 +193,7 @@ class TestGroupApiController extends Controller {
      * 
      * @Route("/{groupId}/user/{userId}")
      * @Method({"DELETE"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ParamConverter("group", class="OverwatchTestBundle:TestGroup", options={"id" = "groupId"})
      * @ParamConverter("user", class="OverwatchUserBundle:User", options={"id" = "userId"})
      * @ApiDoc(
@@ -220,10 +207,6 @@ class TestGroupApiController extends Controller {
      * )
      */
     public function removeUserFromGroup(TestGroup $group, User $user) {
-        if (!$this->isGranted("ROLE_SUPER_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be a super admin to remove users from groups");
-        }
-        
         $group->removeUser($user);
         $this->_em->flush();
         

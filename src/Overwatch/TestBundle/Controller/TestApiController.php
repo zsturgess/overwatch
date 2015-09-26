@@ -5,6 +5,7 @@ namespace Overwatch\TestBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,7 +37,7 @@ class TestApiController extends Controller {
      * 
      * @Route("/{id}")
      * @Method({"GET"})
-     *  @ApiDoc(
+     * @ApiDoc(
      *     resource=true,
      *     requirements={
      *         {"name"="id", "description"="The ID of the test to return", "dataType"="integer", "requirement"="\d+"}
@@ -61,6 +62,7 @@ class TestApiController extends Controller {
      * 
      * @Route("/group/{id}")
      * @Method({"POST"})
+     * @Security("is_granted('edit', group)")
      * @ApiDoc(
      *     resource=true,
      *     parameters={
@@ -79,10 +81,6 @@ class TestApiController extends Controller {
      * )
      */
     public function createTest(Request $request, TestGroup $group) {
-        if (!$this->isGranted(TestGroupVoter::EDIT, $group)) {
-            throw new AccessDeniedHttpException("You must be an admin of this group to create a test in it.");
-        }
-        
         $test = new Test();
         $test
             ->setActual($request->request->get('actual'))
@@ -113,6 +111,7 @@ class TestApiController extends Controller {
      * 
      * @Route("/group/{id}")
      * @Method({"GET"})
+     * @Security("is_granted('view', group)")
      * @ApiDoc(
      *     requirements={
      *         {"name"="id", "description"="The ID of the group to return tests from", "dataType"="integer", "requirement"="\d+"}
@@ -125,10 +124,6 @@ class TestApiController extends Controller {
      * )
      */
     public function getTestsInGroup(TestGroup $group) {
-        if (!$this->isGranted(TestGroupVoter::VIEW, $group)) {
-            throw new AccessDeniedHttpException("You must be a member of this group to view tests in it");
-        }
-        
         return new JsonResponse($group->getTests()->toArray());
     }
     
