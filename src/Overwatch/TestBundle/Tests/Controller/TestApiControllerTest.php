@@ -35,7 +35,8 @@ class TestApiControllerTest extends DatabaseAwareTestCase {
         $test = $this->em->getRepository("Overwatch\TestBundle\Entity\Test")->findOneBy([
             "name" => $newTest->getName()
         ]);
-        
+       
+        $this->assertNotNull($test);
         $this->assertEquals($newTest->getActual(), $test->getActual());
         $this->assertEquals($newTest->getExpectation(), $test->getExpectation());
         
