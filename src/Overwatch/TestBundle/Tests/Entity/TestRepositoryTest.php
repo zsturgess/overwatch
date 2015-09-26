@@ -42,8 +42,15 @@ class TestRepositoryTest extends DatabaseAwareTestCase {
         );
     }
     
-    public function testsFindTestsEmptySearch() {
+    public function testFindTestsEmptySearch() {
         $this->assertEquals($this->repo->findAll(), $this->repo->findTests());
+    }
+    
+    public function testFindTestsCorrectsNonArrayParameter() {
+        $this->assertEquals(
+            $this->repo->findTests([TestFixtures::$tests['test-3']->getName()]), 
+            $this->repo->findTests(TestFixtures::$tests['test-3']->getName())
+        );
     }
     
     public function testFindByName() {

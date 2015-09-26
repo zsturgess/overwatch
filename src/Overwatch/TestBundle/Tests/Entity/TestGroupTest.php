@@ -2,6 +2,7 @@
 
 namespace Overwatch\TestBundle\Tests\Entity;
 
+use Overwatch\TestBundle\Entity\Test;
 use Overwatch\TestBundle\Entity\TestGroup;
 
 /**
@@ -59,5 +60,31 @@ class TestGroupTest extends \PHPUnit_Framework_TestCase {
         
         $this->assertEquals($this->group, $this->group->setRoles(["A_B_C"]));
         $this->assertEquals([], $this->group->getRoles());
+    }
+    
+    public function testAddRemoveTests() {
+        $test1 = $this->createTest("Test 1");
+        $test2 = $this->createTest("TestTwo");
+        
+        $this->group->addTest($test1);
+        $this->assertCount(1, $this->group->getTests());
+        $this->assertContains($test1, $this->group->getTests());
+        
+        $this->group->addTest($test2);
+        $this->assertCount(2, $this->group->getTests());
+        $this->assertContains($test2, $this->group->getTests());
+        
+        $this->group->removeTest($test1);
+        $this->assertCount(1, $this->group->getTests());
+        $this->assertNotContains($test1, $this->group->getTests());
+    }
+    
+    private function createTest($name) {
+        $test = new Test;
+        $test->setName($name)
+            ->setActual("8.8.8.8")
+            ->setExpectation("toPing");
+        
+        return $test;
     }
 }

@@ -104,8 +104,26 @@ class TestGroupVoterTest extends DatabaseAwareTestCase {
         ));
     }
     
+    public function testVoteInvalid() {
+        $this->assertAbstain($this->voter->vote(
+            $this->tokens['superadmin'],
+            new \stdClass,
+            [TestGroupVoter::VIEW]
+        ));
+        
+        $this->assertAbstain($this->voter->vote(
+            $this->tokens['superadmin'],
+            TestGroupFixtures::$groups['group-2'],
+            ['BACON'] //No authority to issue bacon rights.
+        ));
+    }
+    
     private function assertGranted($vote) {
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $vote);
+    }
+    
+    private function assertAbstain($vote) {
+        $this->assertEquals(VoterInterface::ACCESS_ABSTAIN, $vote);
     }
     
     private function assertDenied($vote) {

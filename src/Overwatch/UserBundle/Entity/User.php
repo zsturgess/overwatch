@@ -164,18 +164,4 @@ class User extends BaseUser implements \JsonSerializable
         
         return false;
     }
-
-    /**
-     * Set apiKey
-     *
-     * @param string $apiKey
-     *
-     * @return User
-     */
-    public function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-
-        return $this;
-    }
 }

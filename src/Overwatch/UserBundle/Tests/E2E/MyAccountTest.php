@@ -45,11 +45,12 @@ class MyAccountTest extends WebDriverTestCase {
     }
     
     public function testApiKeyCanBeReset() {
-        $value = $this->getApiKeyField()->getText();
+        $value = $this->getApiKeyField()->getAttribute("value");
+        
         $this->clickApiKeyAction(2);
         
         $this->assertNotEquals(
-            $this->getApiKeyField(),
+            $this->getApiKeyField()->getAttribute("value"),
             $value
         );
     }
