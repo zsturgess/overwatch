@@ -77,7 +77,7 @@ EOF
         }
         
         if ($input->getOption("archive")) {
-            $this->prepareArchive($delete, $compress);
+            $this->prepareArchive();
         }
         
         $this->deleteResults($delete);
@@ -96,7 +96,7 @@ EOF
         return new \DateTime($option);
     }
     
-    private function prepareArchive($delete, $compress) {
+    private function prepareArchive() {
         $this->archiveFile = "overwatch_archive_" . date("YmdHis") . ".log";
         $this->output->writeln(" > Preparing archive file <info>" . $this->archiveFile . "</info>");
         
@@ -107,6 +107,9 @@ EOF
         }
     }
     
+    /**
+     * @param null|\DateTime $delete
+     */
     private function deleteResults($delete) {
         if ($delete === null) {
             return;
@@ -122,6 +125,9 @@ EOF
         }
     }
     
+    /**
+     * @param null|\DateTime $compress
+     */
     private function compressResults($compress) {
         if ($compress === null) {
             return;
