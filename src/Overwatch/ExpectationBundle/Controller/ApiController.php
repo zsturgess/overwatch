@@ -5,9 +5,9 @@ namespace Overwatch\ExpectationBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * ApiController
@@ -21,6 +21,7 @@ class ApiController extends Controller {
      * 
      * @Route("")
      * @Method({"GET"})
+     * @Security("has_role('ROLE_ADMIN')")
      * @ApiDoc(
      *     resource=true,
      *     tags={
@@ -30,10 +31,6 @@ class ApiController extends Controller {
      * )
      */
     public function getAll() {
-        if (!$this->isGranted("ROLE_ADMIN")) {
-            throw new AccessDeniedHttpException("You must be at least an admin to see all expectations");
-        }
-        
         return new JsonResponse(
             $this->get("overwatch_expectation.expectation_manager")->getAll()
         );

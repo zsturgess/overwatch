@@ -5,6 +5,7 @@ namespace Overwatch\ResultBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -24,6 +25,7 @@ class ApiController extends Controller {
      * 
      * @Route("")
      * @Method({"GET"})
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @ApiDoc(
      *     resource=true,
      *     filters={
@@ -36,10 +38,6 @@ class ApiController extends Controller {
      * )
      */
     public function getResults(Request $request) {
-        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
-            throw new AccessDeniedHttpException("You must be a super admin to see all results");
-        }
-        
         $size = $request->query->get('pageSize', 10);
         
         $results = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getResults(
@@ -56,6 +54,7 @@ class ApiController extends Controller {
      * 
      * @Route("/group/{id}")
      * @Method({"GET"})
+     * @Security("is_granted('view', group)")
      * @ApiDoc(
      *     requirements={
      *         {"name"="id", "description"="The ID of the group for which to return results for", "dataType"="integer", "requirement"="\d+"}
@@ -72,10 +71,6 @@ class ApiController extends Controller {
      * )
      */
     public function getRecentGroupResults(TestGroup $group, Request $request) {
-        if (!$this->isGranted(TestGroupVoter::VIEW, $group)) {
-            throw new AccessDeniedHttpException("You must be a member of this group to see results for it");
-        }
-        
         $results = [];
         $size = $request->query->get('pageSize', 10);
         

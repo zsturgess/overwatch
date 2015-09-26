@@ -49,10 +49,6 @@ class TestGroupVoter implements VoterInterface {
         if (!$user instanceof User) {
             return VoterInterface::ACCESS_DENIED;
         }
-        
-        if ($user->hasRole("ROLE_SUPER_ADMIN")) {
-            return VoterInterface::ACCESS_GRANTED;
-        }
 
         switch ($attributes[0]) {
             case self::VIEW:
