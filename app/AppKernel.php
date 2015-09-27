@@ -28,11 +28,13 @@ class AppKernel extends Kernel
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
-            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
-            $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            
+            //These bundles are optional, so we allow the classes to not exist and silently skip registration.
+            $this->registerBundleIfExists('Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle', $bundles);
+            $this->registerBundleIfExists('Liip\FunctionalTestBundle\LiipFunctionalTestBundle', $bundles);
+            $this->registerBundleIfExists('Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle', $bundles);
         }
 
         return $bundles;
@@ -41,5 +43,12 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+    }
+    
+    private function registerBundleIfExists($bundle, &$bundles)
+    {
+        if (class_exists($bundle)) {
+            array_push($bundles, new $bundle());
+        }
     }
 }
