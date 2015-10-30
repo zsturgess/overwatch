@@ -30,7 +30,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
             ->will(
                 $this->returnValueMap([
                     ["OverwatchUserBundle:User", 1, null, null, $this->user],
-                    ["OverwatchUserBundle:User", 2, null, null, null]
+                    ["OverwatchUserBundle:User", 2, null, null, null],
+                    ["OverwatchUserBundle:User", 3, null, null, $this->createUserMock(true)]
                 ])
             )
         ;
@@ -127,6 +128,20 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         $this->apiAuth->authenticateToken(
             $this->createToken([
                 ApiAuthenticator::USER_ID => 2
+            ]),
+            $this->createUserProviderMock(),
+            self::PROVIDER_KEY
+        );
+    }
+    
+    /**
+     * @expectedException Symfony\Component\Security\Core\Exception\AuthenticationException
+     * @expectedExceptionMessage API credentials invalid. User not found.
+     */
+    public function testAuthenticateTokenLockedUser() {
+        $this->apiAuth->authenticateToken(
+            $this->createToken([
+                ApiAuthenticator::USER_ID => 3
             ]),
             $this->createUserProviderMock(),
             self::PROVIDER_KEY
@@ -234,10 +249,11 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         );
     }
     
-    private function createUserMock() {
+    private function createUserMock($locked = false) {
         $user = new User;
         $user
             ->setEmail("overwatch.test@example.com")
+            ->setLocked($locked)
             ->resetApiKey()
         ;
         

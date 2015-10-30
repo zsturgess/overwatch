@@ -72,7 +72,7 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
         
         $user = $this->em->find("OverwatchUserBundle:User", $credentials[self::USER_ID]);
         
-        if ($user === null) {
+        if ($user === null || $user->isLocked()) {
             throw new AuthenticationException('API credentials invalid. User not found.');
         }
         
