@@ -6,6 +6,8 @@ Overwatch is a creation of Zac Sturgess. See also the [list of contributors](htt
 
 **Warning:** Overwatch is still in the process of being developed, and is unstable. Also, some of the code was written at 3am and needs a complete overhaul. You have been warned.
 
+![Overwatch Dashboard](app/Resources/docs/screenshots/overwatch_dashboard.png)
+
 [![Build Status](https://api.travis-ci.org/zsturgess/overwatch.svg?branch=master)](https://travis-ci.org/zsturgess/overwatch/)
 [![Code Coverage](https://scrutinizer-ci.com/g/zsturgess/overwatch/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/zsturgess/overwatch/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zsturgess/overwatch/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zsturgess/overwatch/?branch=master)
