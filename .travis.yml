@@ -19,6 +19,7 @@ script:
 - phpunit -c app/
 - php vendor/scrutinizer/ocular/bin/ocular code-coverage:upload --format=php-clover /tmp/coverage.clover
 before_deploy:
+- mysql -e 'create database overwatch;'
 - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
 - composer install --no-dev --prefer-dist
 - rm -rf app/cache/* app/logs/* app/config/parameters.yml.dist
