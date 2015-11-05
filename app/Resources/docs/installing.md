@@ -47,6 +47,8 @@ Examples:
 ####Archiving old results
 You can combine the `--delete` and/or `--compress` options with the `--archive` option. The `--archive` option takes no value.
 
+When provided `--archive` will backup any test results into a text file stored at `app/logs/overwatch_archive_YYYYMMDDHHIISS.log` prior to deleting them.
+
 Examples:
  - `php app/console overwatch:results:cleanup --archive --compress="2015-09-01 05:00:00"` will compress all results older than the given timestamp
  - `php app/console overwatch:results:cleanup --archive --compress="-3 months" --delete="last year"` will compress all results older than 3 months and delete all results older than the start of the current year

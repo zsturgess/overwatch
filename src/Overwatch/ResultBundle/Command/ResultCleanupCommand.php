@@ -97,10 +97,11 @@ EOF
     }
     
     private function prepareArchive() {
-        $this->archiveFile = "overwatch_archive_" . date("YmdHis") . ".log";
-        $this->output->writeln(" > Preparing archive file <info>" . $this->archiveFile . "</info>");
-        
+        $archiveDir = $this->getContainer()->get('kernel')->getRootDir() . '/logs/';
         $header = $this->getApplication()->getName() . " " . $this->getApplication()->getVersion() . ", running a cleanup";
+        
+        $this->archiveFile = $archiveDir . "overwatch_archive_" . date("YmdHis") . ".log";
+        $this->output->writeln(" > Preparing archive file <info>" . $this->archiveFile . "</info>");
         
         if (!file_put_contents($this->archiveFile, $header . PHP_EOL, FILE_APPEND)) {
             throw new \InvalidArgumentException("Could not write to the archive file.");
