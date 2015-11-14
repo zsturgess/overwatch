@@ -8,8 +8,11 @@
 ##Installation
 1. Download a copy of an Overwatch release [here](https://github.com/zsturgess/overwatch/releases/latest) (You should be downloading the copy that has a filename like `overwatch-VERSION.tar.gz`) and unpack the project in a location of your choosing, ensuring the web server's document root is set to the web/ folder.
 2. Set up a database for overwatch to use. (Overwatch expects a MySQL database by default, although you can change the driver for doctrine in the next step)
-3. Edit the details in the `app/config/parameters.yml` file, or alternatively provide them as environment variables prefixed with `OVERWATCH_` - for example `OVERWATCH_MAILER_FROM` 
-4. Run `php app/console doctrine:schema:create` to initialise the database.
+3. If you are installing from source (i.e. you didn't download the release TAR), create a copy of `app/config/parameters.yml.dist`, in `app/config/parameters.yml`
+4. Edit the details in the `app/config/parameters.yml` file, or alternatively provide them as environment variables prefixed with `OVERWATCH_` - for example `OVERWATCH_MAILER_FROM` 
+5. If you are installing from source (i.e. you didn't download the release TAR), run `composer install` (assuming you have a global Composer installation) to install all the PHP dependencies.
+6. Run `php app/console doctrine:schema:create` to initialise the database.
+7. Configure a web server. If you use nginx, a sample nginx configuration file is included in `app/Resources/docs/nginx.conf.sample`
 
 ##Set-up
 ###Creating the first user

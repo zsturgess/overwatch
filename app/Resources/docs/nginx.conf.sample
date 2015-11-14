@@ -1,0 +1,32 @@
+map $host $apiEnvironment {
+    hostnames;
+    *.dev app_dev.php;
+    default app.php;
+}
+
+server {
+    server_name             overwatch.dev;
+    listen                  80;
+    root                    /home/overwatch/project/web;
+    index                   app.php;
+    dav_methods             PUT DELETE;
+    error_log               /home/overwatch/project/app/logs/nginx.log error;
+    fastcgi_buffers         16 16k;
+    fastcgi_buffer_size     64k;
+
+    location ~ ^/(css|js|partials|bundles) {
+        rewrite ^(.*)$ $1 break;
+    }
+
+    rewrite /js/routing /js/fos_js_routes.js break;
+
+    location / {
+        fastcgi_pass        unix:/var/run/php5-fpm.sock;
+        include             fastcgi_params;
+        fastcgi_param       SCRIPT_FILENAME         $document_root/$apiEnvironment;
+        fastcgi_param       SERVER_NAME             $host;
+        add_header          X-Frame-Options        "deny";
+        add_header          X-XSS-Protection       "1; mode=block";
+        add_header          X-Content-Type-Options "nosniff";
+    }
+}
