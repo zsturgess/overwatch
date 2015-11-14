@@ -22,15 +22,15 @@ class EmailReporter implements ResultReporterInterface {
             return;
         }
         
-        $receipients = [];
+        $recipients = [];
         
         foreach ($result->getTest()->getGroup()->getUsers() as $user) {
             if ($user->shouldBeAlerted($result)) {
-                $receipients[] = $user->getEmail();
+                $recipients[] = $user->getEmail();
             }
         }
         
-        $this->sendEmail($result, $receipients);
+        $this->sendEmail($result, $recipients);
     }
     
     private function sendEmail(TestResult $result, array $users) {
