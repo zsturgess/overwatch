@@ -12,13 +12,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * ApiController
  * Handles API requests made for expectations
- * 
+ *
  * @Route("/api/expectations")
  */
-class ApiController extends Controller {
+class ApiController extends Controller
+{
     /**
      * Returns a list of all the expectations that are installed and available to use in tests
-     * 
+     *
      * @Route("")
      * @Method({"GET"})
      * @Security("has_role('ROLE_ADMIN')")
@@ -30,9 +31,10 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function getAll() {
+    public function getAll()
+    {
         return new JsonResponse(
-            $this->get("overwatch_expectation.expectation_manager")->getAll()
+            $this->get('overwatch_expectation.expectation_manager')->getAll()
         );
     }
 }
