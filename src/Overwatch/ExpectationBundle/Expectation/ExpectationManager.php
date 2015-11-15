@@ -12,29 +12,34 @@ use Overwatch\ResultBundle\Enum\ResultStatus;
  * a run() convience method that finds an expectation by alias and passes through
  * the actual and expected values to it for testing.
  */
-class ExpectationManager {
-    private $expectations = array();
-    
-    public function add(ExpectationInterface $expectation, $alias) {
+class ExpectationManager
+{
+    private $expectations = [];
+
+    public function add(ExpectationInterface $expectation, $alias)
+    {
         $this->expectations[$alias] = $expectation;
     }
-    
-    public function get($alias) {
+
+    public function get($alias)
+    {
         if (!array_key_exists($alias, $this->expectations)) {
             throw new ExpectationException\ExpectationNotFoundException($alias);
         }
-        
+
         return $this->expectations[$alias];
     }
-    
-    public function getAll() {
+
+    public function getAll()
+    {
         return array_keys($this->expectations);
     }
-    
-    public function run(\Overwatch\TestBundle\Entity\Test $test) {
-        $testResult = new TestResult;
+
+    public function run(\Overwatch\TestBundle\Entity\Test $test)
+    {
+        $testResult = new TestResult();
         $testResult->setTest($test);
-        
+
         try {
             $result = $this->get($test->getExpectation())->run($test->getActual(), $test->getExpected());
             $testResult->setStatus(ResultStatus::PASSED);
@@ -43,7 +48,7 @@ class ExpectationManager {
             $result = $ex;
             $testResult->setInfo($ex->getMessage());
         }
-        
+
         if ($result instanceof ExpectationException\ExpectationFailedException) {
             $testResult->setStatus(ResultStatus::FAILED);
         } else if ($result instanceof ExpectationException\ExpectationUnsatisfactoryException) {
@@ -51,7 +56,7 @@ class ExpectationManager {
         } else if ($result instanceof \Exception) {
             $testResult->setStatus(ResultStatus::ERROR);
         }
-        
+
         return $testResult;
     }
 }

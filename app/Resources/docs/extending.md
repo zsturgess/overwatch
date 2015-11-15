@@ -19,12 +19,12 @@ If your expectation class throws any other exception, Overwatch will mark the te
 
 Expectations should be registered as services with Symfony. The service should be tagged with `overwatch_expectation.expectation` and the alias for your expectation, for example:
 ```
-overwatch_service.to_resolve_to:                                               
+overwatch_service.to_resolve_to:
         class: Overwatch\ServiceBundle\Expectation\ToResolveToExpectation
         arguments: ["%overwatch_service.to_resolve_to%"]
         tags:
             -  { name: overwatch_expectation.expectation, alias: toResolveTo }
-``` 
+```
 
 ###Writing a result reporter
 Result reporters should implement `Overwatch\ResultBundle\Reporter\ResultReporterInterface`. When a new test result is saved in the database, Overwatch will call the `notify()` method on your class, passing the test result object (of type `Overwatch\ResultBundle\Entity\TestResult`) as the only argument.
@@ -32,7 +32,7 @@ Result reporters should implement `Overwatch\ResultBundle\Reporter\ResultReporte
 The onus is on the result reporter to decide which users to notify based on their alert settings and their group membership. Overwatch provides a helper method, `shouldBeAlerted()` on user objects that you can use to help you respect user's settings:
 ```
 $recipients = [];
-        
+
 foreach ($result->getTest()->getGroup()->getUsers() as $user) {
     if ($user->shouldBeAlerted($result)) {
         $recipients[] = $user->getEmail();

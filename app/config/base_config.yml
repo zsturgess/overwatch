@@ -21,7 +21,7 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
-    
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
@@ -61,7 +61,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
-    
+
 fos_user:
     db_driver: orm
     firewall_name: overwatch
@@ -71,10 +71,10 @@ fos_user:
     from_email:
         address: "%mailer_from%"
         sender_name: Overwatch
-        
+
 fos_js_routing:
     routes_to_expose: [ '^overwatch_[a-z]+_[a-z]*api_' ]
-    
+
 nelmio_api_doc:
     name: Overwatch API Documentation
     cache:
@@ -83,7 +83,7 @@ nelmio_api_doc:
         enabled: false
     sandbox:
         enabled: false
-    
+
 services:
   kernel.event_listener.json_request_transformer:
     class: Qandidate\Common\Symfony\HttpKernel\EventListener\JsonRequestTransformerListener

@@ -7,7 +7,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -24,14 +24,14 @@ class AppKernel extends Kernel
             new Overwatch\UserBundle\OverwatchUserBundle(),
             new Overwatch\ServiceBundle\OverwatchServiceBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-        );
+        ];
 
-        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            
-            //These bundles are optional, so we allow the classes to not exist and silently skip registration.
+
+            // These bundles are optional, so we allow the classes to not exist and silently skip registration.
             $this->registerBundleIfExists('Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle', $bundles);
             $this->registerBundleIfExists('Liip\FunctionalTestBundle\LiipFunctionalTestBundle', $bundles);
             $this->registerBundleIfExists('Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle', $bundles);
@@ -44,7 +44,7 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
-    
+
     private function registerBundleIfExists($bundle, &$bundles)
     {
         if (class_exists($bundle)) {

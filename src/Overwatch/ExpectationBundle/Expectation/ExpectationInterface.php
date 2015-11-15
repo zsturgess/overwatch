@@ -7,7 +7,8 @@ namespace Overwatch\ExpectationBundle\Expectation;
  * Expectation classes are expected to implement this interface.
  * The code to run a test goes inside the run() function.
  */
-interface ExpectationInterface {
+interface ExpectationInterface
+{
     /**
      * Attempt to execute the expectation, resulting in a textual result if successful, or throwing
      * an exception if the expectation failed.
@@ -20,5 +21,5 @@ interface ExpectationInterface {
      * @throws ExpectationResultException
      * @throws ExpectationUnsatisfactoryException
      */
-    public function run($actual, $expected = NULL);
+    public function run($actual, $expected = null);
 }

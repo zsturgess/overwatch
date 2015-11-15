@@ -5,6 +5,7 @@ namespace Overwatch\ResultBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Overwatch\ResultBundle\Enum\ResultStatus;
+use Overwatch\TestBundle\Entity\Test;
 
 /**
  * TestResult
@@ -23,7 +24,7 @@ class TestResult implements \JsonSerializable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Overwatch\TestBundle\Entity\Test", inversedBy="results")
      */
@@ -35,7 +36,7 @@ class TestResult implements \JsonSerializable
      * @ORM\Column(name="status", type="string", length=15)
      */
     private $status;
-    
+
     /**
      * @var string
      *
@@ -49,11 +50,12 @@ class TestResult implements \JsonSerializable
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
-    
+
     /**
      * Serialise object to JSON
      */
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             "id" => $this->getId(),
             "status" => $this->getStatus(),
@@ -61,13 +63,14 @@ class TestResult implements \JsonSerializable
             "createdAt" => $this->getCreatedAt()->getTimestamp()
         ];
     }
-    
+
     /**
      * Serialise object to string
      */
-    public function __toString() {
+    public function __toString()
+    {
         $test = $this->getTest();
-        
+
         return
             "[" . $this->getCreatedAt()->format("Y-m-d H:i:s") . "] " .
             $test->getName() . " " .
@@ -76,11 +79,11 @@ class TestResult implements \JsonSerializable
             $this->getInfo() . ")"
         ;
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -104,19 +107,20 @@ class TestResult implements \JsonSerializable
     /**
      * Get result
      *
-     * @return string 
+     * @return string
      */
     public function getStatus()
     {
         return $this->status;
     }
-    
+
     /**
      * Was the result unsucessful?
-     * 
+     *
      * @return bool
      */
-    public function isUnsuccessful() {
+    public function isUnsuccessful()
+    {
         return in_array($this->getStatus(), [ResultStatus::ERROR, ResultStatus::FAILED]);
     }
 
@@ -128,21 +132,21 @@ class TestResult implements \JsonSerializable
      */
     public function setCreatedAt($timestamp = "now")
     {
-        if ($this->createdAt === NULL) {
+        if ($this->createdAt === null) {
             if ($timestamp instanceof LifecycleEventArgs) {
                 $timestamp = "now";
             }
-            
+
             $this->createdAt = new \DateTime($timestamp);
         }
-        
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -155,7 +159,7 @@ class TestResult implements \JsonSerializable
      * @param \Overwatch\TestBundle\Entity\Test $test
      * @return TestResult
      */
-    public function setTest(\Overwatch\TestBundle\Entity\Test $test = null)
+    public function setTest(Test $test = null)
     {
         $this->test = $test;
 
@@ -165,7 +169,7 @@ class TestResult implements \JsonSerializable
     /**
      * Get test
      *
-     * @return \Overwatch\TestBundle\Entity\Test 
+     * @return \Overwatch\TestBundle\Entity\Test
      */
     public function getTest()
     {
@@ -183,7 +187,7 @@ class TestResult implements \JsonSerializable
         if ($info instanceof \Exception) {
             $info = $info->getMessage();
         }
-        
+
         $this->info = $info;
 
         return $this;
@@ -192,30 +196,31 @@ class TestResult implements \JsonSerializable
     /**
      * Get info
      *
-     * @return string 
+     * @return string
      */
     public function getInfo()
     {
         return $this->info;
     }
-    
+
     /**
      * Is this test result a change from the previous one?
-     * 
+     *
      * @return boolean
      */
-    public function isAChange() {
-        if ($this->getTest() === NULL) {
+    public function isAChange()
+    {
+        if ($this->getTest() === null) {
             return true;
         }
-        
+
         $results = $this->getTest()->getResults();
         $lastResult = $results->get($results->count() - 2);
-        
-        if ($lastResult === NULL) {
+
+        if ($lastResult === null) {
             return true;
         }
-        
+
         return ($this->getStatus() !== $lastResult->getStatus());
     }
 }

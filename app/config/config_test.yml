@@ -8,7 +8,7 @@ framework:
         name: MOCKSESSID
     profiler:
         collect: false
-        
+
 doctrine:
     dbal:
         dbname:   "%database_name%_test"
@@ -19,5 +19,5 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
-    
+
 liip_functional_test: ~

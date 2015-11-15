@@ -1,6 +1,6 @@
 imports:
     - { resource: base_config.yml }
-    
+
 overwatch_service:
     to_ping: ~
     to_resolve_to: ~
