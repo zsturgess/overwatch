@@ -2,17 +2,20 @@
 ## Requirements
 - PHP 5.4 or higher
 - MySQL & the PDO-MySQL PHP extension, or any [other combination compatible with the Doctrine ORM](http://www.doctrine-project.org/2010/02/11/database-support-doctrine2.html)
-- [Composer](https://getcomposer.org/)
 - A web server to serve the frontend interface (such as Apache or Nginx)
 
 ##Installation
-1. Download a copy of an Overwatch release [here](https://github.com/zsturgess/overwatch/releases/latest) (You should be downloading the copy that has a filename like `overwatch-VERSION.tar.gz`) and unpack the project in a location of your choosing, ensuring the web server's document root is set to the web/ folder.
+1. Download a copy of an Overwatch release [here](https://github.com/zsturgess/overwatch/releases/latest) (You should be downloading the copy that has a filename like `overwatch-VERSION.tar.gz`) and unpack the project in a location of your choosing.
 2. Set up a database for overwatch to use. (Overwatch expects a MySQL database by default, although you can change the driver for doctrine in the next step)
-3. If you are installing from source (i.e. you didn't download the release TAR), create a copy of `app/config/parameters.yml.dist`, in `app/config/parameters.yml`
-4. Edit the details in the `app/config/parameters.yml` file, or alternatively provide them as environment variables prefixed with `OVERWATCH_` - for example `OVERWATCH_MAILER_FROM`
-5. If you are installing from source (i.e. you didn't download the release TAR), run `composer install` (assuming you have a global Composer installation) to install all the PHP dependencies.
-6. Run `php app/console doctrine:schema:create` to initialise the database.
-7. Configure a web server. If you use nginx, a sample nginx configuration file is included in `app/Resources/docs/nginx.conf.sample`
+3. Edit the details in the `app/config/parameters.yml` file, or alternatively provide them as environment variables prefixed with `OVERWATCH_` - for example `OVERWATCH_MAILER_FROM`
+4. Run `php app/console doctrine:schema:create` to initialise the database.
+5. Configure a web server, ensuring the document root is set to the web/ folder. (If you use nginx, a sample nginx configuration file is included in `app/Resources/docs/nginx.conf.sample`)
+
+**Installing from source?**
+
+If you are using the *Source code* download option, or are cloning the project using git, you may need to take these extra steps whilst installing:
+- You may need to create the `app/config/parameters.yml` file based on the template `app/config/parameters.yml.dist`
+- You will need to download [Composer](http://getcomposer.org/) and run `php composer.phar install` to install all the PHP dependencies between steps 3 and 4.
 
 ##Set-up
 ###Creating the first user
