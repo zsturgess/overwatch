@@ -14,7 +14,8 @@ class TestFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
     static public $tests;
 
-    public function load(ObjectManager $em) {
+    public function load(ObjectManager $em)
+    {
         $test1 = new Test;
         $test1
             ->setName("Group 1, Test 1")
@@ -48,11 +49,13 @@ class TestFixtures extends AbstractFixture implements OrderedFixtureInterface
         $em->flush();
     }
     
-    public function getOrder() {
+    public function getOrder()
+    {
         return 2;
     }
     
-    public function addReference($name, $object) {
+    public function addReference($name, $object)
+    {
         parent::addReference($name, $object);
         self::$tests[$name] = $object;
     }

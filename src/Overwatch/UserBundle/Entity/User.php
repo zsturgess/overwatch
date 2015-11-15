@@ -33,7 +33,7 @@ class User extends BaseUser implements \JsonSerializable
     /**
      * @ORM\Column(type="string", length=40)
      */
-    protected $apiKey = NULL;
+    protected $apiKey = null;
     
     /**
      * @ORM\Column(type="integer")
@@ -52,7 +52,8 @@ class User extends BaseUser implements \JsonSerializable
     /**
      * Serialize object to JSON
      */
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             "id" => $this->getId(),
             "email" => $this->getEmail(),
@@ -69,7 +70,8 @@ class User extends BaseUser implements \JsonSerializable
      * @param string $email
      * @return User
      */
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         parent::setEmail($email);
         $this->setUsername($email);
         
@@ -81,7 +83,8 @@ class User extends BaseUser implements \JsonSerializable
      * 
      * @return integer $alertSetting
      */
-    public function getAlertSetting() {
+    public function getAlertSetting()
+    {
         return $this->alertSetting;
     }
     
@@ -91,18 +94,21 @@ class User extends BaseUser implements \JsonSerializable
      * @param integer $setting
      * @return User
      */
-    public function setAlertSetting($setting) {
+    public function setAlertSetting($setting)
+    {
         AlertSetting::isValid($setting);
         $this->alertSetting = $setting;
         
         return $this;
     }
     
-    public function getApiKey() {
+    public function getApiKey()
+    {
         return $this->apiKey;
     }
     
-    public function resetApiKey() {
+    public function resetApiKey()
+    {
         $random = new SecureRandom();
         $this->apiKey = sha1($random->nextBytes(10));
         
@@ -113,7 +119,8 @@ class User extends BaseUser implements \JsonSerializable
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function generateApiKey() {
+    public function generateApiKey()
+    {
         if (empty($this->getApiKey())) {
             $this->resetApiKey();
         }
@@ -127,7 +134,8 @@ class User extends BaseUser implements \JsonSerializable
      * @param \Overwatch\ResultBundle\Entity\TestResult $result
      * @return bool
      */
-    public function shouldBeAlerted(\Overwatch\ResultBundle\Entity\TestResult $result) {
+    public function shouldBeAlerted(\Overwatch\ResultBundle\Entity\TestResult $result)
+    {
         $setting = $this->getAlertSetting();
         
         if ($this->isLocked() || $setting === AlertSetting::NONE) {

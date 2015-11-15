@@ -12,16 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
  * Expectation classes are the actual runners of tests.
  * This is the runner for the "toRespondHttp" expectation.
  */
-class ToRespondHttpExpectation implements ExpectationInterface {
+class ToRespondHttpExpectation implements ExpectationInterface
+{
     private $config;
     private $client;
     
-    public function __construct($config, $client_options = []) {
+    public function __construct($config, $client_options = [])
+    {
         $this->config = $config;
         $this->client = new Client($client_options);
     }
     
-    public function run($actual, $expected = NULL) {
+    public function run($actual, $expected = NULL)
+    {
         $actual = filter_var($actual, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
         
         if ($actual === false) {
@@ -63,7 +66,8 @@ class ToRespondHttpExpectation implements ExpectationInterface {
         return "Responded HTTP $result " . $response->getReasonPhrase();
     }
     
-    private function isValidStatusCode($code) {
+    private function isValidStatusCode($code)
+    {
         return in_array($code, array_keys(Response::$statusTexts));
     }
 }

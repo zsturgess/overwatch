@@ -11,10 +11,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * AppController
  * Renders the initial view to pass frontend off to AngularJS
  */
-class AppController extends Controller {
+class AppController extends Controller
+{
     private $_em;
     
-    public function setContainer(ContainerInterface $container = NULL) {
+    public function setContainer(ContainerInterface $container = NULL)
+    {
         parent::setContainer($container);
         $this->_em = $this->getDoctrine()->getManager();
     }
@@ -23,14 +25,16 @@ class AppController extends Controller {
      * @Route("")
      * @Template("::base_angular.html.twig")
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         return [];
     }
     
     /**
      * @Route("/profile/reset-api-key")
      */
-    public function resetApiKeyAction() {
+    public function resetApiKeyAction()
+    {
         $this->getUser()->resetApiKey();
         $this->_em->flush();
         

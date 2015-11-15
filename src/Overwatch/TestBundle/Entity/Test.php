@@ -93,14 +93,16 @@ class Test implements \JsonSerializable
      * 
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getName();
     }
     
     /**
      * Serialise object to JSON
      */
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             "id" => $this->getId(),
             "name" => $this->getName(),
@@ -223,7 +225,7 @@ class Test implements \JsonSerializable
      */
     public function setCreatedAt()
     {
-        if ($this->createdAt === NULL) {
+        if ($this->createdAt === null) {
             $this->createdAt = new \DateTime;
         }
         

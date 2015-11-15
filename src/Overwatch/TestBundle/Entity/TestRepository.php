@@ -10,7 +10,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class TestRepository extends EntityRepository
 {
-    public function findTests($search = NULL) {
+    public function findTests($search = NULL)
+    {
         if ($search === NULL || empty($search)) {
             return $this->findAll();
         }
@@ -24,7 +25,7 @@ class TestRepository extends EntityRepository
         foreach ($search as $term) {
             //Find test by name first
             $test = $this->findByName($term);
-            if ($test !== NULL) {
+            if ($test !== null) {
                 $tests[] = $test;
                 continue;
             }
@@ -38,19 +39,21 @@ class TestRepository extends EntityRepository
         return $tests;
     }
     
-    public function findByName($name) {
+    public function findByName($name)
+    {
         return $this->findOneBy([
             "name" => $name
         ]);
     }
     
-    public function findByGroupName($name) {
+    public function findByGroupName($name)
+    {
         $group = $this->_em->getRepository("OverwatchTestBundle:TestGroup")
             ->findOneBy([
                 "name" => $name
             ]);
 
-        if ($group === NULL) {
+        if ($group === null) {
             return [];
         }
         

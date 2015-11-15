@@ -2,19 +2,20 @@
 
 namespace Overwatch\TestBundle\Command;
 
+use Overwatch\ResultBundle\Entity\FakeEntityManager;
+use Overwatch\ResultBundle\Enum\ResultStatus;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Overwatch\ResultBundle\Entity\FakeEntityManager;
-use Overwatch\ResultBundle\Enum\ResultStatus;
 
 /**
  * TestsRunCommand
  * The overwatch:tests:run command, the heart of Overwatch
  */
-class TestsRunCommand extends ContainerAwareCommand {
+class TestsRunCommand extends ContainerAwareCommand
+{
     /**
      * @var Overwatch\ExpectationBundle\Helper\ExpectationManger 
      */
@@ -29,7 +30,8 @@ class TestsRunCommand extends ContainerAwareCommand {
     private $results = [];
     private $colours = [];
     
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->setName('overwatch:tests:run')
             ->setDescription('Run a set of overwatch tests')
@@ -54,7 +56,8 @@ class TestsRunCommand extends ContainerAwareCommand {
         ];
     }
 
-    public function setContainer(ContainerInterface $container = NULL) {
+    public function setContainer(ContainerInterface $container = NULL)
+    {
         parent::setContainer($container);
         
         //Set up some shortcuts to services
@@ -65,7 +68,8 @@ class TestsRunCommand extends ContainerAwareCommand {
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $start = new \DateTime;
         if ($input->getOption("discard-results")) {
             $this->_em = new FakeEntityManager;
@@ -100,7 +104,8 @@ class TestsRunCommand extends ContainerAwareCommand {
         return (count($tests) - $this->results[ResultStatus::PASSED]);
     }
     
-    private function getColouredStatus($status, $value = NULL) {
+    private function getColouredStatus($status, $value = NULL)
+    {
         if ($value === NULL) {
             $value = $status;
         } else {
@@ -114,7 +119,8 @@ class TestsRunCommand extends ContainerAwareCommand {
     /**
      * @param \DateTime $start
      */
-    private function getSummary(\DateTime $start) {
+    private function getSummary(\DateTime $start)
+    {
         $end = new \DateTime;
         $runTime = $end->diff($start, true);
         $summary = "";

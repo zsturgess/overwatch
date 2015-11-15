@@ -8,16 +8,19 @@ use Overwatch\ResultBundle\Reporter\ResultReporterInterface;
 /**
  * EmailReporter
  */
-class EmailReporter implements ResultReporterInterface {
+class EmailReporter implements ResultReporterInterface
+{
     private $container;
     private $config;
     
-    public function __construct($container, $config) {
+    public function __construct($container, $config)
+    {
         $this->container = $container;
         $this->config = $config;
     }
     
-    public function notify(TestResult $result) {
+    public function notify(TestResult $result)
+    {
         if ($this->config["enabled"] === false) {
             return;
         }
@@ -33,7 +36,8 @@ class EmailReporter implements ResultReporterInterface {
         $this->sendEmail($result, $recipients);
     }
     
-    private function sendEmail(TestResult $result, array $users) {
+    private function sendEmail(TestResult $result, array $users)
+    {
         $message = \Swift_Message::newInstance()
             ->setSubject($result->getTest()->getName() . " " . $result->getStatus())
             ->setFrom($this->config['report_from'])

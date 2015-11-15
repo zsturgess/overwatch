@@ -2,16 +2,16 @@
 
 namespace Overwatch\UserBundle\Security;
 
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
-use Doctrine\ORM\EntityManager;
 
 /**
  * ApiAuthenticator
@@ -25,14 +25,16 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
     
     private $em;
     
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em)
+    {
         $this->em = $em;
     }
     
     /**
      * @param string $providerKey
      */
-    public function createToken(Request $request, $providerKey) {
+    public function createToken(Request $request, $providerKey)
+    {
         if (
             !$request->headers->has(self::USER_ID) ||
             !$request->headers->has(self::TIMESTAMP) ||
@@ -63,7 +65,8 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
     /**
      * @param string $providerKey
      */
-    public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey) {
+    public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
+    {
         $credentials = $token->getCredentials();
         
         if (abs(time() - (int) $credentials[self::TIMESTAMP]) > 60) {
@@ -97,11 +100,13 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
     /**
      * @param string $providerKey
      */
-    public function supportsToken(TokenInterface $token, $providerKey) {
+    public function supportsToken(TokenInterface $token, $providerKey)
+    {
         return $token instanceof PreAuthenticatedToken && $token->getProviderKey() === $providerKey;
     }
     
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
         return new JsonResponse($exception->getMessage(), JsonResponse::HTTP_UNAUTHORIZED);
     }
 }
