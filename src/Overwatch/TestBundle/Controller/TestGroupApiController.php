@@ -26,7 +26,7 @@ class TestGroupApiController extends Controller
 {
     private $_em;
     
-    public function setContainer(ContainerInterface $container = NULL)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->_em = $this->getDoctrine()->getManager();
@@ -50,7 +50,7 @@ class TestGroupApiController extends Controller
      */
     public function createGroup(Request $request)
     {
-        if ($request->request->get("name") === NULL) {
+        if ($request->request->get("name") === null) {
             return new JsonResponse("You must provide a name for the new group", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         
