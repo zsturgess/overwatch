@@ -31,11 +31,11 @@ Result reporters should implement `Overwatch\ResultBundle\Reporter\ResultReporte
 
 The onus is on the result reporter to decide which users to notify based on their alert settings and their group membership. Overwatch provides a helper method, `shouldBeAlerted()` on user objects that you can use to help you respect user's settings:
 ```
-$receipients = [];
+$recipients = [];
         
 foreach ($result->getTest()->getGroup()->getUsers() as $user) {
     if ($user->shouldBeAlerted($result)) {
-        $receipients[] = $user->getEmail();
+        $recipients[] = $user->getEmail();
     }
 }
 ```
