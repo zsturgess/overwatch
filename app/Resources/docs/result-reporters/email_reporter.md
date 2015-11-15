@@ -4,13 +4,13 @@ The _EmailReporter_ result reporter sends users results via e-mail. It respects 
 ##Configuration
 ```
 email_reporter:
-  enabled: true
-  reporter_from: overwatch@example.com
+    enabled: true
+    reporter_from: overwatch@example.com
 ```
 
 **enabled** (boolean) If false, will not attempt to send any emails. Defaults to true.
 
-**reporter_from** (string) The from address the result reporter will use. Defaults to `overwatch@example.com` (but see notes). 
+**reporter_from** (string) The from address the result reporter will use. Defaults to `overwatch@example.com` (but see notes).
 
 ##Notes
 EmailReporter will attempt to use the SMTP credentials provided during installation.

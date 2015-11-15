@@ -12,12 +12,12 @@ overwatch_test:
     resource: "@OverwatchTestBundle/Controller/"
     type:     annotation
     prefix:   /
-    
+
 overwatch_expectation:
     resource: "@OverwatchExpectationBundle/Controller/"
     type:     annotation
     prefix:   /
-    
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
@@ -33,10 +33,10 @@ fos_user_change_password:
 # changing password. Here we override it to the app index.
 fos_user_profile_show:
     path: /
-    
+
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-    
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc

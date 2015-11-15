@@ -12,10 +12,10 @@ This expectation will check the record types configured for a value that equals 
 ##Configuration
 ```
 to_resolve_to:
-  record_types:
-    - A
-    - AAAA
-    - CNAME
+    record_types:
+        - A
+        - AAAA
+        - CNAME
 ```
 **record_types** (array) List of record types to look at when searching for the expected value.
 

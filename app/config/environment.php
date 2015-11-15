@@ -1,9 +1,9 @@
 <?php
 
 foreach($container->getParameterBag()->all() as $key => $value) {
-  $env_value = getenv( 'OVERWATCH_' . strtoupper($key) );
+    $envValue = getenv( 'OVERWATCH_' . strtoupper($key) );
 
-  if($env_value !== false) {
-    $container->setParameter($key, $env_value);
-  }
+    if ($envValue !== false) {
+        $container->setParameter($key, $envValue);
+    }
 }

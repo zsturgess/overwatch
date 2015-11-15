@@ -1,26 +1,26 @@
 {% extends "::base.html.twig" %}
 
 {% block sidebar %}
-{% include '::__nav.html.twig' %}
+    {% include '::__nav.html.twig' %}
 {% endblock %}
 
 {% block content %}
-<div data-ng-view></div>
+    <div data-ng-view></div>
 {% endblock %}
 
 {% block javascripts %}
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js"></script>
-<script src="//cdn.rawgit.com/HackedByChinese/ng-idle/1.1.1/angular-idle.min.js"></script>
-<script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
-<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/controllers.js') }}"></script>
-<script src="{{ asset('js/helpers.js') }}"></script>
-<script type="text/javascript">
-    var currentUser = {{ app.user|json_encode()|raw }};
-    {% if app.user.apiKey is defined %}currentUser.apiKey = "{{ app.user.apiKey }}";{% endif %}
-    {% if app.user.getGroupNames is defined %}currentUser.groups = {{ app.user.getGroupNames|json_encode()|raw }};{% endif %}
-</script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js"></script>
+    <script src="//cdn.rawgit.com/HackedByChinese/ng-idle/1.1.1/angular-idle.min.js"></script>
+    <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/controllers.js') }}"></script>
+    <script src="{{ asset('js/helpers.js') }}"></script>
+    <script type="text/javascript">
+        var currentUser = {{ app.user|json_encode()|raw }};
+        {% if app.user.apiKey is defined %}currentUser.apiKey = "{{ app.user.apiKey }}";{% endif %}
+        {% if app.user.getGroupNames is defined %}currentUser.groups = {{ app.user.getGroupNames|json_encode()|raw }};{% endif %}
+    </script>
 {% endblock %}
