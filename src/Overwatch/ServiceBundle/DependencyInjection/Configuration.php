@@ -61,6 +61,8 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode("to_respond_with_mime_type")
+                ->end()
                 ->arrayNode("email_reporter")
                     ->children()
                         ->booleanNode("enabled")

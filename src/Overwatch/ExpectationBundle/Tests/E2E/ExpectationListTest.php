@@ -20,7 +20,8 @@ class ExpectationListTest extends WebDriverTestCase {
             "",
             "toPing",
             "toResolveTo",
-            "toRespondHttp"
+            "toRespondHttp",
+            "toRespondWithMimeType",
         ], $this->getSelectOptionValues('#page > div > form > select'));
     }
     
