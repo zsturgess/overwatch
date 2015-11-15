@@ -23,7 +23,7 @@ class ToRespondHttpExpectation implements ExpectationInterface
         $this->client = new Client($client_options);
     }
     
-    public function run($actual, $expected = NULL)
+    public function run($actual, $expected = null)
     {
         $actual = filter_var($actual, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
         

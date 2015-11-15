@@ -10,9 +10,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class TestRepository extends EntityRepository
 {
-    public function findTests($search = NULL)
+    public function findTests($search = null)
     {
-        if ($search === NULL || empty($search)) {
+        if ($search === null || empty($search)) {
             return $this->findAll();
         }
         

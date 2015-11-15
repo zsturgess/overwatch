@@ -56,12 +56,12 @@ class TestsRunCommand extends ContainerAwareCommand
         ];
     }
 
-    public function setContainer(ContainerInterface $container = NULL)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         
         //Set up some shortcuts to services
-        if ($container !== NULL) {
+        if ($container !== null) {
             $this->expectations = $container->get("overwatch_expectation.expectation_manager");
             $this->_em = $container->get("doctrine.orm.entity_manager");
             $this->testRepo = $this->_em->getRepository("OverwatchTestBundle:Test");
@@ -104,9 +104,9 @@ class TestsRunCommand extends ContainerAwareCommand
         return (count($tests) - $this->results[ResultStatus::PASSED]);
     }
     
-    private function getColouredStatus($status, $value = NULL)
+    private function getColouredStatus($status, $value = null)
     {
-        if ($value === NULL) {
+        if ($value === null) {
             $value = $status;
         } else {
             $value .= " " . $status;
