@@ -13,31 +13,37 @@ use Overwatch\ResultBundle\Reporter\ResultReporterInterface;
  * event is fired for the TestResult class, this Manager will notify all ResultReporters
  * that have been added to it.
  */
-class ResultReporterManager {
+class ResultReporterManager
+{
     private $resultReporters = [];
+
     private $logger;
-    
-    public function __construct($logger) {
+
+    public function __construct($logger)
+    {
         $this->logger = $logger;
     }
-    
-    public function add(ResultReporterInterface $reporter) {
+
+    public function add(ResultReporterInterface $reporter)
+    {
         $this->resultReporters[] = $reporter;
     }
-    
-    public function notifyAll(TestResult $result) {
+
+    public function notifyAll(TestResult $result)
+    {
         foreach ($this->resultReporters as $reporter) {
             try {
                 $reporter->notify($result);
             } catch (\Exception $ex) {
-                $this->logger->error("An error occurred whilst calling ResultReporter " . \get_class($reporter) . ":" . $ex);
+                $this->logger->error('An error occurred whilst calling ResultReporter ' . \get_class($reporter) . ':' . $ex);
             }
         }
     }
-    
-    public function postPersist(LifecycleEventArgs $args) {
+
+    public function postPersist(LifecycleEventArgs $args)
+    {
         $entity = $args->getEntity();
-        
+
         if ($entity instanceof TestResult) {
             $this->notifyAll($entity);
         }

@@ -10,41 +10,46 @@ use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
  * TestResultRepository
  * Functional tests for TestResultRepository
  */
-class TestResultRepositoryTest extends DatabaseAwareTestCase {
+class TestResultRepositoryTest extends DatabaseAwareTestCase
+{
     /**
      * @var Overwatch\ResultBundle\Entity\TestResultRepository
      */
     private $repo;
-    
-    public function setUp() {
+
+    public function setUp()
+    {
         parent::setUp();
-        $this->repo = $this->em->getRepository("OverwatchResultBundle:TestResult");
+        $this->repo = $this->em->getRepository('OverwatchResultBundle:TestResult');
     }
-    
-    public function testGetResults() {
-        $results = $this->repo->getResults(["test" => TestFixtures::$tests['test-1']]);    
-        
+
+    public function testGetResults()
+    {
+        $results = $this->repo->getResults(['test' => TestFixtures::$tests['test-1']]);
+
         $this->assertInternalType('array', $results);
         $this->assertCount(3, $results);
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-1'], $results);
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-2'], $results);
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-3'], $results);
     }
-    
-    public function testGetResultsPagination() {
-        $results = $this->repo->getResults(["test" => TestFixtures::$tests['test-1']], 1);
+
+    public function testGetResultsPagination()
+    {
+        $results = $this->repo->getResults(['test' => TestFixtures::$tests['test-1']], 1);
         $this->assertInternalType('array', $results);
         $this->assertCount(1, $results);
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-3'], $results);
-        
-        $results = $this->repo->getResults(["test" => TestFixtures::$tests['test-1']], 1, 2);
+
+        $results = $this->repo->getResults(['test' => TestFixtures::$tests['test-1']], 1, 2);
         $this->assertInternalType('array', $results);
         $this->assertCount(1, $results);
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-2'], $results);
     }
-    
-    public function testGetResultsOlderThan() {
-        $cutoff = new \DateTime("-90 minutes");
+
+    public function testGetResultsOlderThan()
+    {
+        $cutoff = new \DateTime('-90 minutes');
         $results = $this->repo->getResultsOlderThan($cutoff);
         $this->assertEquals(TestResultFixtures::$results['result-1']->getId(), $results->next()[0]->getId());
         $this->assertFalse($results->next());

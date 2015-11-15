@@ -11,11 +11,13 @@ use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
  * ViewTestTest
  * Tests the View Test page
  */
-class ViewTestTest extends WebDriverTestCase {
-    public function testTest1Results() {
+class ViewTestTest extends WebDriverTestCase
+{
+    public function testTest1Results()
+    {
         $this->logInAsUser('user-1');
         $this->clickThroughToTest(1);
-        
+
         $this->waitForLoadingAnimation();
         $this->assertEquals(TestFixtures::$tests['test-1']->getName(), $this->getHeaderText());
         $this->assertCount(3, $this->getResultsOnPage());
@@ -29,11 +31,12 @@ class ViewTestTest extends WebDriverTestCase {
         $this->assertTimestampEquals(TestResultFixtures::$results['result-1']->getCreatedAt(), $this->getResultsOnPage(' a')[2]->getAttribute('title'));
         $this->assertContains(strtolower(TestResultFixtures::$results['result-1']->getStatus()), $this->getResultsOnPage('')[2]->getAttribute('class'));
     }
-    
-    public function testTest2Results() {
+
+    public function testTest2Results()
+    {
         $this->logInAsUser('user-1');
         $this->clickThroughToTest(2);
-        
+
         $this->waitForLoadingAnimation();
         $this->assertEquals(TestFixtures::$tests['test-2']->getName(), $this->getHeaderText());
         $this->assertCount(1, $this->getResultsOnPage());
@@ -41,33 +44,36 @@ class ViewTestTest extends WebDriverTestCase {
         $this->assertTimestampEquals(TestResultFixtures::$results['result-4']->getCreatedAt(), $this->getResultsOnPage(' a')[0]->getAttribute('title'));
         $this->assertContains(strtolower(TestResultFixtures::$results['result-4']->getStatus()), $this->getResultsOnPage('')[0]->getAttribute('class'));
     }
-    
-    private function clickThroughToTest($number) {
+
+    private function clickThroughToTest($number)
+    {
         $this->waitForLoadingAnimation();
         $this->webDriver->findElement(
             WebDriverBy::cssSelector('.tests li:nth-child(' . $number . ') .test a:nth-child(3)')
         )->click();
     }
-    
-    private function getResultsOnPage($selector = ' span') {
+
+    private function getResultsOnPage($selector = ' span')
+    {
         $selector = '.result' . $selector;
-        
+
         $results = $this->webDriver->findElements(
             WebDriverBy::cssSelector($selector)
         );
-        
+
         return $results;
     }
-    
-    private function assertTimestampEquals($expected, $actual) {
+
+    private function assertTimestampEquals($expected, $actual)
+    {
         if (!$expected instanceof \DateTime) {
             $expected = new \DateTime($expected);
         }
-        
+
         if (!$actual instanceof \DateTime) {
             $actual = new \DateTime($actual);
         }
-        
+
         $this->assertEquals($expected, $actual);
     }
 }

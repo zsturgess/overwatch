@@ -19,10 +19,11 @@ use Overwatch\TestBundle\Security\TestGroupVoter;
  * Handles API request made for Result
  * @Route("/api/results")
  */
-class ApiController extends Controller {    
+class ApiController extends Controller
+{
     /**
      * Returns the latest results from across all tests
-     * 
+     *
      * @Route("")
      * @Method({"GET"})
      * @Security("has_role('ROLE_SUPER_ADMIN')")
@@ -37,21 +38,22 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function getResults(Request $request) {
+    public function getResults(Request $request)
+    {
         $size = $request->query->get('pageSize', 10);
-        
-        $results = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getResults(
+
+        $results = $this->getEntityRepository('OverwatchResultBundle:TestResult')->getResults(
             [],
             ($size >= 100) ? 10 : $size,
             $request->query->get('page', 1)
         );
-        
+
         return new JsonResponse($results);
     }
-    
+
     /**
      * Returns the latest results for each test in the requested group
-     * 
+     *
      * @Route("/group/{id}")
      * @Method({"GET"})
      * @Security("is_granted('view', group)")
@@ -70,26 +72,27 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function getRecentGroupResults(TestGroup $group, Request $request) {
+    public function getRecentGroupResults(TestGroup $group, Request $request)
+    {
         $results = [];
         $size = $request->query->get('pageSize', 10);
-        
+
         foreach ($group->getTests()->toArray() as $test) {
-            $results[] = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getResults(
+            $results[] = $this->getEntityRepository('OverwatchResultBundle:TestResult')->getResults(
                 [
-                    "test" => $test
+                    'test' => $test
                 ],
                 ($size >= 100) ? 10 : $size,
                 $request->query->get('page', 1)
             );
         }
-        
+
         return new JsonResponse($results);
     }
-    
+
     /**
      * Returns the latest results for the given test
-     * 
+     *
      * @Route("/test/{id}")
      * @Method({"GET"})
      * @ApiDoc(
@@ -107,25 +110,27 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function getResultsForTest(Request $request, Test $test) {   
+    public function getResultsForTest(Request $request, Test $test)
+    {
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
-            throw new AccessDeniedHttpException("You must be a member of this test's group to see it's results");
+            throw new AccessDeniedHttpException('You must be a member of this test\'s group to see it\'s results');
         }
-        
+
         $size = $request->query->get('pageSize', 10);
-        
-        $results = $this->getEntityRepository("OverwatchResultBundle:TestResult")->getResults(
+
+        $results = $this->getEntityRepository('OverwatchResultBundle:TestResult')->getResults(
             [
-                "test" => $test
+                'test' => $test
             ],
             ($size >= 100) ? 10 : $size,
             $request->query->get('page', 1)
         );
-        
+
         return new JsonResponse($results);
     }
-    
-    private function getEntityRepository($entity) {
-        return $this->get("doctrine.orm.entity_manager")->getRepository($entity);
+
+    private function getEntityRepository($entity)
+    {
+        return $this->get('doctrine.orm.entity_manager')->getRepository($entity);
     }
 }

@@ -9,6 +9,7 @@ use Overwatch\ResultBundle\Entity\TestResult;
  * ResultReporter classes are expected to implement this interface.
  * Code to notify users should go inside the notify() function.
  */
-interface ResultReporterInterface {
+interface ResultReporterInterface
+{
     public function notify(TestResult $result);
 }

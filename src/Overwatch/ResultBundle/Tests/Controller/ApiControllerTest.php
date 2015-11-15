@@ -11,11 +11,13 @@ use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
  * ApiControllerTest
  * Functional test of API methods provided by the APIController
  */
-class ApiControllerTest extends DatabaseAwareTestCase {
-    public function testGetResults() {
+class ApiControllerTest extends DatabaseAwareTestCase
+{
+    public function testGetResults()
+    {
         $this->logIn('ROLE_SUPER_ADMIN');
         $this->client->request('GET', '/api/results');
-        
+
         $this->assertJsonResponse($this->client->getResponse());
         $this->assertCount(4, $this->getResponseContent());
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-1'], $this->getResponseContent());
@@ -23,46 +25,51 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-3'], $this->getResponseContent());
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-4'], $this->getResponseContent());
     }
-    
-    public function testGetResultsInsufficentPerms() {
+
+    public function testGetResultsInsufficentPerms()
+    {
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/results');
-        
+
         $this->assertForbidden($this->client->getResponse());
     }
-    
-    public function testGetRecentGroupResults() {
+
+    public function testGetRecentGroupResults()
+    {
         $this->logIn('ROLE_SUPER_ADMIN');
         $this->client->request('GET', '/api/results/group/' . TestGroupFixtures::$groups['group-1']->getId());
-        
+
         $this->assertJsonResponse($this->client->getResponse());
         $this->assertCount(2, $this->getResponseContent());
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-3'], $this->getResponseContent());
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-4'], $this->getResponseContent());
     }
-    
-    public function testGetRecentGroupResultsInsufficentPerms() {
+
+    public function testGetRecentGroupResultsInsufficentPerms()
+    {
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/results/group/' . TestGroupFixtures::$groups['group-1']->getId());
-        
+
         $this->assertForbidden($this->client->getResponse());
     }
-    
-    public function testGetResultsForTest() {
+
+    public function testGetResultsForTest()
+    {
         $this->logIn('ROLE_SUPER_ADMIN');
         $this->client->request('GET', '/api/results/test/' . TestFixtures::$tests['test-1']->getId());
-        
+
         $this->assertJsonResponse($this->client->getResponse());
         $this->assertCount(3, $this->getResponseContent());
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-1'], $this->getResponseContent());
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-2'], $this->getResponseContent());
         $this->assertCollectionContainsObject(TestResultFixtures::$results['result-3'], $this->getResponseContent());
     }
-    
-    public function testGetResultsForTestInsufficentPerms() {
+
+    public function testGetResultsForTestInsufficentPerms()
+    {
         $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/results/test/' . TestFixtures::$tests['test-1']->getId());
-        
+
         $this->assertForbidden($this->client->getResponse());
     }
 }
