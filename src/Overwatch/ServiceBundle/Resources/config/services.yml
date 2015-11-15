@@ -14,6 +14,13 @@ services:
         arguments: ["%overwatch_service.to_respond_http%"]
         tags:
             -  { name: overwatch_expectation.expectation, alias: toRespondHttp }
+
+    overwatch_service.to_respond_with_mime_type:
+        class: Overwatch\ServiceBundle\Expectation\ToRespondWithMimeTypeExpectation
+        arguments: ["%overwatch_service.to_respond_with_mime_type%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toRespondWithMimeType }
+
     overwatch_service.email_reporter:
         class: Overwatch\ServiceBundle\Reporter\EmailReporter
         arguments: ["@service_container", "%overwatch_service.email_reporter%"]

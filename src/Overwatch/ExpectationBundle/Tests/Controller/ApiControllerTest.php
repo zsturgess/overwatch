@@ -14,7 +14,8 @@ class ApiControllerTest extends FunctionalTestCase {
         $expectations = [
             "toPing",
             "toResolveTo",
-            "toRespondHttp"
+            "toRespondHttp",
+            "toRespondWithMimeType",
         ];
         
         $this->logIn('ROLE_ADMIN');
