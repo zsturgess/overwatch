@@ -15,7 +15,8 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
     static public $users;
 
-    public function load(ObjectManager $em) {
+    public function load(ObjectManager $em)
+    {
         $user1 = new User;
         $user1
             ->setAlertSetting(AlertSetting::ALL)
@@ -57,11 +58,13 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
         $em->flush();
     }
     
-    public function getOrder() {
+    public function getOrder()
+    {
         return 4;
     }
     
-    public function addReference($name, $object) {
+    public function addReference($name, $object)
+    {
         parent::addReference($name, $object);
         self::$users[$name] = $object;
     }

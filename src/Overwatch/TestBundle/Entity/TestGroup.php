@@ -67,7 +67,8 @@ class TestGroup implements GroupInterface, \JsonSerializable
     /**
      * Serialise object to JSON
      */
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             "id" => $this->getId(),
             "name" => $this->getName(),
@@ -119,7 +120,7 @@ class TestGroup implements GroupInterface, \JsonSerializable
      */
     public function setCreatedAt()
     {
-        if ($this->createdAt === NULL) {
+        if ($this->createdAt === null) {
             $this->createdAt = new \DateTime;
         }
         

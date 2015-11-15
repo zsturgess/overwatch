@@ -10,10 +10,12 @@ use Overwatch\ExpectationBundle\Expectation\ExpectationInterface;
  * Expectation classes are the actual runners of tests.
  * This is the runner for the "toResolveTo" expectation.
  */
-class ToResolveToExpectation implements ExpectationInterface {
+class ToResolveToExpectation implements ExpectationInterface
+{
     private $config;
     
-    public function __construct($config) {
+    public function __construct($config)
+    {
         $this->config = $config;
     }
     
@@ -21,7 +23,8 @@ class ToResolveToExpectation implements ExpectationInterface {
      * @param string $actual
      * @param string|null $expected
      */
-    public function run($actual, $expected = NULL) {
+    public function run($actual, $expected = NULL)
+    {
         $dnsRecords = dns_get_record($actual);
         $found = "";
         

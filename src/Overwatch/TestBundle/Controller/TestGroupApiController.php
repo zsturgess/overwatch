@@ -22,10 +22,12 @@ use Overwatch\UserBundle\Entity\User;
  * 
  * @Route("/api/groups")
  */
-class TestGroupApiController extends Controller {
+class TestGroupApiController extends Controller
+{
     private $_em;
     
-    public function setContainer(ContainerInterface $container = NULL) {
+    public function setContainer(ContainerInterface $container = NULL)
+    {
         parent::setContainer($container);
         $this->_em = $this->getDoctrine()->getManager();
     }
@@ -46,7 +48,8 @@ class TestGroupApiController extends Controller {
      *     }
      * )
      */
-    public function createGroup(Request $request) {
+    public function createGroup(Request $request)
+    {
         if ($request->request->get("name") === NULL) {
             return new JsonResponse("You must provide a name for the new group", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -75,10 +78,11 @@ class TestGroupApiController extends Controller {
      *     }
      * )
      */
-    public function getAllGroups() {
+    public function getAllGroups()
+    {
         if ($this->isGranted("ROLE_SUPER_ADMIN")) {
             $groups = $this->_em->getRepository("OverwatchTestBundle:TestGroup")->findAll();
-        } else if ($this->getUser() !== NULL) {
+        } else if ($this->getUser() !== null) {
             $groups = $this->getUser()->getGroups()->toArray();
         } else {
             throw new AccessDeniedHttpException("Please login");
@@ -104,7 +108,8 @@ class TestGroupApiController extends Controller {
      *     }
      * )
      */
-    public function getGroup(TestGroup $group) {
+    public function getGroup(TestGroup $group)
+    {
         return new JsonResponse($group);
     }
     
@@ -126,7 +131,8 @@ class TestGroupApiController extends Controller {
      *     }
      * ) 
      */
-    public function updateGroup(Request $request, TestGroup $group) {
+    public function updateGroup(Request $request, TestGroup $group)
+    {
         if ($request->request->has("name")) {
             $group->setName($request->request->get("name"));
             
@@ -151,7 +157,8 @@ class TestGroupApiController extends Controller {
      *     }
      * )
      */
-    public function deleteGroup(TestGroup $group) {
+    public function deleteGroup(TestGroup $group)
+    {
         if ($group->getUsers()->count() + $group->getTests()->count() !== 0) {
             return new JsonResponse("This group still has users and/or tests in it. You must remove them before continuing.", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -159,7 +166,7 @@ class TestGroupApiController extends Controller {
         $this->_em->remove($group);
         $this->_em->flush();
         
-        return new JsonResponse(NULL, JsonResponse::HTTP_NO_CONTENT);
+        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
     
     /**
@@ -181,7 +188,8 @@ class TestGroupApiController extends Controller {
      *     }
      * )
      */
-    public function addUserToGroup(TestGroup $group, User $user) {
+    public function addUserToGroup(TestGroup $group, User $user)
+    {
         $group->addUser($user);
         $this->_em->flush();
         
@@ -206,7 +214,8 @@ class TestGroupApiController extends Controller {
      *     }
      * )
      */
-    public function removeUserFromGroup(TestGroup $group, User $user) {
+    public function removeUserFromGroup(TestGroup $group, User $user)
+    {
         $group->removeUser($user);
         $this->_em->flush();
         

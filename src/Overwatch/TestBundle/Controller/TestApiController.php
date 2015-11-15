@@ -22,11 +22,13 @@ use Overwatch\TestBundle\Security\TestGroupVoter;
  * 
  * @Route("/api/tests")
  */
-class TestApiController extends Controller {
+class TestApiController extends Controller
+{
     private $_em;
     private $expectationManager;
     
-    public function setContainer(ContainerInterface $container = NULL) {
+    public function setContainer(ContainerInterface $container = NULL)
+    {
         parent::setContainer($container);
         $this->_em = $this->getDoctrine()->getManager();
         $this->expectationManager = $this->get("overwatch_expectation.expectation_manager");
@@ -49,7 +51,8 @@ class TestApiController extends Controller {
      *     }
      * )
      */
-    public function getTest(Test $test) {
+    public function getTest(Test $test)
+    {
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be a member of this test's group to view it");
         }
@@ -80,7 +83,8 @@ class TestApiController extends Controller {
      *     }
      * )
      */
-    public function createTest(Request $request, TestGroup $group) {
+    public function createTest(Request $request, TestGroup $group)
+    {
         $test = new Test();
         $test
             ->setActual($request->request->get('actual'))
@@ -96,7 +100,7 @@ class TestApiController extends Controller {
             return new JsonResponse("Expectation '" . $test->getExpectation() . "' could not be found", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         
-        if ($test->getActual() === NULL) {
+        if ($test->getActual() === null) {
             return new JsonResponse("An actual value to test against must be provided.", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         
@@ -123,7 +127,8 @@ class TestApiController extends Controller {
      *     }
      * )
      */
-    public function getTestsInGroup(TestGroup $group) {
+    public function getTestsInGroup(TestGroup $group)
+    {
         return new JsonResponse($group->getTests()->toArray());
     }
     
@@ -148,7 +153,8 @@ class TestApiController extends Controller {
      *     }
      * )
      */
-    public function updateTest(Request $request, Test $test) {
+    public function updateTest(Request $request, Test $test)
+    {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to edit it");
         }
@@ -178,7 +184,8 @@ class TestApiController extends Controller {
      *     }
      * )
      */
-    public function deleteTest(Test $test) {
+    public function deleteTest(Test $test)
+    {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to delete it");
         }
@@ -186,7 +193,7 @@ class TestApiController extends Controller {
         $this->_em->remove($test);
         $this->_em->flush();
         
-        return new JsonResponse(NULL, JsonResponse::HTTP_NO_CONTENT);
+        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
     
     /**
@@ -204,7 +211,8 @@ class TestApiController extends Controller {
      *     }
      * )
      */
-    public function runTest(Test $test) {
+    public function runTest(Test $test)
+    {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to run it");
         }

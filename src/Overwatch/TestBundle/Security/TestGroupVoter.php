@@ -10,23 +10,27 @@ use Overwatch\UserBundle\Entity\User;
 /**
  * TestGroupVoter
  */
-class TestGroupVoter implements VoterInterface {
+class TestGroupVoter implements VoterInterface
+{
     const VIEW = 'view';
     const EDIT = 'edit';
     
-    public function supportsAttribute($attribute) {
+    public function supportsAttribute($attribute)
+    {
         return in_array($attribute, [
             self::VIEW,
             self::EDIT,
         ]);
     }
     
-    public function supportsClass($class) {
+    public function supportsClass($class)
+    {
         $supportedClass = 'Overwatch\TestBundle\Entity\TestGroup';
         return $supportedClass === $class || is_subclass_of($class, $supportedClass);
     }
     
-    public function vote(TokenInterface $token, $group, array $attributes) {
+    public function vote(TokenInterface $token, $group, array $attributes)
+    {
         // check if class of this object is supported by this voter
         if (!$this->supportsClass(get_class($group))) {
             return VoterInterface::ACCESS_ABSTAIN;

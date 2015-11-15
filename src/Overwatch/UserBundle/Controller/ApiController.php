@@ -19,10 +19,12 @@ use Overwatch\UserBundle\Enum\AlertSetting;
  * Handles API requests made for Users
  * @Route("/api")
  */
-class ApiController extends Controller {
+class ApiController extends Controller
+{
     private $_em;
     
-    public function setContainer(ContainerInterface $container = NULL) {
+    public function setContainer(ContainerInterface $container = NULL)
+    {
         parent::setContainer($container);
         $this->_em = $this->getDoctrine()->getManager();
     }
@@ -41,7 +43,8 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function getAlertSettings() {
+    public function getAlertSettings()
+    {
         return new JsonResponse(AlertSetting::getAll());
     }
     
@@ -58,7 +61,8 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function getAllUsers() {
+    public function getAllUsers()
+    {
         $users = $this->_em->getRepository("OverwatchUserBundle:User")->findAll();
         return new JsonResponse($users);
     }
@@ -78,7 +82,8 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function createUser($email) {
+    public function createUser($email)
+    {
         $password = substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(openssl_random_pseudo_bytes(9))), 0, 8);
         $user = $this->get('fos_user.util.user_manipulator')->create($email, $password, $email, true, false);
         
@@ -118,7 +123,8 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function findUser(User $user) {
+    public function findUser(User $user)
+    {
         return new JsonResponse($user);
     }
     
@@ -138,7 +144,8 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function setAlertSetting($setting) {
+    public function setAlertSetting($setting)
+    {
         $this->getUser()->setAlertSetting($setting);
         $this->_em->flush();
         
@@ -160,7 +167,8 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function toggleLockUser(User $user) {
+    public function toggleLockUser(User $user)
+    {
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not toggle locks on yourself.");
         }
@@ -187,7 +195,8 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function setUserRole(User $user, $role) {
+    public function setUserRole(User $user, $role)
+    {
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not set roles on yourself.");
         }
@@ -216,7 +225,8 @@ class ApiController extends Controller {
      *     }
      * )
      */
-    public function deleteUser(User $user) {
+    public function deleteUser(User $user)
+    {
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not delete yourself.");
         }
@@ -224,6 +234,6 @@ class ApiController extends Controller {
         $this->_em->remove($user);
         $this->_em->flush();
         
-        return new JsonResponse(NULL, JsonResponse::HTTP_NO_CONTENT);
+        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
 }
