@@ -28,10 +28,29 @@ class ToRespondWithMimeTypeExpectationTest extends \PHPUnit_Framework_TestCase
             ->run('http://someapi.test/endpoint.json', 'application/json');
     }
 
-    private function createExpectationWithMockedResponse($resultMimeType)
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The actual value provided is not a valid URL
+     */
+    public function testExpectationWithInvalidUrl()
+    {
+        $this->createExpectationWithMockedResponse('text/html')
+            ->run('invalid', 'text/html');
+    }
+
+    /**
+     * @expectedException \GuzzleHttp\Exception\RequestException
+     */
+    public function testExpectationWithBadResponse()
+    {
+        $this->createExpectationWithMockedResponse('text/html', 500)
+            ->run('http://someapi.test/endpoint.json', 'text/html');
+    }
+
+    private function createExpectationWithMockedResponse($resultMimeType, $httpCode = 200)
     {
         $mock = new MockHandler([
-            new Response(200, ['Content-Type' => $resultMimeType]),
+            new Response($httpCode, ['Content-Type' => $resultMimeType]),
         ]);
 
         $handler = HandlerStack::create($mock);
