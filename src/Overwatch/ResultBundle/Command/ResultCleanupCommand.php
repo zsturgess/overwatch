@@ -38,9 +38,9 @@ class ResultCleanupCommand extends ContainerAwareCommand
         $this
             ->setName('overwatch:results:cleanup')
             ->setDescription('Deletes and optionally archives older test results')
-            ->addOption("delete", null, InputOption::VALUE_REQUIRED, "Delete test results older than this value")
-            ->addOption("compress", null, InputOption::VALUE_REQUIRED, "Compress test results older than this value")
-            ->addOption("archive", null, InputOption::VALUE_NONE, "Archive items to a file")
+            ->addOption('delete', null, InputOption::VALUE_REQUIRED, 'Delete test results older than this value')
+            ->addOption('compress', null, InputOption::VALUE_REQUIRED, 'Compress test results older than this value')
+            ->addOption('archive', null, InputOption::VALUE_NONE, 'Archive items to a file')
             ->setHelp(<<<EOF
 The <info>%command.name%</info> deletes and optionally archives older test results.
 
@@ -62,8 +62,8 @@ EOF
 
         //Set up some shortcuts to services
         if ($container !== null) {
-            $this->em = $container->get("doctrine.orm.entity_manager");
-            $this->resultRepo = $this->em->getRepository("OverwatchResultBundle:TestResult");
+            $this->em = $container->get('doctrine.orm.entity_manager');
+            $this->resultRepo = $this->em->getRepository('OverwatchResultBundle:TestResult');
         }
     }
 
@@ -71,25 +71,25 @@ EOF
     {
         $this->output = $output;
 
-        $delete = $this->convertOption($input->getOption("delete"));
-        $compress = $this->convertOption($input->getOption("compress"));
+        $delete = $this->convertOption($input->getOption('delete'));
+        $compress = $this->convertOption($input->getOption('compress'));
 
-        $this->output->writeln($this->getApplication()->getLongVersion() . ", running a cleanup");
+        $this->output->writeln($this->getApplication()->getLongVersion() . ', running a cleanup');
 
         if ($delete === null && $compress === null) {
-            throw new \InvalidArgumentException("Warning: Neither the --delete or --compress options were passed. No operation will be completed.");
+            throw new \InvalidArgumentException('Neither the --delete or --compress options were passed. No operation will be completed.');
         }
 
-        if ($input->getOption("archive")) {
+        if ($input->getOption('archive')) {
             $this->prepareArchive();
         }
 
         $this->deleteResults($delete);
         $this->compressResults($compress);
 
-        $output->writeln(" > Applying <info>" . count($this->em->getUnitOfWork()->getScheduledEntityDeletions()) . "</info> cleanup operations");
+        $output->writeln(' > Applying <info>' . count($this->em->getUnitOfWork()->getScheduledEntityDeletions()) . '</info> cleanup operations');
         $this->em->flush();
-        $output->writeln("<info>Cleanup finished</info>");
+        $output->writeln('<info>Cleanup finished</info>');
     }
 
     private function convertOption($option)
@@ -104,13 +104,13 @@ EOF
     private function prepareArchive()
     {
         $archiveDir = $this->getContainer()->get('kernel')->getRootDir() . '/logs/';
-        $header = $this->getApplication()->getName() . " " . $this->getApplication()->getVersion() . ", running a cleanup";
+        $header = $this->getApplication()->getName() . ' ' . $this->getApplication()->getVersion() . ', running a cleanup';
 
-        $this->archiveFile = $archiveDir . "overwatch_archive_" . date("YmdHis") . ".log";
-        $this->output->writeln(" > Preparing archive file <info>" . $this->archiveFile . "</info>");
+        $this->archiveFile = $archiveDir . 'overwatch_archive_' . date('YmdHis') . '.log';
+        $this->output->writeln(' > Preparing archive file <info>' . $this->archiveFile . '</info>');
 
         if (!file_put_contents($this->archiveFile, $header . PHP_EOL, FILE_APPEND)) {
-            throw new \InvalidArgumentException("Could not write to the archive file.");
+            throw new \InvalidArgumentException('Could not write to the archive file.');
         }
     }
 
@@ -123,7 +123,7 @@ EOF
             return;
         }
 
-        $this->output->writeln(" > Finding results older than <info>" . $delete->format("Y-m-d H:i:s") . "</info> to delete");
+        $this->output->writeln(' > Finding results older than <info>' . $delete->format('Y-m-d H:i:s') . '</info> to delete');
         $resultsToCleanup = $this->resultRepo->getResultsOlderThan($delete);
 
         foreach ($resultsToCleanup as $row) {
@@ -143,7 +143,7 @@ EOF
         }
 
         $lastResult = ResultStatus::PASSED;
-        $this->output->writeln(" > Finding results older than <info>" . $compress->format("Y-m-d H:i:s") . "</info> to compress");
+        $this->output->writeln(' > Finding results older than <info>' . $compress->format('Y-m-d H:i:s') . '</info> to compress');
         $resultsToCleanup = $this->resultRepo->getResultsOlderThan($compress);
 
         foreach ($resultsToCleanup as $row) {

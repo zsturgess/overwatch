@@ -16,6 +16,6 @@ class ExpectationNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
         $exception = new ExpectationNotFoundException($badAlias);
 
         $this->assertInstanceOf('\OutOfBoundsException', $exception);
-        $this->assertEquals($exception->getMessage(), "Expectation with $badAlias could not be found.");
+        $this->assertEquals($exception->getMessage(), 'Expectation with ' . $badAlias . ' could not be found.');
     }
 }
