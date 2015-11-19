@@ -42,7 +42,7 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Warning: Neither the --delete or --compress options were passed. No operation will be completed.
+     * @expectedExceptionMessage Neither the --delete or --compress options were passed. No operation will be completed.
      */
     public function testWithNoOptions()
     {

@@ -57,10 +57,10 @@ class TestResult implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            "id" => $this->getId(),
-            "status" => $this->getStatus(),
-            "info" => $this->getInfo(),
-            "createdAt" => $this->getCreatedAt()->getTimestamp()
+            'id' => $this->getId(),
+            'status' => $this->getStatus(),
+            'info' => $this->getInfo(),
+            'createdAt' => $this->getCreatedAt()->getTimestamp()
         ];
     }
 
@@ -71,13 +71,16 @@ class TestResult implements \JsonSerializable
     {
         $test = $this->getTest();
 
-        return
-            "[" . $this->getCreatedAt()->format("Y-m-d H:i:s") . "] " .
-            $test->getName() . " " .
-            strtoupper($this->getStatus()) . " " .
-            "(Expect " . $test->getActual() . $test->getExpectation() . $test->getExpected() . " - " .
-            $this->getInfo() . ")"
-        ;
+        return sprintf(
+            '[%s] %s %s (Expect %s %s %s - %s)',
+            $this->getCreatedAt()->format('Y-m-d H:i:s'),
+            $test->getName(),
+            strtoupper($this->getStatus()),
+            $test->getActual(),
+            $test->getExpectation(),
+            $test->getExpected(),
+            $this->getInfo()
+        );
     }
 
     /**
@@ -130,11 +133,11 @@ class TestResult implements \JsonSerializable
      * @ORM\PrePersist
      * @return TestResult
      */
-    public function setCreatedAt($timestamp = "now")
+    public function setCreatedAt($timestamp = 'now')
     {
         if ($this->createdAt === null) {
             if ($timestamp instanceof LifecycleEventArgs) {
-                $timestamp = "now";
+                $timestamp = 'now';
             }
 
             $this->createdAt = new \DateTime($timestamp);

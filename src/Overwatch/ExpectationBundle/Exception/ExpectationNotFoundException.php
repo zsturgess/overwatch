@@ -12,7 +12,7 @@ class ExpectationNotFoundException extends \OutOfBoundsException
     public function __construct($alias, $code = 0, $previous = null)
     {
         parent::__construct(
-            "Expectation with $alias could not be found.",
+            'Expectation with ' . $alias . ' could not be found.',
             $code,
             $previous
         );

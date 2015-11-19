@@ -17,7 +17,6 @@ interface ExpectationInterface
      * @param  string $expected
      * @return string
      * @throws ExpectationFailedException
-     * @throws ExpectationNotFoundException
      * @throws ExpectationResultException
      * @throws ExpectationUnsatisfactoryException
      */

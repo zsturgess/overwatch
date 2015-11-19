@@ -28,7 +28,7 @@ class ResultStatus
     public static function isValid($status)
     {
         if (!in_array($status, self::getAll())) {
-            throw new \InvalidArgumentException("$status is not a valid TestResult status");
+            throw new \InvalidArgumentException($status . ' is not a valid TestResult status');
         }
     }
 }
