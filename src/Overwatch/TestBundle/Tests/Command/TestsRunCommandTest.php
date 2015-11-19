@@ -210,6 +210,7 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $mock->expects($this->any())->willReturnOnConsecutiveCalls(
             $this->returnCallback(function() { usleep(500); return true; }),
             $this->returnCallback(function() { usleep(1000500); return true; }),
+            $this->returnCallback(function() { usleep(1000500); return true; }),
             $this->returnValue(false)
         );
     }

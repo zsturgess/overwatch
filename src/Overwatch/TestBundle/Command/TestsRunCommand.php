@@ -2,7 +2,6 @@
 
 namespace Overwatch\TestBundle\Command;
 
-use Overwatch\ResultBundle\Entity\FakeEntityManager;
 use Overwatch\ResultBundle\Enum\ResultStatus;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -71,10 +70,7 @@ class TestsRunCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $start = new \DateTime;
-        if ($input->getOption("discard-results")) {
-            $this->_em = new FakeEntityManager;
-        }
-        
+
         $tests = $this->testRepo->findTests($input->getOption("test"));
         if (empty($tests)) {
             throw new \InvalidArgumentException("Could not find any tests to run.");
@@ -96,10 +92,15 @@ class TestsRunCommand extends ContainerAwareCommand
             }
             $this->_em->persist($result);
         }
-        
+
+        if ($input->getOption('discard-results')) {
+            $output->writeln(' > <comment>Ran with --discard-results, results NOT saved.</comment>');
+        } else {
+            $this->_em->flush();
+        }
+
         $output->writeln($this->getSummary($start));
-        $this->_em->flush();
-        
+
         //Exit with status code equal to the number of tests that didn't pass
         return (count($tests) - $this->results[ResultStatus::PASSED]);
     }

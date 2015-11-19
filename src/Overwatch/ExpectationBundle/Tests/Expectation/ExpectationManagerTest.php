@@ -34,9 +34,13 @@ class ExpectationManagerTest extends \PHPUnit_Framework_TestCase
     private function setUpTestRun($result)
     {
         if ($result instanceof \Exception) {
-            $this->toPingMock->expects($this->once())
+            $this->toPingMock->expects($this->exactly(2))
                 ->method('run')
                 ->will($this->throwException($result));
+        } elseif (is_array($result)) {
+            $this->toPingMock->expects($this->exactly(2))
+                ->method('run')
+                ->will($this->onConsecutiveCalls($result[0], $result[1]));
         } else {
             $this->toPingMock->expects($this->once())
                 ->method('run')
@@ -114,6 +118,22 @@ class ExpectationManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Overwatch\ResultBundle\Entity\TestResult', $result);
         $this->assertEquals($result->getTest(), $this->test);
         $this->assertEquals($result->getStatus(), ResultStatus::ERROR);
+        $this->assertEquals($result->getInfo(), $info);
+    }
+    
+    public function testRunErrorThenPass() {
+        $info = 'Passes the second!';
+
+        $this->setUpTestRun([
+            $this->throwException(new \Exception('Fails the first time')),
+            $this->returnValue($info)
+        ]);
+
+        $result = $this->em->run($this->test);
+
+        $this->assertInstanceOf('Overwatch\ResultBundle\Entity\TestResult', $result);
+        $this->assertEquals($result->getTest(), $this->test);
+        $this->assertEquals($result->getStatus(), ResultStatus::PASSED);
         $this->assertEquals($result->getInfo(), $info);
     }
 }
