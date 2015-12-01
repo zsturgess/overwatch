@@ -21,6 +21,7 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
         $user1
             ->setAlertSetting(AlertSetting::ALL)
             ->setEmail("overwatch.admin@example.com")
+            ->setTelephoneNumber("+4401628813587")
             ->setEnabled(true)
             ->setPlainPassword("p4ssw0rd")
             ->setSuperAdmin(true)

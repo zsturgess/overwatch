@@ -56,7 +56,7 @@ trait ConsoleTestHelperTrait {
         foreach ($results as $result) {
             $diff = $now - $result->getCreatedAt()->getTimestamp();
             
-            $this->assertLessThan(5, $diff);
+            $this->assertLessThan(60, $diff);
         }
     }
     
