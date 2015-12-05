@@ -4,8 +4,8 @@ namespace Overwatch\UserBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Overwatch\ResultBundle\Entity\TestResult;
 use Overwatch\UserBundle\Enum\AlertSetting;
-use Overwatch\ResultBundle\Enum\ResultStatus;
 use Symfony\Component\Security\Core\Util\SecureRandom;
 
 /**
@@ -41,6 +41,11 @@ class User extends BaseUser implements \JsonSerializable
     protected $alertSetting = AlertSetting::CHANGE;
     
     /**
+     * @ORM\Column(type="string", length=35, nullable=true)
+     */
+    protected $telephoneNumber = null;
+    
+    /**
      * Constructor
      */
     public function __construct()
@@ -48,7 +53,7 @@ class User extends BaseUser implements \JsonSerializable
         parent::__construct();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Serialize object to JSON
      */
@@ -58,6 +63,7 @@ class User extends BaseUser implements \JsonSerializable
             "id" => $this->getId(),
             "email" => $this->getEmail(),
             "alertSetting" => $this->getAlertSetting(),
+            "telephoneNumber" => $this->getTelephoneNumber(),
             "lastLogin" => $this->getLastLogin() ? $this->getLastLogin()->getTimestamp() : '',
             "locked" => $this->isLocked(),
             "roles" => $this->getRoles()
@@ -129,12 +135,33 @@ class User extends BaseUser implements \JsonSerializable
     }
     
     /**
+     * Get this user's telephone number
+     * 
+     * @return string
+     */
+    public function getTelephoneNumber() {
+        return $this->telephoneNumber;
+    }
+
+    /**
+     * Set user's telephone number
+     * 
+     * @param string $telephoneNumber
+     * @return User
+     */
+    public function setTelephoneNumber($telephoneNumber) {
+        $this->telephoneNumber = $telephoneNumber;
+        
+        return $this;
+    }
+    
+    /**
      * Should this user be alerted for the passed TestResult?
      * 
-     * @param \Overwatch\ResultBundle\Entity\TestResult $result
+     * @param TestResult $result
      * @return bool
      */
-    public function shouldBeAlerted(\Overwatch\ResultBundle\Entity\TestResult $result)
+    public function shouldBeAlerted(TestResult $result)
     {
         $setting = $this->getAlertSetting();
         

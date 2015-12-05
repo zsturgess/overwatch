@@ -8,3 +8,4 @@ overwatch_service:
     to_respond_with_mime_type: ~
     email_reporter:
         report_from: %mailer_from%
+    sms_reporter: ~ 

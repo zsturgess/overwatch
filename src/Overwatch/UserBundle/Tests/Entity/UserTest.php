@@ -17,11 +17,13 @@ class UserTest extends \PHPUnit_Framework_TestCase
     private $user;
 
     const EMAIL = 'a@b.com';
+    const TELNO = '+441111111111';
 
     public function setUp()
     {
         $this->user = new User;
         $this->user->setEmail(self::EMAIL);
+        $this->user->setTelephoneNumber(self::TELNO);
     }
 
     public function testValid()
@@ -31,11 +33,13 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::EMAIL, $this->user->getEmail());
         $this->assertEquals(self::EMAIL, $this->user->getUsername());
         $this->assertEquals(AlertSetting::CHANGE_BAD, $this->user->getAlertSetting());
+        $this->assertEquals(self::TELNO, $this->user->getTelephoneNumber());
         $this->assertJsonStringEqualsJsonString(
             json_encode([
                 'id' => NULL,
                 'email' => self::EMAIL,
                 'alertSetting' => AlertSetting::CHANGE_BAD,
+                "telephoneNumber" => self::TELNO,
                 'lastLogin' => '',
                 'locked' => false,
                 'roles' => ['ROLE_USER']

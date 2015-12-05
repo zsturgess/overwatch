@@ -26,3 +26,8 @@ services:
         arguments: ["@service_container", "%overwatch_service.email_reporter%"]
         tags:
             -  { name: overwatch_result.result_reporter }
+    overwatch_service.sms_reporter:
+        class: Overwatch\ServiceBundle\Reporter\SmsReporter
+        arguments: ["@service_container", "%overwatch_service.sms_reporter%"]
+        tags:
+            -  { name: overwatch_result.result_reporter }

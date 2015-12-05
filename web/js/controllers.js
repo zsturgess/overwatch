@@ -352,7 +352,7 @@ overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $
     
     $scope.saveSetting = function(id) {
         showLoading(true);
-        overwatchApi.put(Routing.generate('overwatch_user_api_setalertsetting', {setting: id}), {})
+        overwatchApi.put(Routing.generate('overwatch_user_api_updateuser'), {'alertSetting': id})
             .success(function() {
                 currentUser.alertSetting = id;
                 showLoading(false);
@@ -366,5 +366,19 @@ overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $
 overwatchApp.controller('RoleDialogController', function($scope, close) {
     $scope.close = function(result) {
  	close(result);
+    };
+});
+
+overwatchApp.controller('EditTelephoneNumberController', function($scope, overwatchApi) {
+    $scope.telephoneNumber = currentUser.telephoneNumber;
+
+    $scope.save = function() {
+        overwatchApi.put(Routing.generate('overwatch_user_api_updateuser'), {telephoneNumber: $scope.telephoneNumber})
+            .then(function() {
+                alert('Saved!');
+            })
+            .catch(function() {
+                alert('Sorry, there was an error saving your telephone number.');
+            });
     };
 });
