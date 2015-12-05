@@ -5,6 +5,7 @@ namespace Overwatch\ServiceBundle\Reporter;
 use Overwatch\ResultBundle\Entity\TestResult;
 use Overwatch\ResultBundle\Reporter\ResultReporterInterface;
 use Overwatch\UserBundle\Entity\User;
+use Services_Twilio;
 
 /**
  * SmsReporter
@@ -14,11 +15,12 @@ class SmsReporter implements ResultReporterInterface
     private $container;
     private $config;
     private $twilio = null;
-    
-    public function __construct($container, $config)
+
+    public function __construct($container, $config, Services_Twilio $twilio = null)
     {
         $this->container = $container;
         $this->config = $config;
+        $this->twilio = $twilio;
     }
     
     public function notify(TestResult $result)

@@ -5,6 +5,7 @@ namespace Overwatch\ServiceBundle\Tests\Reporter;
 use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
 use Overwatch\ServiceBundle\Reporter\SmsReporter;
 use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
+use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
 
 /**
  * SmsReporterTest
@@ -18,20 +19,27 @@ class SmsReporterTest extends DatabaseAwareTestCase {
     public function setUp()
     {
         parent::setUp();
-        
-        $this->reporter = new SmsReporter(
-            $this->getContainer(),
-            $this->getTwilioConfig()
-        );
-        
-        $twilio = $this->getMockBuilder('\Services_Twilio_Rest_Messages')
+
+        $twilio = $this->getMockBuilder('Services_Twilio')
             ->disableOriginalConstructor()
             ->getMock();
-        $twilio
-            ->expects($this->messageSpy = $this->any())
+
+        $twilio->account = $twilio;
+
+        $messagesMock = $this->getMockBuilder('Services_Twilio_Rest_Messages')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $messagesMock->expects($this->messageSpy = $this->any())
             ->method('sendMessage')
-            ->willReturn(true)
-        ;
+            ->willReturn(true);
+
+        $twilio->messages = $messagesMock;
+
+        $this->reporter = new SmsReporter(
+            $this->getContainer(),
+            $this->getTwilioConfig(),
+            $twilio
+        );
     }
     
     public function testNotification()
@@ -43,7 +51,7 @@ class SmsReporterTest extends DatabaseAwareTestCase {
         
         $message = $this->messageSpy->getInvocations()[0]->parameters[2];
         $this->assertEquals(
-            $result->getTest()->getName() . " " . $result->getStatus(),
+            $result->getTest()->getName() . " " . $result->getStatus() . ': Me gusta success kid upvoting Obama first world problems.',
             $message
         );
         
