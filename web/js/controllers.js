@@ -352,7 +352,7 @@ overwatchApp.controller('ManageAlertSettingsController', function(showLoading, $
     
     $scope.saveSetting = function(id) {
         showLoading(true);
-        overwatchApi.put(Routing.generate('overwatch_user_api_setalertsetting', {setting: id}), {})
+        overwatchApi.put(Routing.generate('overwatch_user_api_updateuser'), {'alertSetting': id})
             .success(function() {
                 currentUser.alertSetting = id;
                 showLoading(false);

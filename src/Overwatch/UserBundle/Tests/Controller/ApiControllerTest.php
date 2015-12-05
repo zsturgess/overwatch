@@ -134,7 +134,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         );
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request(
-            'POST',
+            'PUT',
             '/api/users',
             [],
             [],
