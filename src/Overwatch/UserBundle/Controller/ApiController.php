@@ -161,8 +161,8 @@ class ApiController extends Controller
      * @Method({"PUT"})
      * @ApiDoc(
      *     parameters={
-     *         {"name"="alertSetting", "description"="The new alert setting for the user", "dataType"="integer", "requirement"="[0-4]"},
-     *         {"name"="telephoneNumber", "description"="The new telephone number for the user", "dataType"="string"},
+     *         {"name"="alertSetting", "description"="The new alert setting for the user", "required"=true, "dataType"="integer", "requirement"="[0-4]"},
+     *         {"name"="telephoneNumber", "description"="The new telephone number for the user", "required"=true, "dataType"="string"},
      *     },
      *     tags={
      *         "Super Admin" = "#ff1919",

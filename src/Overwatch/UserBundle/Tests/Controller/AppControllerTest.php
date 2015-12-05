@@ -29,6 +29,13 @@ class AppControllerTest extends FunctionalTestCase {
         $this->assertContains('<i class="icon-users"></i> Manage Users', $this->getResponseContent(TRUE));
     }
     
+    public function testApiDocPage() {
+        $this->logIn("ROLE_SUPER_ADMIN");
+        $this->client->request('GET', '/api/doc');
+        
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+    }
+    
     protected function logIn($role) {
         $session = $this->client->getContainer()->get('session');
         $firewall = 'overwatch';
