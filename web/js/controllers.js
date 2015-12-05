@@ -368,3 +368,17 @@ overwatchApp.controller('RoleDialogController', function($scope, close) {
  	close(result);
     };
 });
+
+overwatchApp.controller('EditTelephoneNumberController', function($scope, overwatchApi) {
+    $scope.telephoneNumber = currentUser.telephoneNumber;
+
+    $scope.save = function() {
+        overwatchApi.put(Routing.generate('overwatch_user_api_updateuser'), {telephoneNumber: $scope.telephoneNumber})
+            .then(function() {
+                alert('Saved!');
+            })
+            .catch(function() {
+                alert('Sorry, there was an error saving your telephone number.');
+            });
+    };
+});
