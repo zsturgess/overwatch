@@ -21,12 +21,12 @@ use Overwatch\UserBundle\Enum\AlertSetting;
  */
 class ApiController extends Controller
 {
-    private $_em;
+    private $em;
     
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->_em = $this->getDoctrine()->getManager();
+        $this->em = $this->getDoctrine()->getManager();
     }
     
     /**
@@ -63,7 +63,7 @@ class ApiController extends Controller
      */
     public function getAllUsers()
     {
-        $users = $this->_em->getRepository("OverwatchUserBundle:User")->findAll();
+        $users = $this->em->getRepository("OverwatchUserBundle:User")->findAll();
         return new JsonResponse($users);
     }
     
@@ -143,12 +143,40 @@ class ApiController extends Controller
      *         "User" = "#75ff47"
      *     }
      * )
+     * @deprecated use updateUser() instead.
+     * @todo Remove this once the frontend doesn't use it.
      */
     public function setAlertSetting($setting)
     {
         $this->getUser()->setAlertSetting($setting);
-        $this->_em->flush();
+        $this->em->flush();
         
+        return new JsonResponse($this->getUser());
+    }
+    
+    /**
+     * 
+     * @Route("/users")
+     * @Method({"PUT"})
+     * @ApiDoc(
+     *     parameters={
+     *         {"name"="alertSetting", "description"="The new alert setting for the user", "dataType"="integer", "requirement"="[0-4]"},
+     *         {"name"="telephoneNumber", "description"="The new telephone number for the user", "dataType"="string"},
+     *     },
+     *     tags={
+     *         "Super Admin" = "#ff1919",
+     *         "Admin" = "#ffff33",
+     *         "User" = "#75ff47"
+     *     }
+     * )
+     */
+    public function updateUser(Request $request) {
+        $user = $this->getUser();
+        $user
+            ->setAlertSetting($request->request->get('alertSetting', $user->getAlertSetting()))
+            ->setTelephoneNumber($request->request->get('telephoneNumber', $user->getTelephoneNumber()));
+
+        $this->em->flush();
         return new JsonResponse($this->getUser());
     }
     
@@ -174,7 +202,7 @@ class ApiController extends Controller
         }
         
         $user->setLocked(!$user->isLocked());
-        $this->_em->flush();
+        $this->em->flush();
         
         return new JsonResponse($user);
     }
@@ -205,7 +233,7 @@ class ApiController extends Controller
             $user->setRoles([$role]);
         }
         
-        $this->_em->flush();
+        $this->em->flush();
         
         return new JsonResponse($user);
     }
@@ -231,8 +259,8 @@ class ApiController extends Controller
             throw new AccessDeniedHttpException("You may not delete yourself.");
         }
         
-        $this->_em->remove($user);
-        $this->_em->flush();
+        $this->em->remove($user);
+        $this->em->flush();
         
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
