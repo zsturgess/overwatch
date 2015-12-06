@@ -3,7 +3,7 @@
         <li><a href="{{ url('overwatch_user_app_index') }}#/"><i class="icon-test"></i> Dashboard</a></li>
         {% if is_granted('ROLE_SUPER_ADMIN') %}<li><a href="{{ url('overwatch_user_app_index') }}#/users"><i class="icon-users"></i> Manage Users</a></li>{% endif %}
         <li><a href="{{ url('overwatch_user_app_index') }}#/alerts"><i class="icon-bell"></i> Change alert settings</a></li>
-        <li><a href="{{ url('fos_user_change_password') }}" target="_self"><i class="icon-key"></i> My Account</a></li>
+        <li><a href="{{ url('overwatch_user_app_index') }}#/my-account"><i class="icon-key"></i> My Account</a></li>
         <li><a href="{{ url('fos_user_security_logout') }}" target="_self"><i class="icon-exit"></i> Logout</a></li>
     </ul>
 </nav>

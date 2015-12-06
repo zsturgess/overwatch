@@ -130,32 +130,6 @@ class ApiController extends Controller
     }
     
     /**
-     * Updates the current user's alert settings to the given setting
-     * 
-     * @Route("/users/alertSetting/{setting}")
-     * @Method({"PUT","POST"})
-     * @ApiDoc(
-     *     requirements={
-     *         {"name"="setting", "description"="The new alert setting for the user", "dataType"="integer", "requirement"="[0-4]"}
-     *     },
-     *     tags={
-     *         "Super Admin" = "#ff1919",
-     *         "Admin" = "#ffff33",
-     *         "User" = "#75ff47"
-     *     }
-     * )
-     * @deprecated use updateUser() instead.
-     * @todo Remove this once the frontend doesn't use it.
-     */
-    public function setAlertSetting($setting)
-    {
-        $this->getUser()->setAlertSetting($setting);
-        $this->em->flush();
-        
-        return new JsonResponse($this->getUser());
-    }
-    
-    /**
      * 
      * @Route("/users")
      * @Method({"PUT"})
@@ -171,7 +145,8 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function updateUser(Request $request) {
+    public function updateUser(Request $request)
+    {
         $user = $this->getUser();
         $user
             ->setAlertSetting($request->request->get('alertSetting', $user->getAlertSetting()))

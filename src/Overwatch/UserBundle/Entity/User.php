@@ -139,7 +139,8 @@ class User extends BaseUser implements \JsonSerializable
      * 
      * @return string
      */
-    public function getTelephoneNumber() {
+    public function getTelephoneNumber()
+    {
         return $this->telephoneNumber;
     }
 
@@ -149,7 +150,8 @@ class User extends BaseUser implements \JsonSerializable
      * @param string $telephoneNumber
      * @return User
      */
-    public function setTelephoneNumber($telephoneNumber) {
+    public function setTelephoneNumber($telephoneNumber)
+    {
         $this->telephoneNumber = $telephoneNumber;
         
         return $this;

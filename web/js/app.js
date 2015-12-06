@@ -41,6 +41,11 @@ overwatchApp.config(function($routeProvider, IdleProvider) {
                 templateUrl: 'partials/changeAlertSettings.html',
                 controller: 'ManageAlertSettingsController'
             })
+            .when('/my-account', {
+                title: 'My Account',
+                templateUrl: '/profile/change-password',
+                controller: 'MyAccountController'
+            })
             .otherwise({
                 redirectTo: '/'
             })

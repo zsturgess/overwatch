@@ -369,16 +369,33 @@ overwatchApp.controller('RoleDialogController', function($scope, close) {
     };
 });
 
-overwatchApp.controller('EditTelephoneNumberController', function($scope, overwatchApi) {
+overwatchApp.controller('MyAccountController', function(showLoading, $scope, overwatchApi) {
     $scope.telephoneNumber = currentUser.telephoneNumber;
+    $scope.apiKeyFieldType = 'password';
 
-    $scope.save = function() {
+    $scope.saveProfile = function() {
+        showLoading(true);
+        
         overwatchApi.put(Routing.generate('overwatch_user_api_updateuser'), {telephoneNumber: $scope.telephoneNumber})
-            .then(function() {
-                alert('Saved!');
+            .then(function(response) {
+                currentUser.telephoneNumber = response.data.telephoneNumber;
+                showLoading(false);
             })
             .catch(function() {
+                showLoading(false);
                 alert('Sorry, there was an error saving your telephone number.');
             });
     };
+    
+    $scope.toggleAPIKeyVisibility = function() {
+        var type = "password";
+
+        if ($scope.apiKeyFieldType === "password") {
+            type = "text";
+        }
+
+        $scope.apiKeyFieldType = type;
+    }
+    
+    showLoading(false);
 });

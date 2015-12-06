@@ -25,6 +25,7 @@ Tests are run by the overwatch:tests:run command (`php app/console overwatch:tes
 
 Overwatch will pass test results off to _result reporters_ as it saves them to the database. Overwatch comes bundled with the following result reporters:
 - [EmailReporter](result-reporters/email_reporter.md) - Will send a notification e-mail to each user in the same group as the test, if the user's notification settings allow
+- [SmsReporter](result-reporters/sms_reporter.md) - Will send an SMS alert to each user in the same group as the test, as long as the user has provided a telephone number and their notification settings allow.
 
 Overwatch is also set up in such a way to allow the creation of 3rd Party "addon" result reporters, see [Extending Overwatch](extending.md)
 

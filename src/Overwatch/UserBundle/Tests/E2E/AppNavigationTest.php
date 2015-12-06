@@ -17,7 +17,7 @@ class AppNavigationTest extends WebDriverTestCase {
         "#/",
         "#/users",
         "#/alerts",
-        "profile/change-password"
+        "#/my-account"
     ];
     
     public function setUp() {
@@ -84,7 +84,7 @@ class AppNavigationTest extends WebDriverTestCase {
     
     private function getBreadcrumbs() {
         return $this->webDriver->findElements(
-            WebDriverBy::cssSelector("ul.breadcrumbs li")
+            WebDriverBy::cssSelector("ul.breadcrumbs li:not(.ng-hide)")
         );
     }
 }
