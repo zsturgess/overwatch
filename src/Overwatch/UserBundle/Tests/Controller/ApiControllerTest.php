@@ -106,24 +106,6 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testSetAlertSetting() {
-        $this->loginAs(
-            $this->em->find(
-                'Overwatch\UserBundle\Entity\User',
-                UserFixtures::$users['user-2']->getId()
-            ),
-            'overwatchApi'
-        );
-        $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
-        $this->client->request('POST', '/api/users/alertSetting/1');
-        
-        $this->assertJsonResponse($this->client->getResponse());
-        $this->assertEquals(
-            1,
-            $this->em->find('Overwatch\UserBundle\Entity\User', UserFixtures::$users['user-2']->getId())->getAlertSetting()
-        );
-    }
-    
     public function testUpdateUser() {
         $this->loginAs(
             $this->em->find(

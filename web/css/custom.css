@@ -94,3 +94,11 @@ div.user-key {
 .api-actions a:last-child {
     float: right;
 }
+
+.profile-details {
+    width: 50%;
+}
+
+label .hint {
+    float: right;
+}

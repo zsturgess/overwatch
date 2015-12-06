@@ -20,10 +20,10 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
         $user1 = new User;
         $user1
             ->setAlertSetting(AlertSetting::ALL)
-            ->setEmail("overwatch.admin@example.com")
-            ->setTelephoneNumber("+4401628813587")
+            ->setEmail('overwatch.admin@example.com')
+            ->setTelephoneNumber('+4401628813587')
             ->setEnabled(true)
-            ->setPlainPassword("p4ssw0rd")
+            ->setPlainPassword('p4ssw0rd')
             ->setSuperAdmin(true)
         ;
         $em->persist($user1);
@@ -31,20 +31,20 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
         $user2 = new User;
         $user2
             ->setAlertSetting(AlertSetting::NONE)
-            ->setEmail("overwatch.user@example.com")
+            ->setEmail('overwatch.user@example.com')
             ->setEnabled(true)
-            ->setPlainPassword("p4ssw0rd")
-            ->setRoles(["ROLE_USER"])
+            ->setPlainPassword('p4ssw0rd')
+            ->setRoles(['ROLE_USER'])
         ;
         $em->persist($user2);
         
         $user3 = new User;
         $user3
             ->setAlertSetting(AlertSetting::NONE)
-            ->setEmail("overwatch.group.admin@example.com")
+            ->setEmail('overwatch.group.admin@example.com')
             ->setEnabled(true)
-            ->setPlainPassword("p4ssw0rd")
-            ->setRoles(["ROLE_ADMIN"])
+            ->setPlainPassword('p4ssw0rd')
+            ->setRoles(['ROLE_ADMIN'])
         ;
         $em->persist($user3);
         

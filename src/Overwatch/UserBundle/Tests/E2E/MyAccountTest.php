@@ -3,6 +3,7 @@
 namespace Overwatch\UserBundle\Tests\E2E;
 
 use Facebook\WebDriver\WebDriverBy;
+use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 
 /**
@@ -21,6 +22,29 @@ class MyAccountTest extends WebDriverTestCase {
             WebDriverBy::cssSelector("#sidebar li:nth-child(4) a")
         )->click();
         $this->waitForLoadingAnimation();
+    }
+    
+    public function testProfileDetails() {
+        $newDetails = [
+            'telephoneNumber' => '+4401628813588'
+        ];
+        
+        $profileItems = $this->webDriver->findElements(
+            WebDriverBy::cssSelector('.profile-details input')
+        );
+        
+        $this->assertEquals(
+            UserFixtures::$users['user-1']->getTelephoneNumber(),
+            $profileItems[0]->getAttribute('value')
+        );
+        
+        $profileItems[0]->clear();
+        $profileItems[0]->sendKeys($newDetails['telephoneNumber']);
+
+        $profileItems[count($profileItems) - 1]->click();
+        $this->waitForLoadingAnimation();
+        
+        $this->assertEquals($newDetails['telephoneNumber'], $profileItems[0]->getAttribute('value'));
     }
     
     public function testApiKeyHidden() {
@@ -48,6 +72,7 @@ class MyAccountTest extends WebDriverTestCase {
         $value = $this->getApiKeyField()->getAttribute("value");
         
         $this->clickApiKeyAction(2);
+        $this->waitForLoadingAnimation();
         
         $this->assertNotEquals(
             $this->getApiKeyField()->getAttribute("value"),

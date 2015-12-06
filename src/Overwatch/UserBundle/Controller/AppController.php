@@ -38,6 +38,6 @@ class AppController extends Controller
         $this->getUser()->resetApiKey();
         $this->_em->flush();
         
-        return $this->redirectToRoute('fos_user_change_password');
+        return $this->redirect($this->generateUrl('overwatch_user_app_index') . '#/my-account');
     }
 }
