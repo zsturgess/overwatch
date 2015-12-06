@@ -7,7 +7,11 @@
          beStrictAboutOutputDuringTests="true"
          backupGlobals="false"
          colors="true"
-         bootstrap="bootstrap.php.cache">
+         bootstrap="autoload.php">
+    <php>
+        <ini name="error_reporting" value="-1" />
+    </php>
+    
     <testsuites>
         <testsuite name="Overwatch Test Suite">
             <directory>../src/*/*Bundle/Tests</directory>
