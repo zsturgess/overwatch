@@ -2,11 +2,10 @@
 
 namespace Overwatch\UserBundle\Entity;
 
-use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Entity\User as BaseUser;
 use Overwatch\ResultBundle\Entity\TestResult;
 use Overwatch\UserBundle\Enum\AlertSetting;
-use Symfony\Component\Security\Core\Util\SecureRandom;
 
 /**
  * User
@@ -115,8 +114,7 @@ class User extends BaseUser implements \JsonSerializable
     
     public function resetApiKey()
     {
-        $random = new SecureRandom();
-        $this->apiKey = sha1($random->nextBytes(10));
+        $this->apiKey = sha1(random_bytes(10));
         
         return $this;
     }
