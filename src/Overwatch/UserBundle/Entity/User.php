@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Overwatch\ResultBundle\Entity\TestResult;
 use Overwatch\UserBundle\Enum\AlertSetting;
-use Symfony\Component\Security\Core\Util\SecureRandom;
 
 /**
  * User
