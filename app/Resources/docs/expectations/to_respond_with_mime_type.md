@@ -13,7 +13,9 @@ This expectation will check that https://www.google.co.uk/ responds with the mim
 ## Configuration
 
 ```
-to_respond_with_mime_type: ~
+to_respond_with_mime_type:
+    allow_errors: false
+    timeout: 5
 ```
-
-There are currently no global configuration options.
+**allow_errors** (boolean) If true, HTTP errors (4xx and 5xx responses) will still have their MIME types checked. When false (the default), HTTP errors will cause the expectation to return an ERROR result.
+**timeout** (float) Time, in seconds, to wait for a HTTP response before timing out. Use 0 for no timeout.

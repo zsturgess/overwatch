@@ -17,6 +17,16 @@ class ToRespondWithMimeTypeExpectationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('Responded with mime type: "application/json"', $actualResult);
     }
+    
+    public function testExpectationWithAllowedHttpErrors()
+    {
+        $expectation = $this->createExpectationWithMockedResponse('application/json', 500, true);
+
+        $actualResult = $expectation->run('http://someapi.test/endpoint.json', 'application/json');
+
+        $this->assertEquals('Responded with mime type: "application/json"', $actualResult);
+    }
+
 
     /**
      * @expectedException Overwatch\ExpectationBundle\Exception\ExpectationFailedException
@@ -47,7 +57,7 @@ class ToRespondWithMimeTypeExpectationTest extends \PHPUnit_Framework_TestCase
             ->run('http://someapi.test/endpoint.json', 'text/html');
     }
 
-    private function createExpectationWithMockedResponse($resultMimeType, $httpCode = 200)
+    private function createExpectationWithMockedResponse($resultMimeType, $httpCode = 200, $httpErrors = false)
     {
         $mock = new MockHandler([
             new Response($httpCode, ['Content-Type' => $resultMimeType]),
@@ -55,6 +65,9 @@ class ToRespondWithMimeTypeExpectationTest extends \PHPUnit_Framework_TestCase
 
         $handler = HandlerStack::create($mock);
 
-        return new ToRespondWithMimeTypeExpectation([], ['handler' => $handler]);
+        return new ToRespondWithMimeTypeExpectation([
+            'allow_errors' => $httpErrors,
+            'timeout' => 5
+        ], ['handler' => $handler]);
     }
 }
