@@ -33,7 +33,9 @@ class ToRespondWithMimeTypeExpectation implements ExpectationInterface
         $response = $this->httpClient->get(
             $actual,
             [
-                'allow_redirects' => false
+                'allow_redirects' => false,
+                'http_errors' => !$this->expectationConfig['allow_errors'],
+                'timeout' => $this->expectationConfig['timeout']
             ]
         );
 
