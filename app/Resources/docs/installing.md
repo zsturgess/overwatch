@@ -19,10 +19,9 @@ If you are using the *Source code* download option, or are cloning the project u
 
 ##Set-up
 ###Creating the first user
-1. Run `php app/console fos:user:create` to create your first user.
+1. Run `php app/console fos:user:create --super-admin` to create the first user as a super administrator.
    **Note:** Overwatch has no concept of usernames, whatever you type will be overwritten with your e-mail address. If any commands request your username from this point, provide your e-mail address instead.
-2. Run `php app/console fos:user:promote` and when asked to choose a role, type `ROLE_SUPER_ADMIN` to promote this user to be a super admin.
-3. You should now be able to log into the Overwatch dashboard with the e-mail address and password you chose to configure your users, tests and groups.
+2. You should now be able to log into the Overwatch dashboard with the e-mail address and password you chose to configure the rest of your users, as well as your tests and groups.
 
 ###Running the tests
 > If there is a warning on the Overwatch dashboard directing you here, it is likely that your system administrator has not scheduled the test runner as laid out below.
