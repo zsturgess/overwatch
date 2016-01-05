@@ -5,9 +5,9 @@ namespace Overwatch\ServiceBundle\Expectation;
 use GuzzleHttp\Client as HttpClient;
 use Overwatch\ExpectationBundle\Exception as Result;
 use Overwatch\ExpectationBundle\Expectation\ExpectationInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * ToRespondWithMimeTypeExpectation
  * Expectation that a URL will respond to a HTTP request with the given mime type.
  */
 class ToRespondWithMimeTypeExpectation implements ExpectationInterface

@@ -6,6 +6,7 @@ overwatch_service:
     to_resolve_to: ~
     to_respond_http: ~
     to_respond_with_mime_type: ~
+    to_contain_text: ~
     email_reporter:
         report_from: %mailer_from%
     sms_reporter: ~ 

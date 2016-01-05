@@ -18,6 +18,7 @@ class ApiControllerTest extends FunctionalTestCase
             'toResolveTo',
             'toRespondHttp',
             'toRespondWithMimeType',
+            'toContainText',
         ];
 
         $this->logIn('ROLE_ADMIN');
