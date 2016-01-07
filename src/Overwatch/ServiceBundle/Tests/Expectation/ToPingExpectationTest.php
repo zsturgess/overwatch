@@ -5,30 +5,32 @@ namespace Overwatch\ServiceBundle\Tests\Expectation;
 use Overwatch\ServiceBundle\Expectation\ToPingExpectation;
 use phpmock\phpunit\PHPMock;
 
-
 /**
  * ToPingExpectationTest
  */
-class ToPingExpectationTest extends \PHPUnit_Framework_TestCase {
+class ToPingExpectationTest extends \PHPUnit_Framework_TestCase
+{
     use PHPMock;
     
     private $expectation;
     
-    public function setUp() {
+    public function setUp()
+    {
         $this->createSocketMocks();
         
         $this->expectation = new ToPingExpectation([
-            "timeout" => 2,
-            "unsatisfactory" => 1
+            'timeout'        => 2,
+            'unsatisfactory' => 1
         ]);
     }
     
-    public function testExpectation() {
+    public function testExpectation()
+    {
         $this->createSocketReadMock();
         
         $this->assertContains(
-            "Pinged in ",
-            $this->expectation->run("8.8.8.8")
+            'Pinged in ',
+            $this->expectation->run('8.8.8.8')
         );
     }
     
@@ -36,38 +38,42 @@ class ToPingExpectationTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Overwatch\ExpectationBundle\Exception\ExpectationUnsatisfactoryException
      * @expectedExceptionMessage above the unsatisfactory threshold 
      */
-    public function testExpectationUnsatisfactory() {
+    public function testExpectationUnsatisfactory()
+    {
         $expectation = new ToPingExpectation([
-            "timeout" => 2,
-            "unsatisfactory" => 0.2
+            'timeout'        => 2,
+            'unsatisfactory' => 0.2
         ]);
         $this->createSocketReadMock('delayed');
-        $expectation->run("8.8.8.8");
+        $expectation->run('8.8.8.8');
     }
     
     /**
      * @expectedException Overwatch\ExpectationBundle\Exception\ExpectationFailedException
      * @expectedExceptionMessage failed to respond in the timeout threshold 
      */
-    public function testExpectationFailed() {
+    public function testExpectationFailed()
+    {
         $this->createSocketReadMock('failed');
-        $this->expectation->run("8.8.8.8");
+        $this->expectation->run('8.8.8.8');
     }
     
-    private function createSocketMocks() {
+    private function createSocketMocks()
+    {
         foreach ([
-            "socket_create",
-            "socket_set_option",
-            "socket_connect",
-            "socket_send",
-            "socket_close"
+            'socket_create',
+            'socket_set_option',
+            'socket_connect',
+            'socket_send',
+            'socket_close'
         ] as $func) {
             $mock = $this->getFunctionMock('Overwatch\ServiceBundle\Expectation', $func);
             $mock->expects($this->once())->willReturn(true);
         }
     }
     
-    private function createSocketReadMock($type = "normal") {
+    private function createSocketReadMock($type = 'normal')
+    {
         $mock = $this->getFunctionMock('Overwatch\ServiceBundle\Expectation', 'socket_read');
         
         switch ($type) {
@@ -76,7 +82,7 @@ class ToPingExpectationTest extends \PHPUnit_Framework_TestCase {
                 break;
             
             case 'delayed':
-                $mock->expects($this->once())->willReturnCallback(function() {
+                $mock->expects($this->once())->willReturnCallback(function () {
                     usleep(210000);
                     return true;
                 });

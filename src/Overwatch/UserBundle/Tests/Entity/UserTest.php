@@ -36,13 +36,13 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::TELNO, $this->user->getTelephoneNumber());
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'id' => NULL,
-                'email' => self::EMAIL,
-                'alertSetting' => AlertSetting::CHANGE_BAD,
-                "telephoneNumber" => self::TELNO,
-                'lastLogin' => '',
-                'locked' => false,
-                'roles' => ['ROLE_USER']
+                'id'              => null,
+                'email'           => self::EMAIL,
+                'alertSetting'    => AlertSetting::CHANGE_BAD,
+                'telephoneNumber' => self::TELNO,
+                'lastLogin'       => '',
+                'locked'          => false,
+                'roles'           => ['ROLE_USER']
             ]),
             json_encode($this->user)
         );

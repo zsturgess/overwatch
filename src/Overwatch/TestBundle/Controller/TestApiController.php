@@ -3,18 +3,18 @@
 namespace Overwatch\TestBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpFoundation\Request;
 use Overwatch\ExpectationBundle\Exception\ExpectationNotFoundException;
 use Overwatch\TestBundle\Entity\Test;
 use Overwatch\TestBundle\Entity\TestGroup;
 use Overwatch\TestBundle\Security\TestGroupVoter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * ApiController
@@ -31,7 +31,7 @@ class TestApiController extends Controller
     {
         parent::setContainer($container);
         $this->_em = $this->getDoctrine()->getManager();
-        $this->expectationManager = $this->get("overwatch_expectation.expectation_manager");
+        $this->expectationManager = $this->get('overwatch_expectation.expectation_manager');
     }
 
     /**
@@ -51,7 +51,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function getTest(Test $test)
+    public function getTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be a member of this test's group to view it");
@@ -83,7 +83,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function createTest(Request $request, TestGroup $group)
+    public function createTestAction(Request $request, TestGroup $group)
     {
         $test = new Test();
         $test
@@ -101,7 +101,7 @@ class TestApiController extends Controller
         }
         
         if ($test->getActual() === null) {
-            return new JsonResponse("An actual value to test against must be provided.", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse('An actual value to test against must be provided.', JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         
         $this->_em->persist($test);
@@ -127,7 +127,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function getTestsInGroup(TestGroup $group)
+    public function getTestsInGroupAction(TestGroup $group)
     {
         return new JsonResponse($group->getTests()->toArray());
     }
@@ -153,7 +153,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function updateTest(Request $request, Test $test)
+    public function updateTestAction(Request $request, Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to edit it");
@@ -161,7 +161,7 @@ class TestApiController extends Controller
         
         foreach (['name', 'actual', 'expectation', 'expected'] as $field) {
             if ($request->request->has($field)) {
-                $test->{"set" . ucfirst($field)}($request->request->get($field));
+                $test->{'set' . ucfirst($field)}($request->request->get($field));
             }
         }
         
@@ -184,7 +184,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function deleteTest(Test $test)
+    public function deleteTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to delete it");
@@ -211,7 +211,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function runTest(Test $test)
+    public function runTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to run it");

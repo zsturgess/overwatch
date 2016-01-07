@@ -33,8 +33,8 @@ class ToContainTextExpectation implements ExpectationInterface
             $actual,
             [
                 'allow_redirects' => false,
-                'http_errors' => !$this->expectationConfig['allow_errors'],
-                'timeout' => $this->expectationConfig['timeout']
+                'http_errors'     => !$this->expectationConfig['allow_errors'],
+                'timeout'         => $this->expectationConfig['timeout']
             ]
         );
 

@@ -54,8 +54,8 @@ class SmsReporter implements ResultReporterInterface
             $user->getTelephoneNumber(),
             $this->container->get('templating')->render(
                 'OverwatchServiceBundle:Sms:result.txt.twig',
-                ["result" => $result]
-            )   
+                ['result' => $result]
+            )
         );
     }
 }

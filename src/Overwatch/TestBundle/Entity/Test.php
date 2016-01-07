@@ -104,14 +104,14 @@ class Test implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            "id" => $this->getId(),
-            "name" => $this->getName(),
-            "actual" => $this->getActual(),
-            "expectation" => $this->getExpectation(),
-            "expected" => $this->getExpected(),
-            "result" => $this->getResults()->last(),
-            "createdAt" => $this->getCreatedAt()->getTimestamp(),
-            "updatedAt" => $this->getUpdatedAt()->getTimestamp()
+            'id'          => $this->getId(),
+            'name'        => $this->getName(),
+            'actual'      => $this->getActual(),
+            'expectation' => $this->getExpectation(),
+            'expected'    => $this->getExpected(),
+            'result'      => $this->getResults()->last(),
+            'createdAt'   => $this->getCreatedAt()->getTimestamp(),
+            'updatedAt'   => $this->getUpdatedAt()->getTimestamp()
         ];
     }
     

@@ -42,15 +42,15 @@ class TestRepository extends EntityRepository
     public function findByName($name)
     {
         return $this->findOneBy([
-            "name" => $name
+            'name' => $name
         ]);
     }
     
     public function findByGroupName($name)
     {
-        $group = $this->_em->getRepository("OverwatchTestBundle:TestGroup")
+        $group = $this->_em->getRepository('OverwatchTestBundle:TestGroup')
             ->findOneBy([
-                "name" => $name
+                'name' => $name
             ]);
 
         if ($group === null) {
@@ -58,7 +58,7 @@ class TestRepository extends EntityRepository
         }
         
         return $this->findBy([
-            "group" => $group
+            'group' => $group
         ]);
     }
 }

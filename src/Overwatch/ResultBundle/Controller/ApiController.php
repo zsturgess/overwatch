@@ -3,16 +3,16 @@
 namespace Overwatch\ResultBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpFoundation\Request;
 use Overwatch\TestBundle\Entity\Test;
 use Overwatch\TestBundle\Entity\TestGroup;
 use Overwatch\TestBundle\Security\TestGroupVoter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * ApiController
@@ -38,7 +38,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getResults(Request $request)
+    public function getResultsAction(Request $request)
     {
         $size = $request->query->get('pageSize', 10);
 
@@ -72,7 +72,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getRecentGroupResults(TestGroup $group, Request $request)
+    public function getRecentGroupResultsAction(TestGroup $group, Request $request)
     {
         $results = [];
         $size = $request->query->get('pageSize', 10);
@@ -110,7 +110,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getResultsForTest(Request $request, Test $test)
+    public function getResultsForTestAction(Request $request, Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
             throw new AccessDeniedHttpException('You must be a member of this test\'s group to see it\'s results');

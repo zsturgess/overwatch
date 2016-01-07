@@ -2,16 +2,17 @@
 
 namespace Overwatch\ResultBundle\Tests\Command;
 
+use Overwatch\ResultBundle\Command\ResultCleanupCommand;
+use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
+use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Overwatch\ResultBundle\Command\ResultCleanupCommand;
-use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
-use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
 
 /**
  * ResultCleanupCommandTest
  */
-class ResultCleanupCommandTest extends DatabaseAwareTestCase {
+class ResultCleanupCommandTest extends DatabaseAwareTestCase
+{
     use \phpmock\phpunit\PHPMock;
     use \Overwatch\TestBundle\Tests\Command\ConsoleTestHelperTrait;
 
@@ -57,7 +58,7 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
     {
         $this->createUnwritableFilePutContentsMock();
         $this->execute([
-            '--archive' => true,
+            '--archive'  => true,
             '--compress' => '-2 days'
         ]);
     }
@@ -72,11 +73,11 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
         $this->assertCountLinesOfOutput(4);
 
         $this->assertHasStandardOutput();
-        $this->assertContains("Finding results older than", $this->output[1]);
+        $this->assertContains('Finding results older than', $this->output[1]);
         $this->assertFinishedRunningCountOperations(1);
 
-        $this->assertFalse($this->resultRepo->getResultsOlderThan(new \DateTime("-90 minutes"))->next());
-        $this->assertNotFalse($this->resultRepo->getResultsOlderThan(new \DateTime("-1 minute"))->next());
+        $this->assertFalse($this->resultRepo->getResultsOlderThan(new \DateTime('-90 minutes'))->next());
+        $this->assertNotFalse($this->resultRepo->getResultsOlderThan(new \DateTime('-1 minute'))->next());
     }
 
     public function testCompress()
@@ -89,7 +90,7 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
         $this->assertCountLinesOfOutput(4);
 
         $this->assertHasStandardOutput();
-        $this->assertContains("Finding results older than", $this->output[1]);
+        $this->assertContains('Finding results older than', $this->output[1]);
         $this->assertFinishedRunningCountOperations(2);
 
         $results = $this->resultRepo->getResults([]);
@@ -102,22 +103,22 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
     {
         $this->createFilePutContentsMock();
 
-        $expectedArchive = (string) $this->resultRepo->getResultsOlderThan(new \DateTime("-1 hour"))->next()[0];
+        $expectedArchive = (string) $this->resultRepo->getResultsOlderThan(new \DateTime('-1 hour'))->next()[0];
 
         $returnCode = $this->execute([
             '--archive' => true,
-            '--delete' => '-90 minutes'
+            '--delete'  => '-90 minutes'
         ]);
 
         $this->assertEquals(0, $returnCode);
         $this->assertCountLinesOfOutput(5);
 
         $this->assertHasStandardOutput();
-        $this->assertContains("Finding results older than", $this->output[2]);
+        $this->assertContains('Finding results older than', $this->output[2]);
         $this->assertFinishedRunningCountOperations(1);
 
-        $this->assertFalse($this->resultRepo->getResultsOlderThan(new \DateTime("-90 minutes"))->next());
-        $this->assertNotFalse($this->resultRepo->getResultsOlderThan(new \DateTime("-1 minute"))->next());
+        $this->assertFalse($this->resultRepo->getResultsOlderThan(new \DateTime('-90 minutes'))->next());
+        $this->assertNotFalse($this->resultRepo->getResultsOlderThan(new \DateTime('-1 minute'))->next());
 
         $this->assertCount(2, $this->archive);
         $this->assertStringStartsWith($this->application->getName(), $this->archive[0]);
@@ -135,7 +136,7 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
         ];
 
         $returnCode = $this->execute([
-            '--archive' => true,
+            '--archive'  => true,
             '--compress' => 'now'
         ]);
 
@@ -143,7 +144,7 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
         $this->assertCountLinesOfOutput(5);
 
         $this->assertHasStandardOutput();
-        $this->assertContains("Finding results older than", $this->output[2]);
+        $this->assertContains('Finding results older than', $this->output[2]);
         $this->assertFinishedRunningCountOperations(2);
 
         $results = $this->resultRepo->getResults([]);
@@ -169,8 +170,8 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
         $this->archive = [];
 
         $mock = $this->getFunctionMock('Overwatch\ResultBundle\Command', 'file_put_contents');
-        $mock->expects($this->any())->willReturnCallback(function($file, $contents, $mode) {
-            $this->assertRegExp("/overwatch_archive_[0-9]{14}.log/i", $file);
+        $mock->expects($this->any())->willReturnCallback(function ($file, $contents, $mode) {
+            $this->assertRegExp('/overwatch_archive_[0-9]{14}.log/i', $file);
             $this->assertStringEndsWith(PHP_EOL, $contents);
             $this->assertEquals(FILE_APPEND, $mode);
 
@@ -182,6 +183,6 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase {
     private function assertFinishedRunningCountOperations($count)
     {
         $this->assertEquals(" > Applying $count cleanup operations", $this->output[count($this->output) - 2]);
-        $this->assertEquals("Cleanup finished", $this->output[count($this->output) - 1]);
+        $this->assertEquals('Cleanup finished', $this->output[count($this->output) - 1]);
     }
 }

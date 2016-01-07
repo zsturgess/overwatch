@@ -12,34 +12,34 @@ use Overwatch\TestBundle\Entity\Test;
  */
 class TestFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
-    static public $tests;
+    public static $tests;
 
     public function load(ObjectManager $em)
     {
         $test1 = new Test;
         $test1
-            ->setName("Group 1, Test 1")
-            ->setActual("8.8.8.8")
-            ->setExpectation("toPing")
-            ->setGroup($this->getReference("group-1"))
+            ->setName('Group 1, Test 1')
+            ->setActual('8.8.8.8')
+            ->setExpectation('toPing')
+            ->setGroup($this->getReference('group-1'))
         ;
         $em->persist($test1);
         
         $test2 = new Test;
         $test2
-            ->setName("Group 1, Test 2")
-            ->setActual("8.8.8.9")
-            ->setExpectation("toPing")
-            ->setGroup($this->getReference("group-1"))
+            ->setName('Group 1, Test 2')
+            ->setActual('8.8.8.9')
+            ->setExpectation('toPing')
+            ->setGroup($this->getReference('group-1'))
         ;
         $em->persist($test2);
         
         $test3 = new Test;
         $test3
-            ->setName("Group 2, Test 3")
-            ->setActual("www.google.co.uk")
-            ->setExpectation("toPing")
-            ->setGroup($this->getReference("group-2"))
+            ->setName('Group 2, Test 3')
+            ->setActual('www.google.co.uk')
+            ->setExpectation('toPing')
+            ->setGroup($this->getReference('group-2'))
         ;
         $em->persist($test3);
         

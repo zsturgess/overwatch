@@ -2,9 +2,9 @@
 
 namespace Overwatch\ResultBundle\Tests\Entity;
 
-use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
-use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
+use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
+use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
 
 /**
  * TestResultRepository

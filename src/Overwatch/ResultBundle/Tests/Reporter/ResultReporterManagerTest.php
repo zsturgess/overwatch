@@ -55,7 +55,7 @@ class ResultReporterManagerTest extends \PHPUnit_Framework_TestCase
         $this->emailReporterMock
             ->expects($this->any())
             ->method('notify')
-            ->willThrowException(new \Exception("Beard error #4"))
+            ->willThrowException(new \Exception('Beard error #4'))
         ;
 
         $this->rrm->add($this->emailReporterMock);

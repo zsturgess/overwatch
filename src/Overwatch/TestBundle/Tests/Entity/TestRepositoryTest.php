@@ -2,26 +2,29 @@
 
 namespace Overwatch\TestBundle\Tests\Entity;
 
-use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures;
+use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
 
 /**
  * TestRepositoryTest
  * Functional tests for TestRepository
  */
-class TestRepositoryTest extends DatabaseAwareTestCase {
+class TestRepositoryTest extends DatabaseAwareTestCase
+{
     /**
      * @var Overwatch\ResultBundle\Entity\TestResultRepository
      */
     private $repo;
     
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
-        $this->repo = $this->em->getRepository("OverwatchTestBundle:Test");
+        $this->repo = $this->em->getRepository('OverwatchTestBundle:Test');
     }
     
-    public function testFindTests() {
+    public function testFindTests()
+    {
         $results = $this->repo->findTests([
             TestFixtures::$tests['test-3']->getName(),
             TestGroupFixtures::$groups['group-1']->getName()
@@ -42,39 +45,44 @@ class TestRepositoryTest extends DatabaseAwareTestCase {
         );
     }
     
-    public function testFindTestsEmptySearch() {
+    public function testFindTestsEmptySearch()
+    {
         $this->assertEquals($this->repo->findAll(), $this->repo->findTests());
     }
     
-    public function testFindTestsCorrectsNonArrayParameter() {
+    public function testFindTestsCorrectsNonArrayParameter()
+    {
         $this->assertEquals(
-            $this->repo->findTests([TestFixtures::$tests['test-3']->getName()]), 
+            $this->repo->findTests([TestFixtures::$tests['test-3']->getName()]),
             $this->repo->findTests(TestFixtures::$tests['test-3']->getName())
         );
     }
     
-    public function testFindByName() {
+    public function testFindByName()
+    {
         $name = TestFixtures::$tests['test-1']->getName();
         
         $this->assertEquals(
-            $this->repo->findOneBy(["name" => $name]),
+            $this->repo->findOneBy(['name' => $name]),
             $this->repo->findByName($name)
         );
     }
     
-    public function testFindByGroupName() {
+    public function testFindByGroupName()
+    {
         $group = TestGroupFixtures::$groups['group-1'];
         
         $this->assertEquals(
-            $this->repo->findBy(["group" => $group]),
+            $this->repo->findBy(['group' => $group]),
             $this->repo->findByGroupName($group->getName())
         );
     }
     
-    public function testFindByGroupNameInvalidGroup() {
+    public function testFindByGroupNameInvalidGroup()
+    {
         $this->assertEquals(
             [],
-            $this->repo->findByGroupName("IfThisGroupExistsIBrokeIt")
+            $this->repo->findByGroupName('IfThisGroupExistsIBrokeIt')
         );
     }
 }

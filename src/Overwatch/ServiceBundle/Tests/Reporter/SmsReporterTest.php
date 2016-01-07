@@ -4,13 +4,14 @@ namespace Overwatch\ServiceBundle\Tests\Reporter;
 
 use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
 use Overwatch\ServiceBundle\Reporter\SmsReporter;
-use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
 use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
+use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
 
 /**
  * SmsReporterTest
  */
-class SmsReporterTest extends DatabaseAwareTestCase {
+class SmsReporterTest extends DatabaseAwareTestCase
+{
     const FROM_TEL = '+CCXXXXXXXXXX';
     
     private $reporter;
@@ -51,7 +52,7 @@ class SmsReporterTest extends DatabaseAwareTestCase {
         
         $message = $this->messageSpy->getInvocations()[0]->parameters[2];
         $this->assertEquals(
-            $result->getTest()->getName() . " " . $result->getStatus() . ': Me gusta success kid upvoting Obama first world problems.',
+            $result->getTest()->getName() . ' ' . $result->getStatus() . ': Me gusta success kid upvoting Obama first world problems.',
             $message
         );
         
@@ -60,7 +61,8 @@ class SmsReporterTest extends DatabaseAwareTestCase {
         $this->assertEquals(UserFixtures::$users['user-1']->getTelephoneNumber(), $this->messageSpy->getInvocations()[0]->parameters[1]);
     }
     
-    public function testDisabled() {
+    public function testDisabled()
+    {
         $reporter = new SmsReporter(
             $this->getContainer(),
             $this->getTwilioConfig(false)
@@ -72,11 +74,12 @@ class SmsReporterTest extends DatabaseAwareTestCase {
         $this->assertCount(0, $this->messageSpy->getInvocations());
     }
     
-    private function getTwilioConfig($enabled = true) {
+    private function getTwilioConfig($enabled = true)
+    {
         return [
-            "enabled" => $enabled,
+            'enabled'            => $enabled,
             'twilio_account_sid' => 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-            'twilio_auth_token' => 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY',
+            'twilio_auth_token'  => 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY',
             'twilio_from_number' => self::FROM_TEL
         ];
     }

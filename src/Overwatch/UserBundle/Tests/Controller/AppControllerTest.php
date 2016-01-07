@@ -2,41 +2,46 @@
 
 namespace Overwatch\UserBundle\Tests\Controller;
 
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\BrowserKit\Cookie;
 use Overwatch\UserBundle\Tests\Base\FunctionalTestCase;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * AppControllerTest
  * Functional test for the index route provided by AppController
  */
-class AppControllerTest extends FunctionalTestCase {
-    public function testIndexPage() {
-        $this->logIn("ROLE_USER");
+class AppControllerTest extends FunctionalTestCase
+{
+    public function testIndexPage()
+    {
+        $this->logIn('ROLE_USER');
         $this->client->request('GET', '/');
         
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertContains("<div data-ng-view>", $this->getResponseContent(TRUE));
-        $this->assertNotContains('<i class="icon-users"></i> Manage Users', $this->getResponseContent(TRUE));
+        $this->assertContains('<div data-ng-view>', $this->getResponseContent(true));
+        $this->assertNotContains('<i class="icon-users"></i> Manage Users', $this->getResponseContent(true));
     }
     
-    public function testIndexPageAsSuperAdmin() {
-        $this->logIn("ROLE_SUPER_ADMIN");
+    public function testIndexPageAsSuperAdmin()
+    {
+        $this->logIn('ROLE_SUPER_ADMIN');
         $this->client->request('GET', '/');
         
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertContains("<div data-ng-view>", $this->getResponseContent(TRUE));
-        $this->assertContains('<i class="icon-users"></i> Manage Users', $this->getResponseContent(TRUE));
+        $this->assertContains('<div data-ng-view>', $this->getResponseContent(true));
+        $this->assertContains('<i class="icon-users"></i> Manage Users', $this->getResponseContent(true));
     }
     
-    public function testApiDocPage() {
-        $this->logIn("ROLE_SUPER_ADMIN");
+    public function testApiDocPage()
+    {
+        $this->logIn('ROLE_SUPER_ADMIN');
         $this->client->request('GET', '/api/doc');
         
         $this->assertTrue($this->client->getResponse()->isSuccessful());
     }
     
-    protected function logIn($role) {
+    protected function logIn($role)
+    {
         $session = $this->client->getContainer()->get('session');
         $firewall = 'overwatch';
         

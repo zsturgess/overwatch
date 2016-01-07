@@ -4,7 +4,7 @@
     "type": "project",
     "description": "An extensible web monitoring solution built in PHP",
     "autoload": {
-        "psr-0": { "": "src/", "SymfonyStandard": "app/" },
+        "psr-4": { "": "src/" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "require": {

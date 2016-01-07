@@ -21,7 +21,7 @@ class EmailReporter implements ResultReporterInterface
     
     public function notify(TestResult $result)
     {
-        if ($this->config["enabled"] === false) {
+        if ($this->config['enabled'] === false) {
             return;
         }
         
@@ -39,13 +39,13 @@ class EmailReporter implements ResultReporterInterface
     private function sendEmail(TestResult $result, array $users)
     {
         $message = \Swift_Message::newInstance()
-            ->setSubject($result->getTest()->getName() . " " . $result->getStatus())
+            ->setSubject($result->getTest()->getName() . ' ' . $result->getStatus())
             ->setFrom($this->config['report_from'])
             ->setTo($users)
             ->setBody(
                 $this->container->get('templating')->render(
                     'OverwatchServiceBundle:Email:result.txt.twig',
-                    ["result" => $result]
+                    ['result' => $result]
                 ),
                 'text\plain'
             )

@@ -28,7 +28,7 @@ class ToRespondHttpExpectation implements ExpectationInterface
         $actual = filter_var($actual, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
         
         if ($actual === false) {
-            throw new \InvalidArgumentException("The actual value provided is not a valid URL");
+            throw new \InvalidArgumentException('The actual value provided is not a valid URL');
         }
 
         try {
@@ -36,8 +36,8 @@ class ToRespondHttpExpectation implements ExpectationInterface
                 $actual,
                 [
                     'allow_redirects' => false,
-                    'http_errors' => false,
-                    'timeout' => $this->config["timeout"]
+                    'http_errors'     => false,
+                    'timeout'         => $this->config['timeout']
                 ]
             );
         } catch (\Exception $e) {
@@ -56,9 +56,9 @@ class ToRespondHttpExpectation implements ExpectationInterface
                 throw new Result\ExpectationFailedException("Expected $actual to respond HTTP $expected, actually responded HTTP $result");
             }
         } else {
-            if (in_array($result, $this->config["unsatisfactory_codes"])) {
+            if (in_array($result, $this->config['unsatisfactory_codes'])) {
                 throw new Result\ExpectationUnsatisfactoryException("$actual responded HTTP $result, which is configured as unsatisfactory");
-            } else if (!in_array($result, $this->config["allowable_codes"])) {
+            } elseif (!in_array($result, $this->config['allowable_codes'])) {
                 throw new Result\ExpectationFailedException("$actual responded HTTP $result, which is configured as a failed result");
             }
         }

@@ -2,8 +2,8 @@
 
 namespace Overwatch\ExpectationBundle\Tests\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Overwatch\UserBundle\Tests\Base\FunctionalTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * ApiControllerTest

@@ -10,7 +10,8 @@ use Overwatch\ServiceBundle\Expectation\ToContainTextExpectation;
 /**
  * ToContainTextExpectationTest
  */
-class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
+class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase
+{
     const URL = 'http://www.example.com/';
     const HAYSTACK = 'Trollface skeptical Fry wat me gusta';
     const NEEDLE = 'skep';
@@ -22,11 +23,13 @@ class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The actual value provided is not a valid URL
      */
-    public function testInvalidUrl() {
+    public function testInvalidUrl()
+    {
         $this->createExpectationWithMockedResponse()->run('8.8.8.8');
     }
     
-    public function testBasicStringMatching() {
+    public function testBasicStringMatching()
+    {
         $expectation = $this->createExpectationWithMockedResponse();
         
         $this->assertEquals(
@@ -39,13 +42,15 @@ class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Overwatch\ExpectationBundle\Exception\ExpectationFailedException
      * @expectedExceptionMessage Expected http://www.example.com/ to contain the text "norris", but wasn't found in the response
      */
-    public function testFailedBasicMatch() {
+    public function testFailedBasicMatch()
+    {
         $expectation = $this->createExpectationWithMockedResponse();
         
         $expectation->run(self::URL, self::BAD_NEEDLE);
     }
     
-    public function testRegexMatching() {
+    public function testRegexMatching()
+    {
         $expectation = $this->createExpectationWithMockedResponse();
         
         $this->assertEquals(
@@ -58,13 +63,15 @@ class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Overwatch\ExpectationBundle\Exception\ExpectationFailedException
      * @expectedExceptionMessage Expected http://www.example.com/ to contain the text "/wot\b/", but wasn't found in the response
      */
-    public function testFailedRegexMatch() {
+    public function testFailedRegexMatch()
+    {
         $expectation = $this->createExpectationWithMockedResponse();
         
         $expectation->run(self::URL, self::BAD_NEEDLE_REGEX);
     }
     
-    public function testHtmlBasicStringMatching() {
+    public function testHtmlBasicStringMatching()
+    {
         $expectation = $this->createExpectationWithMockedResponse(
             '<!DOCTYPE html><html><body><h1>Memes</h1><p>' . self::HAYSTACK . '</p></body></html>',
             'text/html'
@@ -80,7 +87,8 @@ class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Overwatch\ExpectationBundle\Exception\ExpectationFailedException
      * @expectedExceptionMessage Expected http://www.example.com/ to contain the text "norris", but wasn't found in the textual content of any element
      */
-    public function testFailedHtmlBasicMatch() {
+    public function testFailedHtmlBasicMatch()
+    {
         $expectation = $this->createExpectationWithMockedResponse(
             '<!DOCTYPE html><html><body><h1>Memes</h1><p>' . self::HAYSTACK . '</p></body></html>',
             'text/html'
@@ -89,7 +97,8 @@ class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
         $expectation->run(self::URL, self::BAD_NEEDLE);
     }
     
-    public function testHtmlErrorRegexMatching() {
+    public function testHtmlErrorRegexMatching()
+    {
         $expectation = $this->createExpectationWithMockedResponse(
             '<!DOCTYPE html><html><body><h1>Memes</h1><p>' . self::HAYSTACK . '</p></body></html>',
             'text/html',
@@ -107,7 +116,8 @@ class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
      * @expectedException GuzzleHttp\Exception\ServerException
      * @expectedExceptionMessage Server error: `GET http://www.example.com/` resulted in a `500 Internal Server Error` response:
      */
-    public function testHttpErrorWhenNotAllowed() {
+    public function testHttpErrorWhenNotAllowed()
+    {
         $expectation = $this->createExpectationWithMockedResponse(
             '<!DOCTYPE html><html><body><h1>Memes</h1><p>' . self::HAYSTACK . '</p></body></html>',
             'text/html',
@@ -117,7 +127,8 @@ class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
         $expectation->run(self::URL, self::NEEDLE);
     }
     
-    private function createExpectationWithMockedResponse($body = self::HAYSTACK, $contentType = 'text/plain', $result = 200, $allowErrors = false) {
+    private function createExpectationWithMockedResponse($body = self::HAYSTACK, $contentType = 'text/plain', $result = 200, $allowErrors = false)
+    {
         $mock = new MockHandler([
             new Response($result, ['Content-Type' => $contentType], $body),
         ]);
@@ -125,9 +136,9 @@ class ToContainTextExpectationTest extends \PHPUnit_Framework_TestCase {
         $handler = HandlerStack::create($mock);
         
         return new ToContainTextExpectation([
-            'allow_errors' => $allowErrors,
+            'allow_errors'    => $allowErrors,
             'crawlable_types' => ['text/html', 'text/xml'],
-            'timeout' => 5
+            'timeout'         => 5
         ], ['handler' => $handler]);
     }
 }

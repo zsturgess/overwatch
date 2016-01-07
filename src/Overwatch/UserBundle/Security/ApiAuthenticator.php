@@ -18,10 +18,11 @@ use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterfa
  *
  * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
  */
-class ApiAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface {
-    const USER_ID = "x-api-user";
-    const TIMESTAMP = "x-api-timestamp";
-    const TOKEN = "x-api-token";
+class ApiAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
+{
+    const USER_ID = 'x-api-user';
+    const TIMESTAMP = 'x-api-timestamp';
+    const TOKEN = 'x-api-token';
     
     private $em;
     
@@ -54,9 +55,9 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
         return new PreAuthenticatedToken(
             'anon.',
             [
-                self::USER_ID => $request->headers->get(self::USER_ID),
+                self::USER_ID   => $request->headers->get(self::USER_ID),
                 self::TIMESTAMP => $request->headers->get(self::TIMESTAMP),
-                self::TOKEN => $request->headers->get(self::TOKEN),
+                self::TOKEN     => $request->headers->get(self::TOKEN),
             ],
             $providerKey
         );
@@ -73,20 +74,20 @@ class ApiAuthenticator implements SimplePreAuthenticatorInterface, Authenticatio
             throw new AuthenticationException('API credentials invalid. The timestamp is more than 60 seconds old.');
         }
         
-        $user = $this->em->find("OverwatchUserBundle:User", $credentials[self::USER_ID]);
+        $user = $this->em->find('OverwatchUserBundle:User', $credentials[self::USER_ID]);
         
         if ($user === null || $user->isLocked()) {
             throw new AuthenticationException('API credentials invalid. User not found.');
         }
         
         $apiToken = hash_hmac(
-            "sha256",
-            "timestamp=" . $credentials[self::TIMESTAMP],
+            'sha256',
+            'timestamp=' . $credentials[self::TIMESTAMP],
             $user->getApiKey()
         );
         
         if ($apiToken !== $credentials[self::TOKEN]) {
-            throw new AuthenticationException("API credentials invalid. Token verification failed.");
+            throw new AuthenticationException('API credentials invalid. Token verification failed.');
         }
         
         return new PreAuthenticatedToken(

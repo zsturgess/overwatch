@@ -2,10 +2,10 @@
 
 namespace Overwatch\TestBundle\Security;
 
-use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Role\Role;
 use Overwatch\UserBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * TestGroupVoter
@@ -45,7 +45,7 @@ class TestGroupVoter implements VoterInterface
         $user = $token->getUser();
         
         //allow the token to have ROLE_SUPER_ADMIN before we check the user, for testing
-        if (in_array(new Role("ROLE_SUPER_ADMIN"), $token->getRoles())) {
+        if (in_array(new Role('ROLE_SUPER_ADMIN'), $token->getRoles())) {
             return VoterInterface::ACCESS_GRANTED;
         }
         
@@ -62,7 +62,7 @@ class TestGroupVoter implements VoterInterface
                 break;
 
             case self::EDIT:
-                if ($user->hasGroup($group->getName()) && $user->hasRole("ROLE_ADMIN")) {
+                if ($user->hasGroup($group->getName()) && $user->hasRole('ROLE_ADMIN')) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;

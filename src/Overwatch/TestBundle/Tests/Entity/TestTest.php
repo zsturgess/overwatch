@@ -8,14 +8,16 @@ use Overwatch\TestBundle\Entity\Test;
  * TestTest
  * A unit test for the Test Entity. Test!
  */
-class TestTest extends \PHPUnit_Framework_TestCase {
+class TestTest extends \PHPUnit_Framework_TestCase
+{
     private $test;
     
-    const TEST_NAME = "TestTest! Testing!";
-    const TEST_ACTUAL = "1.2.3.4";
-    const TEST_EXPECTATION = "toBeAnAwesomeIP";
+    const TEST_NAME = 'TestTest! Testing!';
+    const TEST_ACTUAL = '1.2.3.4';
+    const TEST_EXPECTATION = 'toBeAnAwesomeIP';
     
-    public function setUp() {
+    public function setUp()
+    {
         $this->test = new Test;
         $this->test
             ->setName(self::TEST_NAME)
@@ -26,7 +28,8 @@ class TestTest extends \PHPUnit_Framework_TestCase {
         ;
     }
     
-    public function testValid() {
+    public function testValid()
+    {
         $this->assertEquals(self::TEST_NAME, $this->test->getName());
         $this->assertEquals(self::TEST_NAME, (string) $this->test);
         $this->assertEquals(self::TEST_ACTUAL, $this->test->getActual());
@@ -35,20 +38,21 @@ class TestTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('\DateTime', $this->test->getUpdatedAt());
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                "id" => NULL,
-                "name" => self::TEST_NAME,
-                "actual" => self::TEST_ACTUAL,
-                "expectation" => self::TEST_EXPECTATION,
-                "expected" => NULL,
-                "result" => NULL,
-                "createdAt" => $this->test->getCreatedAt()->getTimestamp(),
-                "updatedAt" => $this->test->getUpdatedAt()->getTimestamp()
-            ]), 
+                'id'          => null,
+                'name'        => self::TEST_NAME,
+                'actual'      => self::TEST_ACTUAL,
+                'expectation' => self::TEST_EXPECTATION,
+                'expected'    => null,
+                'result'      => null,
+                'createdAt'   => $this->test->getCreatedAt()->getTimestamp(),
+                'updatedAt'   => $this->test->getUpdatedAt()->getTimestamp()
+            ]),
             json_encode($this->test)
         );
     }
     
-    public function testCreatedAtIsImmutable() {
+    public function testCreatedAtIsImmutable()
+    {
         $expected = $this->test->getCreatedAt();
         
         $this->test->setCreatedAt();
