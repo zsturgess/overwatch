@@ -25,7 +25,7 @@ class ToPingExpectation implements ExpectationInterface
         $package = "\x08\x00\x7d\x4b\x00\x00\x00\x00PingHost";
         $socket  = socket_create(AF_INET, SOCK_RAW, 1);
 
-        socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, ['sec' => floor($this->config["timeout"]), 'usec' => (($this->config["timeout"] - floor($this->config["timeout"])) * 1000)]);
+        socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, ['sec' => floor($this->config['timeout']), 'usec' => (($this->config['timeout'] - floor($this->config['timeout'])) * 1000)]);
         socket_connect($socket, $actual, null);
 
         $sent = microtime(true);
@@ -35,14 +35,14 @@ class ToPingExpectation implements ExpectationInterface
             $rtt = microtime(true) - $sent;
             socket_close($socket);
 
-            if ($rtt > $this->config["unsatisfactory"]) {
-                throw new Result\ExpectationUnsatisfactoryException("$actual responded in $rtt s, above the unsatisfactory threshold (" . $this->config["unsatisfactory"] . " s)");
+            if ($rtt > $this->config['unsatisfactory']) {
+                throw new Result\ExpectationUnsatisfactoryException("$actual responded in $rtt s, above the unsatisfactory threshold (" . $this->config['unsatisfactory'] . ' s)');
             }
 
-            return "Pinged in " . $rtt . "s";
+            return 'Pinged in ' . $rtt . 's';
         }
 
         socket_close($socket);
-        throw new Result\ExpectationFailedException("$actual failed to respond in the timeout threshold (" . $this->config["timeout"] . " s)");
+        throw new Result\ExpectationFailedException("$actual failed to respond in the timeout threshold (" . $this->config['timeout'] . ' s)');
     }
 }

@@ -3,8 +3,8 @@
 namespace Overwatch\ResultBundle\Tests\Controller;
 
 use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
-use Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
+use Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures;
 use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
 
 /**

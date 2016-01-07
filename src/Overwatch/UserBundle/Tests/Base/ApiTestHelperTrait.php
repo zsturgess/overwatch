@@ -8,25 +8,30 @@ use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 /**
  * ApiTestHelperTrait
  */
-trait ApiTestHelperTrait {
-    public function assertCollectionContainsObject($object, $collection) {
+trait ApiTestHelperTrait
+{
+    public function assertCollectionContainsObject($object, $collection)
+    {
         return $this->assertContains(json_encode($object), json_encode($collection));
     }
     
-    public function assertJsonResponse($response) {
+    public function assertJsonResponse($response)
+    {
         $this->assertTrue($response->isSuccessful());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
         $this->assertJson($response->getContent());
     }
     
-    public function assertForbidden($response) {
+    public function assertForbidden($response)
+    {
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
     
     /**
      * @param string $role
      */
-    protected function logIn($role) {
+    protected function logIn($role)
+    {
         $firewall = 'overwatchApi';
         
         $token = new PreAuthenticatedToken(
@@ -43,7 +48,8 @@ trait ApiTestHelperTrait {
      * @param string $method
      * @param string $url
      */
-    protected function makeJsonRequest($method, $url, $body = []) {
+    protected function makeJsonRequest($method, $url, $body = [])
+    {
         return $this->client->request(
             $method,
             $url,
@@ -54,10 +60,11 @@ trait ApiTestHelperTrait {
         );
     }
     
-    protected function getResponseContent($asJson = FALSE) {
+    protected function getResponseContent($asJson = false)
+    {
         $response = $this->client->getResponse()->getContent();
         
-        if ($asJson === FALSE) {
+        if ($asJson === false) {
             return json_decode($response);
         }
         

@@ -3,17 +3,17 @@
 namespace Overwatch\UserBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Overwatch\UserBundle\Entity\User;
+use Overwatch\UserBundle\Enum\AlertSetting;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Overwatch\UserBundle\Entity\User;
-use Overwatch\UserBundle\Enum\AlertSetting;
 
 /**
  * ApiController
@@ -64,7 +64,7 @@ class ApiController extends Controller
      */
     public function getAllUsersAction()
     {
-        $users = $this->em->getRepository("OverwatchUserBundle:User")->findAll();
+        $users = $this->em->getRepository('OverwatchUserBundle:User')->findAll();
         return new JsonResponse($users);
     }
     
@@ -85,7 +85,7 @@ class ApiController extends Controller
      */
     public function createUserAction($email)
     {
-        $password = substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(openssl_random_pseudo_bytes(9))), 0, 8);
+        $password = substr(preg_replace('/[^a-zA-Z0-9]/', '', base64_encode(openssl_random_pseudo_bytes(9))), 0, 8);
         $user = $this->get('fos_user.util.user_manipulator')->create($email, $password, $email, true, false);
         
         //send user e-mail with their pass
@@ -97,8 +97,8 @@ class ApiController extends Controller
             $this->renderView(
                 'OverwatchUserBundle:Email:invited.txt.twig',
                 [
-                    'inviter' => $this->getUser()->getEmail(),
-                    'email' => $email,
+                    'inviter'  => $this->getUser()->getEmail(),
+                    'email'    => $email,
                     'password' => $password
                 ]
             )
@@ -174,7 +174,7 @@ class ApiController extends Controller
     public function toggleLockUserAction(User $user)
     {
         if ($user->getId() === $this->getUser()->getId()) {
-            throw new AccessDeniedHttpException("You may not toggle locks on yourself.");
+            throw new AccessDeniedHttpException('You may not toggle locks on yourself.');
         }
         
         $user->setLocked(!$user->isLocked());
@@ -202,10 +202,10 @@ class ApiController extends Controller
     public function setUserRoleAction(User $user, $role)
     {
         if ($user->getId() === $this->getUser()->getId()) {
-            throw new AccessDeniedHttpException("You may not set roles on yourself.");
+            throw new AccessDeniedHttpException('You may not set roles on yourself.');
         }
         
-        if (in_array($role, ["ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"])) {
+        if (in_array($role, ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'])) {
             $user->setRoles([$role]);
         }
         
@@ -232,7 +232,7 @@ class ApiController extends Controller
     public function deleteUserAction(User $user)
     {
         if ($user->getId() === $this->getUser()->getId()) {
-            throw new AccessDeniedHttpException("You may not delete yourself.");
+            throw new AccessDeniedHttpException('You may not delete yourself.');
         }
         
         $this->em->remove($user);

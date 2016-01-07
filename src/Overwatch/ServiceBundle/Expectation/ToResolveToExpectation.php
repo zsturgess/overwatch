@@ -26,21 +26,21 @@ class ToResolveToExpectation implements ExpectationInterface
     public function run($actual, $expected = null)
     {
         $dnsRecords = dns_get_record($actual);
-        $found = "";
+        $found = '';
         
         foreach ($dnsRecords as $dnsRecord) {
-            if (!in_array($dnsRecord["type"], $this->config["record_types"])) {
+            if (!in_array($dnsRecord['type'], $this->config['record_types'])) {
                 continue;
             }
             
-            foreach (["mname", "txt", "target", "ipv6", "ip"] as $destination) {
+            foreach (['mname', 'txt', 'target', 'ipv6', 'ip'] as $destination) {
                 if (array_key_exists($destination, $dnsRecord)) {
                     $found = $dnsRecord[$destination];
                 }
             }
             
             if ($found === $expected) {
-                return $actual . " has a " . $dnsRecord["type"] . " record that resolves to " . $found;
+                return $actual . ' has a ' . $dnsRecord['type'] . ' record that resolves to ' . $found;
             }
         }
         

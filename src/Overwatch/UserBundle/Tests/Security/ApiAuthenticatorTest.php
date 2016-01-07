@@ -15,13 +15,15 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
  *
  * @author Zac Sturgess <zac.sturgess@wearetwogether.com>
  */
-class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
-    const PROVIDER_KEY = "overwatch_test";
+class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase
+{
+    const PROVIDER_KEY = 'overwatch_test';
     
     private $apiAuth;
     private $user;
     
-    public function setUp() {
+    public function setUp()
+    {
         $fakeEm = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $this->user = $this->createUserMock();
         
@@ -29,9 +31,9 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
             ->method('find')
             ->will(
                 $this->returnValueMap([
-                    ["OverwatchUserBundle:User", 1, null, null, $this->user],
-                    ["OverwatchUserBundle:User", 2, null, null, null],
-                    ["OverwatchUserBundle:User", 3, null, null, $this->createUserMock(true)]
+                    ['OverwatchUserBundle:User', 1, null, null, $this->user],
+                    ['OverwatchUserBundle:User', 2, null, null, null],
+                    ['OverwatchUserBundle:User', 3, null, null, $this->createUserMock(true)]
                 ])
             )
         ;
@@ -43,7 +45,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage API credentials invalid. The user ID, timestamp and token should given.
      */
-    public function testCreateTokenNoHeaders() {
+    public function testCreateTokenNoHeaders()
+    {
         $this->apiAuth->createToken($this->createRequestMock(), self::PROVIDER_KEY);
     }
     
@@ -51,7 +54,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage API credentials invalid. The user ID, timestamp and token should given.
      */
-    public function testCreateTokenTwoHeaders() {
+    public function testCreateTokenTwoHeaders()
+    {
         $this->apiAuth->createToken($this->createRequestMock([
             ApiAuthenticator::USER_ID => null
         ]), self::PROVIDER_KEY);
@@ -61,9 +65,10 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage API credentials invalid. The user ID should be an integer.
      */
-    public function testCreateTokenInvalidUserId() {
+    public function testCreateTokenInvalidUserId()
+    {
         $this->apiAuth->createToken($this->createRequestMock([
-            ApiAuthenticator::USER_ID => "overwatch_test"
+            ApiAuthenticator::USER_ID => 'overwatch_test'
         ]), self::PROVIDER_KEY);
     }
     
@@ -71,24 +76,26 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage API credentials invalid. The timestamp should be an integer.
      */
-    public function testCreateTokenInvalidTimestamp() {
+    public function testCreateTokenInvalidTimestamp()
+    {
         $this->apiAuth->createToken($this->createRequestMock([
-            ApiAuthenticator::TIMESTAMP => "overwatch_test"
+            ApiAuthenticator::TIMESTAMP => 'overwatch_test'
         ]), self::PROVIDER_KEY);
     }
     
-    public function testCreateToken() {
+    public function testCreateToken()
+    {
         $token = $this->apiAuth->createToken($this->createRequestMock([
-            ApiAuthenticator::TIMESTAMP => "111"
+            ApiAuthenticator::TIMESTAMP => '111'
         ]), self::PROVIDER_KEY);
         
         $this->assertInstanceOf("Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken", $token);
-        $this->assertEquals("anon.", $token->getUser());
+        $this->assertEquals('anon.', $token->getUser());
         $this->assertEquals(self::PROVIDER_KEY, $token->getProviderKey());
         $this->assertEquals([
-            ApiAuthenticator::USER_ID => 1,
-            ApiAuthenticator::TIMESTAMP => "111",
-            ApiAuthenticator::TOKEN => 'abc123'
+            ApiAuthenticator::USER_ID   => 1,
+            ApiAuthenticator::TIMESTAMP => '111',
+            ApiAuthenticator::TOKEN     => 'abc123'
         ], $token->getCredentials());
     }
     
@@ -96,7 +103,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\AuthenticationException
      * @expectedExceptionMessage API credentials invalid. The timestamp is more than 60 seconds old.
      */
-    public function testAuthenticateTokenOldTimestamp() {
+    public function testAuthenticateTokenOldTimestamp()
+    {
         $this->apiAuth->authenticateToken(
             $this->createToken([
                 ApiAuthenticator::TIMESTAMP => time() - 61
@@ -110,7 +118,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\AuthenticationException
      * @expectedExceptionMessage API credentials invalid. The timestamp is more than 60 seconds old.
      */
-    public function testAuthenticateTokenFutureTimestamp() {
+    public function testAuthenticateTokenFutureTimestamp()
+    {
         $this->apiAuth->authenticateToken(
             $this->createToken([
                 ApiAuthenticator::TIMESTAMP => time() + 61
@@ -124,7 +133,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\AuthenticationException
      * @expectedExceptionMessage API credentials invalid. User not found.
      */
-    public function testAuthenticateTokenNoUser() {
+    public function testAuthenticateTokenNoUser()
+    {
         $this->apiAuth->authenticateToken(
             $this->createToken([
                 ApiAuthenticator::USER_ID => 2
@@ -138,7 +148,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\AuthenticationException
      * @expectedExceptionMessage API credentials invalid. User not found.
      */
-    public function testAuthenticateTokenLockedUser() {
+    public function testAuthenticateTokenLockedUser()
+    {
         $this->apiAuth->authenticateToken(
             $this->createToken([
                 ApiAuthenticator::USER_ID => 3
@@ -152,7 +163,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Symfony\Component\Security\Core\Exception\AuthenticationException
      * @expectedExceptionMessage API credentials invalid. Token verification failed
      */
-    public function testAuthenticateTokenBadToken() {
+    public function testAuthenticateTokenBadToken()
+    {
         $this->apiAuth->authenticateToken(
             $this->createToken([]),
             $this->createUserProviderMock(),
@@ -160,18 +172,19 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         );
     }
     
-    public function testAuthenticateToken() {
+    public function testAuthenticateToken()
+    {
         $timestamp = time();
         $apiToken = hash_hmac(
-            "sha256",
-            "timestamp=" . $timestamp,
+            'sha256',
+            'timestamp=' . $timestamp,
             $this->user->getApiKey()
         );
         
         $token = $this->apiAuth->authenticateToken(
             $this->createToken([
                 ApiAuthenticator::TIMESTAMP => $timestamp,
-                ApiAuthenticator::TOKEN => $apiToken
+                ApiAuthenticator::TOKEN     => $apiToken
             ]),
             $this->createUserProviderMock(),
             self::PROVIDER_KEY
@@ -181,27 +194,31 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($this->user, $token->getUser());
         $this->assertEquals(self::PROVIDER_KEY, $token->getProviderKey());
         $this->assertEquals([
-            ApiAuthenticator::USER_ID => 1,
+            ApiAuthenticator::USER_ID   => 1,
             ApiAuthenticator::TIMESTAMP => $timestamp,
-            ApiAuthenticator::TOKEN => $apiToken
+            ApiAuthenticator::TOKEN     => $apiToken
         ], $token->getCredentials());
         $this->assertEquals($this->user->getRoles()[0], $token->getRoles()[0]->getRole());
     }
     
-    public function testSupportsTokenWrongProviderKey() {
-        $this->assertFalse($this->apiAuth->supportsToken($this->createToken([]), "totally_not_correct_provider_key"));
+    public function testSupportsTokenWrongProviderKey()
+    {
+        $this->assertFalse($this->apiAuth->supportsToken($this->createToken([]), 'totally_not_correct_provider_key'));
     }
     
-    public function testSupportsTokenWrongType() {
-        $this->assertFalse($this->apiAuth->supportsToken(new UsernamePasswordToken("anon", [], self::PROVIDER_KEY), self::PROVIDER_KEY));
+    public function testSupportsTokenWrongType()
+    {
+        $this->assertFalse($this->apiAuth->supportsToken(new UsernamePasswordToken('anon', [], self::PROVIDER_KEY), self::PROVIDER_KEY));
     }
     
-    public function testSupportsToken() {
+    public function testSupportsToken()
+    {
         $this->assertTrue($this->apiAuth->supportsToken($this->createToken([]), self::PROVIDER_KEY));
     }
     
-    public function testOnAuthenticationFailureWithAuthenticationException() {
-        $message = "Bacon ipsum dolor sit amet";
+    public function testOnAuthenticationFailureWithAuthenticationException()
+    {
+        $message = 'Bacon ipsum dolor sit amet';
         
         $response = $this->apiAuth->onAuthenticationFailure(
             $this->createRequestMock(),
@@ -213,8 +230,9 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(401, $response->getStatusCode());
     }
     
-    public function testOnAuthenticationFailureWithBadCredentialsException() {
-        $message = "Bacon ipsum dolor sit amet";
+    public function testOnAuthenticationFailureWithBadCredentialsException()
+    {
+        $message = 'Bacon ipsum dolor sit amet';
         
         $response = $this->apiAuth->onAuthenticationFailure(
             $this->createRequestMock(),
@@ -229,7 +247,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @return \Symfony\Component\HttpFoundation\Request
      */
-    private function createRequestMock(array $headers = null) {
+    private function createRequestMock(array $headers = null)
+    {
         $headers = $this->mergeHeaders($headers);
         
         $headerBag = new HeaderBag;
@@ -241,7 +260,8 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         return $fakeReq;
     }
     
-    private function createToken(array $headers = null) {
+    private function createToken(array $headers = null)
+    {
         return new PreAuthenticatedToken(
             'anon.',
             $this->mergeHeaders($headers),
@@ -249,10 +269,11 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
         );
     }
     
-    private function createUserMock($locked = false) {
+    private function createUserMock($locked = false)
+    {
         $user = new User;
         $user
-            ->setEmail("overwatch.test@example.com")
+            ->setEmail('overwatch.test@example.com')
             ->setLocked($locked)
             ->resetApiKey()
         ;
@@ -263,18 +284,20 @@ class ApiAuthenticatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @return \Symfony\Component\Security\Core\User\UserProviderInterface
      */
-    private function createUserProviderMock() {
+    private function createUserProviderMock()
+    {
         return $this->getMockBuilder('FOS\UserBundle\Security\UserProvider')->disableOriginalConstructor()->getMock();
     }
     
-    private function mergeHeaders(array $headers = null) {
+    private function mergeHeaders(array $headers = null)
+    {
         if ($headers === null) {
             $headers = [];
         } else {
             $headers = array_merge([
-                ApiAuthenticator::USER_ID => 1,
+                ApiAuthenticator::USER_ID   => 1,
                 ApiAuthenticator::TIMESTAMP => time(),
-                ApiAuthenticator::TOKEN => 'abc123'
+                ApiAuthenticator::TOKEN     => 'abc123'
             ], $headers);
             
             foreach ($headers as $header => $headerValue) {

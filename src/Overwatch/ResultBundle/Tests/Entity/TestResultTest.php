@@ -43,9 +43,9 @@ class TestResultTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\DateTime', $this->result->getCreatedAt());
         $this->assertJsonStringEqualsJsonString(
             json_encode([
-                'id' => NULL,
-                'status' => $status,
-                'info' => $info,
+                'id'        => null,
+                'status'    => $status,
+                'info'      => $info,
                 'createdAt' => $this->result->getCreatedAt()->getTimestamp(),
             ]),
             json_encode($this->result)
@@ -57,7 +57,7 @@ class TestResultTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidStatus()
     {
-        $this->result->setStatus("IfThisStatusExistsIBrokeIt");
+        $this->result->setStatus('IfThisStatusExistsIBrokeIt');
     }
 
     public function testCreatedAtIsImmutable()
@@ -71,7 +71,7 @@ class TestResultTest extends \PHPUnit_Framework_TestCase
 
     public function testSetInfoConvertsExceptions()
     {
-        $message = "Bacon ipsum dolor amet fatback nostrud beef venison mollit officia.";
+        $message = 'Bacon ipsum dolor amet fatback nostrud beef venison mollit officia.';
         $this->result->setInfo(new \Exception($message));
 
         $this->assertNotInstanceOf('\Exception', $this->result->getInfo());

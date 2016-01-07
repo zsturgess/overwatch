@@ -59,13 +59,13 @@ class User extends BaseUser implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            "id" => $this->getId(),
-            "email" => $this->getEmail(),
-            "alertSetting" => $this->getAlertSetting(),
-            "telephoneNumber" => $this->getTelephoneNumber(),
-            "lastLogin" => $this->getLastLogin() ? $this->getLastLogin()->getTimestamp() : '',
-            "locked" => $this->isLocked(),
-            "roles" => $this->getRoles()
+            'id'              => $this->getId(),
+            'email'           => $this->getEmail(),
+            'alertSetting'    => $this->getAlertSetting(),
+            'telephoneNumber' => $this->getTelephoneNumber(),
+            'lastLogin'       => $this->getLastLogin() ? $this->getLastLogin()->getTimestamp() : '',
+            'locked'          => $this->isLocked(),
+            'roles'           => $this->getRoles()
         ];
     }
     

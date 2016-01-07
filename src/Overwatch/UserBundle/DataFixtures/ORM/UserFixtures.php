@@ -13,7 +13,7 @@ use Overwatch\UserBundle\Enum\AlertSetting;
  */
 class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
-    static public $users;
+    public static $users;
 
     public function load(ObjectManager $em)
     {

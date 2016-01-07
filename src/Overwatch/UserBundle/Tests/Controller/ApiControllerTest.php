@@ -2,17 +2,19 @@
 
 namespace Overwatch\UserBundle\Tests\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
 use Overwatch\UserBundle\Enum\AlertSetting;
 use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * ApiControllerTest
  * Functional test for API method provided by ApiController
  */
-class ApiControllerTest extends DatabaseAwareTestCase {
-    public function testCreateUser() {
+class ApiControllerTest extends DatabaseAwareTestCase
+{
+    public function testCreateUser()
+    {
         $email = 'abc@example.com';
         
         $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
@@ -23,7 +25,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->assertJsonResponse($this->client->getResponse());
         
         $user = $this->em->getRepository('Overwatch\UserBundle\Entity\User')->findOneBy([
-            "email" => $email
+            'email' => $email
         ]);
         
         $this->assertInstanceOf('Overwatch\UserBundle\Entity\User', $user);
@@ -40,26 +42,29 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->assertEquals($email, key($message->getTo()));
     }
     
-    public function testCreateUserInsufficentPerms() {
-        $this->logIn("ROLE_ADMIN");
+    public function testCreateUserInsufficentPerms()
+    {
+        $this->logIn('ROLE_ADMIN');
         $this->client->request('POST', '/api/users/abc@example.com');
         
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testGetAlertSettings() {
-        $this->logIn("ROLE_USER");
+    public function testGetAlertSettings()
+    {
+        $this->logIn('ROLE_USER');
         $this->client->request('GET', '/api/alertSettings');
         
         $this->assertJsonResponse($this->client->getResponse());
         $this->assertJsonStringEqualsJsonString(
             json_encode(AlertSetting::getAll()),
-            $this->getResponseContent(TRUE)
+            $this->getResponseContent(true)
         );
     }
     
-    public function testFindUser() {
-        $this->logIn("ROLE_SUPER_ADMIN");
+    public function testFindUser()
+    {
+        $this->logIn('ROLE_SUPER_ADMIN');
         $this->client->request('GET', '/api/users/' . UserFixtures::$users['user-1']);
         
         $this->assertJsonResponse($this->client->getResponse());
@@ -68,26 +73,29 @@ class ApiControllerTest extends DatabaseAwareTestCase {
                 'Overwatch\UserBundle\Entity\User',
                 UserFixtures::$users['user-1']
             )),
-            $this->getResponseContent(TRUE)
+            $this->getResponseContent(true)
         );
     }
     
-    public function testFindUserInsufficentPerms() {
-        $this->logIn("ROLE_ADMIN");
+    public function testFindUserInsufficentPerms()
+    {
+        $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/users/' . UserFixtures::$users['user-1']);
         
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testFindUserInvalidUser() {
-        $this->logIn("ROLE_SUPER_ADMIN");
+    public function testFindUserInvalidUser()
+    {
+        $this->logIn('ROLE_SUPER_ADMIN');
         $this->client->request('GET', '/api/users/example@example.org');
         
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
     
-    public function testGetAllUsers() {
-        $this->logIn("ROLE_SUPER_ADMIN");
+    public function testGetAllUsers()
+    {
+        $this->logIn('ROLE_SUPER_ADMIN');
         $this->client->request('GET', '/api/users');
         
         $this->assertJsonResponse($this->client->getResponse());
@@ -95,18 +103,20 @@ class ApiControllerTest extends DatabaseAwareTestCase {
             json_encode($this->em->getRepository(
                 'Overwatch\UserBundle\Entity\User'
             )->findAll()),
-            $this->getResponseContent(TRUE)
+            $this->getResponseContent(true)
         );
     }
     
-    public function testGetAllUsersInsufficentPerms() {
-        $this->logIn("ROLE_ADMIN");
+    public function testGetAllUsersInsufficentPerms()
+    {
+        $this->logIn('ROLE_ADMIN');
         $this->client->request('GET', '/api/users');
         
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testUpdateUser() {
+    public function testUpdateUser()
+    {
         $this->loginAs(
             $this->em->find(
                 'Overwatch\UserBundle\Entity\User',
@@ -119,7 +129,7 @@ class ApiControllerTest extends DatabaseAwareTestCase {
             'PUT',
             '/api/users',
             [
-                'alertSetting' => 1,
+                'alertSetting'    => 1,
                 'telephoneNumber' => '+447981123456'
             ]
         );
@@ -137,7 +147,8 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         );
     }
     
-    public function testToggleLockUser() {
+    public function testToggleLockUser()
+    {
         $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-2']->getId() . '/lock');
@@ -148,18 +159,20 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->assertJsonResponse($this->client->getResponse());
         $this->assertJsonStringEqualsJsonString(
             json_encode($user),
-            $this->getResponseContent(TRUE)
+            $this->getResponseContent(true)
         );
     }
     
-    public function testToggleLockUserInsufficentPerms() {
-        $this->logIn("ROLE_ADMIN");
+    public function testToggleLockUserInsufficentPerms()
+    {
+        $this->logIn('ROLE_ADMIN');
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-1']->getId() . '/lock');
         
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testToggleLockUserDisallowSelf() {
+    public function testToggleLockUserDisallowSelf()
+    {
         $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-1']->getId() . '/lock');
@@ -167,29 +180,32 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testSetUserRole() {
+    public function testSetUserRole()
+    {
         $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-2']->getId() . '/role/ROLE_ADMIN');
         
         $user = $this->em->find('Overwatch\UserBundle\Entity\User', UserFixtures::$users['user-2']->getId());
-        $this->assertTrue($user->hasRole("ROLE_ADMIN"));
+        $this->assertTrue($user->hasRole('ROLE_ADMIN'));
         
         $this->assertJsonResponse($this->client->getResponse());
         $this->assertJsonStringEqualsJsonString(
             json_encode($user),
-            $this->getResponseContent(TRUE)
+            $this->getResponseContent(true)
         );
     }
     
-    public function testSetUserRoleInsufficentPerms() {
-        $this->logIn("ROLE_ADMIN");
+    public function testSetUserRoleInsufficentPerms()
+    {
+        $this->logIn('ROLE_ADMIN');
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-1']->getId() . '/role/ROLE_USER');
         
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testSetUserRoleDisallowSelf() {
+    public function testSetUserRoleDisallowSelf()
+    {
         $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('POST', '/api/users/' . UserFixtures::$users['user-1']->getId() . '/role/ROLE_USER');
@@ -197,7 +213,8 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testDeleteUser() {
+    public function testDeleteUser()
+    {
         $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('DELETE', '/api/users/' . UserFixtures::$users['user-2']->getId());
@@ -208,14 +225,16 @@ class ApiControllerTest extends DatabaseAwareTestCase {
         $this->assertEquals(Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
     }
     
-    public function testDeleteUserInsufficentPerms() {
-        $this->logIn("ROLE_ADMIN");
+    public function testDeleteUserInsufficentPerms()
+    {
+        $this->logIn('ROLE_ADMIN');
         $this->client->request('DELETE', '/api/users/' . UserFixtures::$users['user-1']->getId());
         
         $this->assertForbidden($this->client->getResponse());
     }
     
-    public function testDeleteUserDisallowSelf() {
+    public function testDeleteUserDisallowSelf()
+    {
         $this->loginAs(UserFixtures::$users['user-1'], 'overwatchApi');
         $this->client = $this->makeClient(); //When using loginAs, we must re-create the client
         $this->client->request('DELETE', '/api/users/' . UserFixtures::$users['user-1']->getId());

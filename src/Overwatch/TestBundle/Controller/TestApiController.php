@@ -3,18 +3,18 @@
 namespace Overwatch\TestBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpFoundation\Request;
 use Overwatch\ExpectationBundle\Exception\ExpectationNotFoundException;
 use Overwatch\TestBundle\Entity\Test;
 use Overwatch\TestBundle\Entity\TestGroup;
 use Overwatch\TestBundle\Security\TestGroupVoter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * ApiController
@@ -31,7 +31,7 @@ class TestApiController extends Controller
     {
         parent::setContainer($container);
         $this->_em = $this->getDoctrine()->getManager();
-        $this->expectationManager = $this->get("overwatch_expectation.expectation_manager");
+        $this->expectationManager = $this->get('overwatch_expectation.expectation_manager');
     }
 
     /**
@@ -101,7 +101,7 @@ class TestApiController extends Controller
         }
         
         if ($test->getActual() === null) {
-            return new JsonResponse("An actual value to test against must be provided.", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse('An actual value to test against must be provided.', JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         
         $this->_em->persist($test);
@@ -161,7 +161,7 @@ class TestApiController extends Controller
         
         foreach (['name', 'actual', 'expectation', 'expected'] as $field) {
             if ($request->request->has($field)) {
-                $test->{"set" . ucfirst($field)}($request->request->get($field));
+                $test->{'set' . ucfirst($field)}($request->request->get($field));
             }
         }
         

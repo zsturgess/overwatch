@@ -12,25 +12,25 @@ use Overwatch\TestBundle\Entity\TestGroup;
  */
 class TestGroupFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
-    static public $groups;
+    public static $groups;
     
     public function load(ObjectManager $em)
     {
         $group1 = new TestGroup;
         $group1
-            ->setName("Group 1")
+            ->setName('Group 1')
         ;
         $em->persist($group1);
         
         $group2 = new TestGroup;
         $group2
-            ->setName("Group 2")
+            ->setName('Group 2')
         ;
         $em->persist($group2);
         
         $group3 = new TestGroup;
         $group3
-            ->setName("Group 3 - Empty")
+            ->setName('Group 3 - Empty')
         ;
         $em->persist($group3);
         

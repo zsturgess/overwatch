@@ -89,9 +89,9 @@ class ExpectationManager
 
         if ($result instanceof ExpectationException\ExpectationFailedException) {
             $testResult->setStatus(ResultStatus::FAILED);
-        } else if ($result instanceof ExpectationException\ExpectationUnsatisfactoryException) {
+        } elseif ($result instanceof ExpectationException\ExpectationUnsatisfactoryException) {
             $testResult->setStatus(ResultStatus::UNSATISFACTORY);
-        } else if ($result instanceof \Exception) {
+        } elseif ($result instanceof \Exception) {
             $testResult->setStatus(ResultStatus::ERROR);
         }
 

@@ -2,8 +2,8 @@
 
 namespace Overwatch\ResultBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Mapping as ORM;
 use Overwatch\ResultBundle\Enum\ResultStatus;
 use Overwatch\TestBundle\Entity\Test;
 
@@ -57,9 +57,9 @@ class TestResult implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id' => $this->getId(),
-            'status' => $this->getStatus(),
-            'info' => $this->getInfo(),
+            'id'        => $this->getId(),
+            'status'    => $this->getStatus(),
+            'info'      => $this->getInfo(),
             'createdAt' => $this->getCreatedAt()->getTimestamp()
         ];
     }

@@ -3,8 +3,8 @@
 namespace Overwatch\ResultBundle;
 
 use Overwatch\ResultBundle\DependencyInjection\ResultReporterCompilerPass;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @codeCoverageIgnore

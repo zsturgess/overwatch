@@ -7,10 +7,12 @@ use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 /**
  * ConsoleTestHelperTrait
  */
-trait ConsoleTestHelperTrait {
+trait ConsoleTestHelperTrait
+{
     protected $output = null;
     
-    public function assertHasStandardOutput() {
+    public function assertHasStandardOutput()
+    {
         $this->assertStringStartsWith($this->application->getName(), $this->output[0]);
         $this->assertContains($this->application->getVersion(), $this->output[0]);
         
@@ -26,14 +28,16 @@ trait ConsoleTestHelperTrait {
     /**
      * @param integer $count
      */
-    public function assertCountLinesOfOutput($count) {
+    public function assertCountLinesOfOutput($count)
+    {
         $this->assertCount($count, $this->output);
     }
     
     /**
      * @param integer $count
      */
-    public function assertCountRunTests($count = null) {
+    public function assertCountRunTests($count = null)
+    {
         if ($count === null) {
             $count = count(TestFixtures::$tests);
         }
@@ -41,7 +45,8 @@ trait ConsoleTestHelperTrait {
         $this->assertStringEndsWith("$count tests", $this->output[0]);
     }
     
-    public function assertResults($failed = '[0-9]+', $error = '[0-9]+', $unsatisfactory = '[0-9]+', $passed = '[0-9]+') {
+    public function assertResults($failed = '[0-9]+', $error = '[0-9]+', $unsatisfactory = '[0-9]+', $passed = '[0-9]+')
+    {
         $this->assertRegExp(
             "/^$failed FAILED, $error ERROR, $unsatisfactory UNSATISFACTORY, $passed PASSED/",
             $this->output[count($this->output) - 1]
@@ -49,7 +54,8 @@ trait ConsoleTestHelperTrait {
         $this->assertRegExp('/, in [0-9]+ minutes and [0-9]+ seconds$/i', $this->output[count($this->output) - 1]);
     }
     
-    public function assertRecentResultsPersisted($count = 3) {
+    public function assertRecentResultsPersisted($count = 3)
+    {
         $now = (new \DateTime())->getTimestamp();
         $results = $this->resultRepo->getResults([], $count);
         
@@ -60,13 +66,15 @@ trait ConsoleTestHelperTrait {
         }
     }
     
-    public function assertRecentResultsNotPersisted() {
+    public function assertRecentResultsNotPersisted()
+    {
         $result = $this->resultRepo->getResults([], 1);
         
         $this->assertGreaterThan(500, $result[0]->getCreatedAt()->getTimestamp());
     }
     
-    protected function execute($params = [], $options = []) {
+    protected function execute($params = [], $options = [])
+    {
         $params['command'] = self::COMMAND_NAME;
         $returnCode = $this->command->execute($params, $options);
         

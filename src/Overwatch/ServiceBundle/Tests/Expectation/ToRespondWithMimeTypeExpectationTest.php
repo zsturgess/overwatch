@@ -2,10 +2,10 @@
 
 namespace Overwatch\ServiceBundle\Tests\Expectation;
 
-use Overwatch\ServiceBundle\Expectation\ToRespondWithMimeTypeExpectation;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Overwatch\ServiceBundle\Expectation\ToRespondWithMimeTypeExpectation;
 
 class ToRespondWithMimeTypeExpectationTest extends \PHPUnit_Framework_TestCase
 {
@@ -67,7 +67,7 @@ class ToRespondWithMimeTypeExpectationTest extends \PHPUnit_Framework_TestCase
 
         return new ToRespondWithMimeTypeExpectation([
             'allow_errors' => $httpErrors,
-            'timeout' => 5
+            'timeout'      => 5
         ], ['handler' => $handler]);
     }
 }

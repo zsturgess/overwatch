@@ -30,23 +30,23 @@ class TestsRunCommand extends ContainerAwareCommand
             ->setName('overwatch:tests:run')
             ->setDescription('Run a set of overwatch tests')
             ->addOption('test', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Only run tests that are named this value or are in groups named this value')
-            ->addOption("discard-results", null, InputOption::VALUE_NONE, "Do not save the results to the database")
+            ->addOption('discard-results', null, InputOption::VALUE_NONE, 'Do not save the results to the database')
         ;
         
         //Initalize results array
         $this->results = [
-            ResultStatus::ERROR => 0,
-            ResultStatus::FAILED => 0,
-            ResultStatus::PASSED => 0,
+            ResultStatus::ERROR          => 0,
+            ResultStatus::FAILED         => 0,
+            ResultStatus::PASSED         => 0,
             ResultStatus::UNSATISFACTORY => 0
         ];
         
         //Initalize colours array
         $this->colours = [
-            ResultStatus::ERROR => "error",
-            ResultStatus::FAILED => "error",
-            ResultStatus::PASSED => "info",
-            ResultStatus::UNSATISFACTORY => "comment"
+            ResultStatus::ERROR          => 'error',
+            ResultStatus::FAILED         => 'error',
+            ResultStatus::PASSED         => 'info',
+            ResultStatus::UNSATISFACTORY => 'comment'
         ];
     }
 
@@ -56,8 +56,8 @@ class TestsRunCommand extends ContainerAwareCommand
         
         //Set up some shortcuts to services
         if ($container !== null) {
-            $this->expectations = $container->get("overwatch_expectation.expectation_manager");
-            $this->_em = $container->get("doctrine.orm.entity_manager");
+            $this->expectations = $container->get('overwatch_expectation.expectation_manager');
+            $this->_em = $container->get('doctrine.orm.entity_manager');
         }
     }
 
@@ -65,12 +65,12 @@ class TestsRunCommand extends ContainerAwareCommand
     {
         $start = new \DateTime;
 
-        $tests = $this->_em->getRepository("OverwatchTestBundle:Test")->findTests($input->getOption("test"));
+        $tests = $this->_em->getRepository('OverwatchTestBundle:Test')->findTests($input->getOption('test'));
         if (empty($tests)) {
-            throw new \InvalidArgumentException("Could not find any tests to run.");
+            throw new \InvalidArgumentException('Could not find any tests to run.');
         }
         
-        $output->writeln($this->getApplication()->getLongVersion() . ", running <info>" . count($tests) . "</info> tests");
+        $output->writeln($this->getApplication()->getLongVersion() . ', running <info>' . count($tests) . '</info> tests');
         
         foreach ($tests as $test) {
             $result = $this->expectations->run($test);
@@ -79,9 +79,9 @@ class TestsRunCommand extends ContainerAwareCommand
             //Don't output if we're not running verbosely and the test passes.
             if ($result->getStatus() !== ResultStatus::PASSED || $output->isVerbose()) {
                 $output->writeln(
-                    " > " . $test->getName() . " : " .
+                    ' > ' . $test->getName() . ' : ' .
                     $this->getColouredStatus($result->getStatus()) .
-                    " - " . $result->getInfo()
+                    ' - ' . $result->getInfo()
                 );
             }
             $this->_em->persist($result);
@@ -104,11 +104,11 @@ class TestsRunCommand extends ContainerAwareCommand
         if ($value === null) {
             $value = $status;
         } else {
-            $value .= " " . $status;
+            $value .= ' ' . $status;
         }
         
         ResultStatus::isValid($status);
-        return "<" . $this->colours[$status] . ">" . $value . "</" . $this->colours[$status] . ">";
+        return '<' . $this->colours[$status] . '>' . $value . '</' . $this->colours[$status] . '>';
     }
     
     /**
@@ -118,13 +118,13 @@ class TestsRunCommand extends ContainerAwareCommand
     {
         $end = new \DateTime;
         $runTime = $end->diff($start, true);
-        $summary = "";
+        $summary = '';
         
         foreach (ResultStatus::getAll() as $status) {
-            $summary .= $this->getColouredStatus($status, $this->results[$status]) . ", ";
+            $summary .= $this->getColouredStatus($status, $this->results[$status]) . ', ';
         }
         
-        $summary .= "in " . $runTime->i . " minutes and " . $runTime->s . " seconds";
+        $summary .= 'in ' . $runTime->i . ' minutes and ' . $runTime->s . ' seconds';
         return $summary;
     }
 }

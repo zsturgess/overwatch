@@ -9,13 +9,15 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
  * Extends LiipFunctionalTestBundle's web test case to add custom logic.
  * Includes ApiTestHelperTrait.
  */
-class DatabaseAwareTestCase extends WebTestCase {
+class DatabaseAwareTestCase extends WebTestCase
+{
     use ApiTestHelperTrait;
     
     protected $em;
     protected $client;
     
-    public function setUp() {
+    public function setUp()
+    {
         $this->client = static::createClient();
         
         $this->loadFixtures([

@@ -3,17 +3,17 @@
 namespace Overwatch\TestBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Overwatch\TestBundle\Entity\TestGroup;
+use Overwatch\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Overwatch\TestBundle\Entity\TestGroup;
-use Overwatch\UserBundle\Entity\User;
 
 /**
  * TestGroupApiController
@@ -49,13 +49,13 @@ class TestGroupApiController extends Controller
      */
     public function createGroupAction(Request $request)
     {
-        if ($request->request->get("name") === null) {
-            return new JsonResponse("You must provide a name for the new group", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        if ($request->request->get('name') === null) {
+            return new JsonResponse('You must provide a name for the new group', JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         
         $group = new TestGroup;
         $group
-            ->setName($request->request->get("name"))
+            ->setName($request->request->get('name'))
         ;
         
         $this->_em->persist($group);
@@ -79,12 +79,12 @@ class TestGroupApiController extends Controller
      */
     public function getAllGroupsAction()
     {
-        if ($this->isGranted("ROLE_SUPER_ADMIN")) {
-            $groups = $this->_em->getRepository("OverwatchTestBundle:TestGroup")->findAll();
-        } else if ($this->getUser() !== null) {
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $groups = $this->_em->getRepository('OverwatchTestBundle:TestGroup')->findAll();
+        } elseif ($this->getUser() !== null) {
             $groups = $this->getUser()->getGroups()->toArray();
         } else {
-            throw new AccessDeniedHttpException("Please login");
+            throw new AccessDeniedHttpException('Please login');
         }
         
         return new JsonResponse($groups);
@@ -132,8 +132,8 @@ class TestGroupApiController extends Controller
      */
     public function updateGroupAction(Request $request, TestGroup $group)
     {
-        if ($request->request->has("name")) {
-            $group->setName($request->request->get("name"));
+        if ($request->request->has('name')) {
+            $group->setName($request->request->get('name'));
             
             $this->_em->flush();
         }
@@ -159,7 +159,7 @@ class TestGroupApiController extends Controller
     public function deleteGroupAction(TestGroup $group)
     {
         if ($group->getUsers()->count() + $group->getTests()->count() !== 0) {
-            return new JsonResponse("This group still has users and/or tests in it. You must remove them before continuing.", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse('This group still has users and/or tests in it. You must remove them before continuing.', JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         
         $this->_em->remove($group);

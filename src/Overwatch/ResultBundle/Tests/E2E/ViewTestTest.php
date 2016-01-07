@@ -3,9 +3,9 @@
 namespace Overwatch\ResultBundle\Tests\E2E;
 
 use Facebook\WebDriver\WebDriverBy;
-use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 use Overwatch\ResultBundle\DataFixtures\ORM\TestResultFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
+use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 
 /**
  * ViewTestTest

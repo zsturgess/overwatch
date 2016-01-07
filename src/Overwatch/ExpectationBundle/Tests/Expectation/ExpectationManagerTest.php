@@ -2,10 +2,10 @@
 
 namespace Overwatch\ExpectationBundle\Tests\Expectation;
 
-use Overwatch\ExpectationBundle\Expectation\ExpectationManager;
 use Overwatch\ExpectationBundle\Exception as ExpectationException;
-use Overwatch\TestBundle\Entity\Test;
+use Overwatch\ExpectationBundle\Expectation\ExpectationManager;
 use Overwatch\ResultBundle\Enum\ResultStatus;
+use Overwatch\TestBundle\Entity\Test;
 
 /**
  * ExpectationManagerTest
@@ -25,7 +25,7 @@ class ExpectationManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->toPingMock = $this->getMockBuilder('Overwatch\ServiceBundle\Expectation\ToPingExpectation')
             ->setConstructorArgs([[
-                'timeout' => 1,
+                'timeout'        => 1,
                 'unsatisfactory' => 0.5
             ]])
             ->getMock();
@@ -121,7 +121,8 @@ class ExpectationManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getInfo(), $info);
     }
     
-    public function testRunErrorThenPass() {
+    public function testRunErrorThenPass()
+    {
         $info = 'Passes the second!';
 
         $this->setUpTestRun([

@@ -2,18 +2,19 @@
 
 namespace Overwatch\TestBundle\Tests\Command;
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Output\Output;
-use Symfony\Component\Console\Tester\CommandTester;
 use Overwatch\TestBundle\Command\TestsRunCommand;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
 use phpmock\phpunit\PHPMock;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Output\Output;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * TestsRunCommandTest
  */
-class TestsRunCommandTest extends DatabaseAwareTestCase {
+class TestsRunCommandTest extends DatabaseAwareTestCase
+{
     use PHPMock;
     use ConsoleTestHelperTrait;
     
@@ -23,7 +24,8 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
     private $command;
     private $resultRepo;
     
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->createSocketMocks();
         
@@ -38,7 +40,8 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $this->resultRepo = $this->em->getRepository('OverwatchResultBundle:TestResult');
     }
     
-    public function testWhenAllPass() {
+    public function testWhenAllPass()
+    {
         $this->createSocketReadMock();
         
         $returnCode = $this->execute();
@@ -54,7 +57,8 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $this->assertRecentResultsPersisted();
     }
     
-    public function testVerboselyWhenAllPass() {
+    public function testVerboselyWhenAllPass()
+    {
         $this->createSocketReadMock();
         
         $returnCode = $this->execute([], [
@@ -80,7 +84,8 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $this->assertRecentResultsPersisted();
     }
     
-    public function testDiscardsResults() {
+    public function testDiscardsResults()
+    {
         $this->createSocketReadMock();
         
         $returnCode = $this->execute(['--discard-results']);
@@ -96,7 +101,8 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $this->assertRecentResultsNotPersisted();
     }
     
-    public function testNamedTests() {
+    public function testNamedTests()
+    {
         $this->createSocketReadMock();
         
         $returnCode = $this->execute([
@@ -123,7 +129,8 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Could not find any tests to run.
      */
-    public function testNoNamedTestsFound() {
+    public function testNoNamedTestsFound()
+    {
         $this->execute([
             '--test' => [
                 'Group 3'
@@ -131,7 +138,8 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         ]);
     }
     
-    public function testMixedResults() {
+    public function testMixedResults()
+    {
         $this->createSocketReadMockForMixedResults();
         
         $returnCode = $this->execute();
@@ -154,7 +162,8 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $this->assertRecentResultsPersisted();
     }
     
-    public function testVerboseMixedResults() {
+    public function testVerboseMixedResults()
+    {
         $this->createSocketReadMockForMixedResults();
         
         $returnCode = $this->execute([], [
@@ -182,35 +191,38 @@ class TestsRunCommandTest extends DatabaseAwareTestCase {
         $this->assertRecentResultsPersisted();
     }
     
-    private function createSocketMocks() {
+    private function createSocketMocks()
+    {
         foreach ([
-            "socket_create",
-            "socket_set_option",
-            "socket_connect",
-            "socket_send",
-            "socket_close"
+            'socket_create',
+            'socket_set_option',
+            'socket_connect',
+            'socket_send',
+            'socket_close'
         ] as $func) {
             $mock = $this->getFunctionMock('Overwatch\ServiceBundle\Expectation', $func);
             $mock->expects($this->any())->willReturn(true);
         }
     }
     
-    private function createSocketReadMock() {
+    private function createSocketReadMock()
+    {
         $mock = $this->getFunctionMock('Overwatch\ServiceBundle\Expectation', 'socket_read');
         
-        $mock->expects($this->any())->willReturnCallback(function() {
+        $mock->expects($this->any())->willReturnCallback(function () {
             usleep(rand(500, 300000)); //Sleep randomly between 0.0005 and 0.3s
             return true;
         });
     }
     
-    private function createSocketReadMockForMixedResults() {
+    private function createSocketReadMockForMixedResults()
+    {
         $mock = $this->getFunctionMock('Overwatch\ServiceBundle\Expectation', 'socket_read');
         
         $mock->expects($this->any())->willReturnOnConsecutiveCalls(
-            $this->returnCallback(function() { usleep(500); return true; }),
-            $this->returnCallback(function() { usleep(1000500); return true; }),
-            $this->returnCallback(function() { usleep(1000500); return true; }),
+            $this->returnCallback(function () { usleep(500); return true; }),
+            $this->returnCallback(function () { usleep(1000500); return true; }),
+            $this->returnCallback(function () { usleep(1000500); return true; }),
             $this->returnValue(false)
         );
     }

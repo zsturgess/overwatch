@@ -70,12 +70,12 @@ class TestGroup implements GroupInterface, \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            "id" => $this->getId(),
-            "name" => $this->getName(),
-            "tests" => $this->getTests()->toArray(),
-            "users" => $this->getUsers()->toArray(),
-            "createdAt" => $this->getCreatedAt()->getTimestamp(),
-            "updatedAt" => $this->getUpdatedAt()->getTimestamp()
+            'id'        => $this->getId(),
+            'name'      => $this->getName(),
+            'tests'     => $this->getTests()->toArray(),
+            'users'     => $this->getUsers()->toArray(),
+            'createdAt' => $this->getCreatedAt()->getTimestamp(),
+            'updatedAt' => $this->getUpdatedAt()->getTimestamp()
         ];
     }
 
@@ -232,9 +232,24 @@ class TestGroup implements GroupInterface, \JsonSerializable
     /**
      * FOSUserBundle needs groups to have roles. We don't.
      */
-    public function getRoles() { return []; }
-    public function setRoles(array $roles) { return $this; }
-    public function addRole($role) { return $this; }
-    public function removeRole($role) { return $this; }
-    public function hasRole($role) { return false; }
+    public function getRoles()
+    {
+        return [];
+    }
+    public function setRoles(array $roles)
+    {
+        return $this;
+    }
+    public function addRole($role)
+    {
+        return $this;
+    }
+    public function removeRole($role)
+    {
+        return $this;
+    }
+    public function hasRole($role)
+    {
+        return false;
+    }
 }
