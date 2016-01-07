@@ -51,7 +51,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function getTest(Test $test)
+    public function getTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be a member of this test's group to view it");
@@ -83,7 +83,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function createTest(Request $request, TestGroup $group)
+    public function createTestAction(Request $request, TestGroup $group)
     {
         $test = new Test();
         $test
@@ -127,7 +127,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function getTestsInGroup(TestGroup $group)
+    public function getTestsInGroupAction(TestGroup $group)
     {
         return new JsonResponse($group->getTests()->toArray());
     }
@@ -153,7 +153,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function updateTest(Request $request, Test $test)
+    public function updateTestAction(Request $request, Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to edit it");
@@ -184,7 +184,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function deleteTest(Test $test)
+    public function deleteTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to delete it");
@@ -211,7 +211,7 @@ class TestApiController extends Controller
      *     }
      * )
      */
-    public function runTest(Test $test)
+    public function runTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
             throw new AccessDeniedHttpException("You must be an admin in this test's group to run it");

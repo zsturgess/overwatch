@@ -31,7 +31,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getAll()
+    public function getAllAction()
     {
         return new JsonResponse(
             $this->get('overwatch_expectation.expectation_manager')->getAll()

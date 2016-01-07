@@ -44,7 +44,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getAlertSettings()
+    public function getAlertSettingsAction()
     {
         return new JsonResponse(AlertSetting::getAll());
     }
@@ -62,7 +62,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getAllUsers()
+    public function getAllUsersAction()
     {
         $users = $this->em->getRepository("OverwatchUserBundle:User")->findAll();
         return new JsonResponse($users);
@@ -83,7 +83,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function createUser($email)
+    public function createUserAction($email)
     {
         $password = substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(openssl_random_pseudo_bytes(9))), 0, 8);
         $user = $this->get('fos_user.util.user_manipulator')->create($email, $password, $email, true, false);
@@ -124,7 +124,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function findUser(User $user)
+    public function findUserAction(User $user)
     {
         return new JsonResponse($user);
     }
@@ -145,7 +145,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function updateUser(Request $request)
+    public function updateUserAction(Request $request)
     {
         $user = $this->getUser();
         $user
@@ -171,7 +171,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function toggleLockUser(User $user)
+    public function toggleLockUserAction(User $user)
     {
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not toggle locks on yourself.");
@@ -199,7 +199,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function setUserRole(User $user, $role)
+    public function setUserRoleAction(User $user, $role)
     {
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not set roles on yourself.");
@@ -229,7 +229,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function deleteUser(User $user)
+    public function deleteUserAction(User $user)
     {
         if ($user->getId() === $this->getUser()->getId()) {
             throw new AccessDeniedHttpException("You may not delete yourself.");

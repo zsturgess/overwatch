@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Overwatch\TestBundle\Entity\TestGroup;
-use Overwatch\TestBundle\Security\TestGroupVoter;
 use Overwatch\UserBundle\Entity\User;
 
 /**
@@ -48,7 +47,7 @@ class TestGroupApiController extends Controller
      *     }
      * )
      */
-    public function createGroup(Request $request)
+    public function createGroupAction(Request $request)
     {
         if ($request->request->get("name") === null) {
             return new JsonResponse("You must provide a name for the new group", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
@@ -78,7 +77,7 @@ class TestGroupApiController extends Controller
      *     }
      * )
      */
-    public function getAllGroups()
+    public function getAllGroupsAction()
     {
         if ($this->isGranted("ROLE_SUPER_ADMIN")) {
             $groups = $this->_em->getRepository("OverwatchTestBundle:TestGroup")->findAll();
@@ -108,7 +107,7 @@ class TestGroupApiController extends Controller
      *     }
      * )
      */
-    public function getGroup(TestGroup $group)
+    public function getGroupAction(TestGroup $group)
     {
         return new JsonResponse($group);
     }
@@ -131,7 +130,7 @@ class TestGroupApiController extends Controller
      *     }
      * ) 
      */
-    public function updateGroup(Request $request, TestGroup $group)
+    public function updateGroupAction(Request $request, TestGroup $group)
     {
         if ($request->request->has("name")) {
             $group->setName($request->request->get("name"));
@@ -157,7 +156,7 @@ class TestGroupApiController extends Controller
      *     }
      * )
      */
-    public function deleteGroup(TestGroup $group)
+    public function deleteGroupAction(TestGroup $group)
     {
         if ($group->getUsers()->count() + $group->getTests()->count() !== 0) {
             return new JsonResponse("This group still has users and/or tests in it. You must remove them before continuing.", JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
@@ -188,7 +187,7 @@ class TestGroupApiController extends Controller
      *     }
      * )
      */
-    public function addUserToGroup(TestGroup $group, User $user)
+    public function addUserToGroupAction(TestGroup $group, User $user)
     {
         $group->addUser($user);
         $this->_em->flush();
@@ -214,7 +213,7 @@ class TestGroupApiController extends Controller
      *     }
      * )
      */
-    public function removeUserFromGroup(TestGroup $group, User $user)
+    public function removeUserFromGroupAction(TestGroup $group, User $user)
     {
         $group->removeUser($user);
         $this->_em->flush();

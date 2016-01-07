@@ -20,11 +20,6 @@ class TestsRunCommand extends ContainerAwareCommand
      */
     private $expectations;
     
-    /**
-     * @var Overwatch\TestBundle\Entity\TestRepository 
-     */
-    private $testRepo;
-    
     private $_em;
     private $results = [];
     private $colours = [];
@@ -63,7 +58,6 @@ class TestsRunCommand extends ContainerAwareCommand
         if ($container !== null) {
             $this->expectations = $container->get("overwatch_expectation.expectation_manager");
             $this->_em = $container->get("doctrine.orm.entity_manager");
-            $this->testRepo = $this->_em->getRepository("OverwatchTestBundle:Test");
         }
     }
 
@@ -71,7 +65,7 @@ class TestsRunCommand extends ContainerAwareCommand
     {
         $start = new \DateTime;
 
-        $tests = $this->testRepo->findTests($input->getOption("test"));
+        $tests = $this->_em->getRepository("OverwatchTestBundle:Test")->findTests($input->getOption("test"));
         if (empty($tests)) {
             throw new \InvalidArgumentException("Could not find any tests to run.");
         }

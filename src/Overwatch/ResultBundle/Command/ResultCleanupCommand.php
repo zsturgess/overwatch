@@ -63,13 +63,13 @@ EOF
         //Set up some shortcuts to services
         if ($container !== null) {
             $this->em = $container->get('doctrine.orm.entity_manager');
-            $this->resultRepo = $this->em->getRepository('OverwatchResultBundle:TestResult');
         }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
+        $this->resultRepo = $this->em->getRepository('OverwatchResultBundle:TestResult');
 
         $delete = $this->convertOption($input->getOption('delete'));
         $compress = $this->convertOption($input->getOption('compress'));

@@ -38,7 +38,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getResults(Request $request)
+    public function getResultsAction(Request $request)
     {
         $size = $request->query->get('pageSize', 10);
 
@@ -72,7 +72,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getRecentGroupResults(TestGroup $group, Request $request)
+    public function getRecentGroupResultsAction(TestGroup $group, Request $request)
     {
         $results = [];
         $size = $request->query->get('pageSize', 10);
@@ -110,7 +110,7 @@ class ApiController extends Controller
      *     }
      * )
      */
-    public function getResultsForTest(Request $request, Test $test)
+    public function getResultsForTestAction(Request $request, Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
             throw new AccessDeniedHttpException('You must be a member of this test\'s group to see it\'s results');
