@@ -17,6 +17,8 @@ Overwatch comes bundled with the following expectations:
 - [toPing](expectations/to_ping.md) - Expects the hostname or IP address given as the actual to respond to an ICMP ping
 - [toResolveTo](expectations/to_resolve_to.md) - Expects the hostname given as the actual to have a DNS record with the value of the expected
 - [toRespondHttp](expectations/to_respond_http.md) - Expects the URL given as the actual to respond with a HTTP code
+- [toRespondWithMimeType](expectations/to_respond_with_mime_type.md) - Expects the URL given as the actual to respond with Content-Type equal to the expected
+- [toContainText](expectations/to_contain_text.md) - Expects the URL given as the actual to contain the text, or match the regular expression given as the expected
 
 Overwatch is also set up in such a way to allow the creation of 3rd Party "addon" expectations, see [Extending Overwatch](extending.md)
 

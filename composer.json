@@ -56,6 +56,10 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
+        ],
+        "php-cs-fix": [
+            "cd bin && wget http://get.sensiolabs.org/php-cs-fixer.phar -N",
+            "php bin/php-cs-fixer.phar fix src/ --level=psr2 --fixers=align_double_arrow,concat_with_spaces,newline_after_open_tag,ordered_use,short_array_syntax,single_quote"
         ]
     },
     "config": {
