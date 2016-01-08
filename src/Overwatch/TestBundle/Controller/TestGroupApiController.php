@@ -69,6 +69,7 @@ class TestGroupApiController extends Controller
      * 
      * @Route("")
      * @Method({"GET"})
+     * @Security("has_role('ROLE_USER')")
      * @ApiDoc(
      *     tags={
      *         "Super Admin" = "#ff1919",
@@ -81,10 +82,8 @@ class TestGroupApiController extends Controller
     {
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
             $groups = $this->_em->getRepository('OverwatchTestBundle:TestGroup')->findAll();
-        } elseif ($this->getUser() !== null) {
-            $groups = $this->getUser()->getGroups()->toArray();
         } else {
-            throw new AccessDeniedHttpException('Please login');
+            $groups = $this->getUser()->getGroups()->toArray();
         }
         
         return new JsonResponse($groups);
