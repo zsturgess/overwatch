@@ -95,9 +95,15 @@ class AddEditTestTest extends WebDriverTestCase
     
     private function getTestsForFirstGroup()
     {
-        return $this->webDriver->findElements(
+        $groups = $this->webDriver->findElements(
             WebDriverBy::cssSelector('.groups > li.ng-scope')
-        )[0]->findElements(
+        );
+                
+        if (count($groups) < 1) {
+            return [];
+        }
+        
+        return $groups[0]->findElements(
             WebDriverBy::cssSelector('.tests li.ng-scope')
         );
     }
