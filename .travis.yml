@@ -23,6 +23,7 @@ before_deploy:
 - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
 - composer install --no-dev --prefer-dist
 - rm -rf app/cache/* app/logs/* app/config/parameters.yml.dist
+- sed -i "s/dev-master/$TRAVIS_TAG/" app/console
 - tar -chzf overwatch-$TRAVIS_TAG.tar.gz app/ composer* *.md LICENSE src/ vendor/ web/
 deploy:
   provider: releases
