@@ -20,7 +20,7 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
         }
         
         return isGranted(role, group.name);
-    }
+    };
     
     $scope.shouldWarnOfTestAge = function() {
         var diffToAverage;
@@ -188,18 +188,17 @@ overwatchApp.controller('AddTestController', function(showLoading, $scope, overw
     }
 });
 
-overwatchApp.controller('ViewTestController', function(showLoading, $scope, overwatchApi, $routeParams, $interval) {
+overwatchApp.controller('ViewTestController', function(showLoading, isGranted, $scope, overwatchApi, $routeParams, $interval, $location, $window) {
     $scope.test = {};
     $scope.lastRequestedResultSize = 0;
     
-    overwatchApi.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
-        .success(function(test) {
-            $scope.test = test;
-            $scope.loadResults(10);
-        })
-    ;
-    
     $scope.loadResults = function(limit) {
+        overwatchApi.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
+            .success(function(test) {
+                $scope.test = test;
+            })
+        ;
+        
         overwatchApi.get(Routing.generate('overwatch_result_api_getresultsfortest', {id: $routeParams.id}) + '?pageSize=' + limit)
             .success(function(results) {
                 $scope.test.results = results;
@@ -213,6 +212,38 @@ overwatchApp.controller('ViewTestController', function(showLoading, $scope, over
         showLoading(true);
         $scope.loadResults($scope.lastRequestedResultSize + 10);
     }
+    
+    $scope.removeTest = function(id) {
+        if (!$window.confirm('Are you sure you want to remove this test? All historical data for this test will also be deleted.')) {
+            return;
+        }
+        
+        showLoading(true);
+        overwatchApi.delete(Routing.generate('overwatch_test_testapi_deletetest', {'id': id}))
+            .success(function(){
+                $location.path('/');
+            })
+        ;
+    };
+    
+    $scope.isGranted = function(role, group) {
+        if (typeof group === 'undefined') {
+            return isGranted(role);
+        }
+        
+        return isGranted(role, group.name);
+    };
+    
+    $scope.runTest = function(id) {
+        showLoading(true);
+        overwatchApi.post(Routing.generate('overwatch_test_testapi_runtest', {'id': id}), null)
+            .success(function(){
+                $scope.loadResults($scope.lastRequestedResultSize + 10);
+            })
+        ;
+    };
+    
+    $scope.loadResults(10);
     
     var interval = $interval(function() {
         $scope.loadResults($scope.lastRequestedResultSize)
