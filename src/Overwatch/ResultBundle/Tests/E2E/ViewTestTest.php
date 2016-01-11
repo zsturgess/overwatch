@@ -44,6 +44,44 @@ class ViewTestTest extends WebDriverTestCase
         $this->assertTimestampEquals(TestResultFixtures::$results['result-4']->getCreatedAt(), $this->getResultsOnPage(' a')[0]->getAttribute('title'));
         $this->assertContains(strtolower(TestResultFixtures::$results['result-4']->getStatus()), $this->getResultsOnPage('')[0]->getAttribute('class'));
     }
+    
+    public function testDeleteTest()
+    {
+        $this->logInAsUser('user-1');
+        $this->clickThroughToTest(1);
+
+        $this->waitForLoadingAnimation();
+        $this->getActionItem(2)->click();
+        
+        $this->waitForAlert();
+        $this->webDriver->switchTo()->alert()->accept();
+        
+        $this->waitForLoadingAnimation();
+        $this->assertCount(1, $this->webDriver->findElements(
+            WebDriverBy::cssSelector('.groups li:first-child .tests li div.test')
+        ));
+    }
+    
+    public function testRunTest()
+    {
+        $this->logInAsUser('user-1');
+        $this->clickThroughToTest(1);
+
+        $this->waitForLoadingAnimation();
+        $this->getActionItem(3)->click();
+        $this->waitForLoadingAnimation();
+        $this->assertCount(4, $this->getResultsOnPage());
+    }
+    
+    public function testEditDeleteAndRunInsufficentPermissions()
+    {
+        $this->logInAsUser('user-2');
+        $this->clickThroughToTest(1);
+        
+        $this->assertFalse($this->getActionItem(1)->isDisplayed());
+        $this->assertFalse($this->getActionItem(2)->isDisplayed());
+        $this->assertFalse($this->getActionItem(3)->isDisplayed());
+    }
 
     private function clickThroughToTest($number)
     {
@@ -62,6 +100,13 @@ class ViewTestTest extends WebDriverTestCase
         );
 
         return $results;
+    }
+    
+    private function getActionItem($number)
+    {
+        return $this->webDriver->findElement(
+            WebDriverBy::cssSelector('.results li:last-child a:nth-child(' . $number . ')')
+        );
     }
 
     private function assertTimestampEquals($expected, $actual)
