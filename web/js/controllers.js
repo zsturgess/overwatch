@@ -238,7 +238,7 @@ overwatchApp.controller('ViewTestController', function(showLoading, isGranted, $
         showLoading(true);
         overwatchApi.post(Routing.generate('overwatch_test_testapi_runtest', {'id': id}), null)
             .success(function(){
-                $scope.loadResults($scope.lastRequestedResultSize + 10);
+                $scope.loadResults($scope.lastRequestedResultSize);
             })
         ;
     };

@@ -5,6 +5,7 @@ namespace Overwatch\UserBundle\Tests\E2E;
 use Facebook\WebDriver\WebDriverBy;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 use Overwatch\TestBundle\DataFixtures\ORM\TestGroupFixtures;
+use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 
 /**
@@ -85,6 +86,22 @@ class AppNavigationTest extends WebDriverTestCase
                 "Final breadcrumb text on $page does not match the page's title"
             );
         }
+    }
+    
+    public function testApiErrorCausesPageRefresh()
+    {
+        //Remove the currently logged in user from the DB to force the API call to fail
+        $this->em->remove(
+            $this->em->find('Overwatch\UserBundle\Entity\User', UserFixtures::$users['user-1']->getId())
+        );
+        $this->em->flush();
+        
+        $this->webDriver->findElement(
+            WebDriverBy::cssSelector('.tests li:nth-child(1) .test a:nth-child(3)')
+        )->click();
+        
+        $this->waitForLoadingAnimation();
+        $this->assertContains('http://127.0.0.1:8000/login#/test/', $this->webDriver->getCurrentURL());
     }
     
     private function getBreadcrumbs()

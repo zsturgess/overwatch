@@ -4,7 +4,7 @@ var overwatchApp = angular.module('overwatch', [
     'ngIdle'
 ]);
 
-overwatchApp.config(function($routeProvider, IdleProvider) {
+overwatchApp.config(function($routeProvider, $httpProvider, IdleProvider) {
     $routeProvider
             .when('/', {
                 title: 'Dashboard',
@@ -50,6 +50,8 @@ overwatchApp.config(function($routeProvider, IdleProvider) {
                 redirectTo: '/'
             })
     ;
+    
+    $httpProvider.interceptors.push('overwatchApiErrorHandler');
     
     IdleProvider.idle(5 * 60);
     IdleProvider.timeout(5);
