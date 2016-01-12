@@ -127,6 +127,14 @@ overwatchApp.service('overwatchApi', function(overwatchApiAuth, $http) {
     };
 });
 
+overwatchApp.factory('overwatchApiErrorHandler', function($q, $window) {
+    return {
+        responseError: function(response) {
+            $window.location.reload();
+        }
+    };
+});
+
 //From https://gist.github.com/keithics/9911022 (Thanks @keithics!)
 overwatchApp.filter('ucfirst', function() {
     return function(input,arg) {
