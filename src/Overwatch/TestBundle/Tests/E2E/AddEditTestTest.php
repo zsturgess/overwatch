@@ -43,7 +43,9 @@ class AddEditTestTest extends WebDriverTestCase
         
         $this->getTestField('name')->clear();
         $this->getTestField('name')->sendKeys('UnUnTestium');
-        $this->getTestField('name')->sendKeys(WebDriverKeys::ENTER);
+        $this->webDriver->findElement(
+            WebDriverBy::cssSelector("button[data-ng-click='save()']")
+        )->click();
         $this->waitForLoadingAnimation();
         $this->assertEquals('UnUnTestium', $this->getHeaderText());
     }
@@ -57,7 +59,7 @@ class AddEditTestTest extends WebDriverTestCase
         
         $this->getTestField('name')->sendKeys('Github Status Resolves');
         $this->getTestField('actual')->sendKeys('status.github.com');
-        $this->getTestField('expectation')->sendKeys('toResolveTo');
+        (new WebDriverSelect($this->getTestField('expectation')))->selectByValue('string:toResolveTo');
         $this->getTestField('expected')->sendKeys('octostatus-production.github.com');
         $this->getTestField('expected')->sendKeys(WebDriverKeys::ENTER);
         

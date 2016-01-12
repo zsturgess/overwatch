@@ -51,7 +51,7 @@ overwatchApp.config(function($routeProvider, $httpProvider, IdleProvider) {
             })
     ;
     
-    $httpProvider.interceptors.push('overwatchApiErrorHandler');
+    //$httpProvider.interceptors.push('overwatchApiErrorHandler');
     
     IdleProvider.idle(5 * 60);
     IdleProvider.timeout(5);

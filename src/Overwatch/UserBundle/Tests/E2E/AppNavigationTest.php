@@ -88,22 +88,6 @@ class AppNavigationTest extends WebDriverTestCase
         }
     }
     
-    public function testApiErrorCausesPageRefresh()
-    {
-        //Remove the currently logged in user from the DB to force the API call to fail
-        $this->em->remove(
-            $this->em->find('Overwatch\UserBundle\Entity\User', UserFixtures::$users['user-1']->getId())
-        );
-        $this->em->flush();
-        
-        $this->webDriver->findElement(
-            WebDriverBy::cssSelector('.tests li:nth-child(1) .test a:nth-child(3)')
-        )->click();
-        
-        $this->waitForLoadingAnimation();
-        $this->assertContains('http://127.0.0.1:8000/login#/test/', $this->webDriver->getCurrentURL());
-    }
-    
     private function getBreadcrumbs()
     {
         return $this->webDriver->findElements(

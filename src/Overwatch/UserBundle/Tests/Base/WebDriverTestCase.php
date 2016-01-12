@@ -14,7 +14,7 @@ use Overwatch\UserBundle\DataFixtures\ORM\UserFixtures;
  * WebDriverTestCase
  * Extends DatabseAwareTestCase to add WebDriver logic.
  */
-class WebDriverTestCase  extends DatabaseAwareTestCase
+class WebDriverTestCase extends DatabaseAwareTestCase
 {
     /**
      * @var RemoteWebDriver
@@ -36,6 +36,7 @@ class WebDriverTestCase  extends DatabaseAwareTestCase
         } catch (TimeOutException $e) {
             //If there's a timeout the first time, retry, but don't catch
             //anything the second time around (i.e. there's only 1 retry attempt)
+            echo '!';
             parent::runBare();
         }
     }
@@ -61,9 +62,9 @@ class WebDriverTestCase  extends DatabaseAwareTestCase
     
     public function waitForLoadingAnimation()
     {
-        $this->webDriver->wait()->until(function ($this) {
-            return !$this->webDriver->findElement(WebDriverBy::id('loading'))->isDisplayed();
-        });
+        $this->webDriver->wait(30, 500)->until(
+            WebDriverExpectedCondition::invisibilityOfElementLocated(WebDriverBy::id('loading'))
+        );
     }
     
     public function waitForAlert()
@@ -82,6 +83,12 @@ class WebDriverTestCase  extends DatabaseAwareTestCase
     
     public function tearDown()
     {
+        if (in_array($this->getStatus(), [\PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE, \PHPUnit_Runner_BaseTestRunner::STATUS_ERROR])) {
+            echo PHP_EOL.PHP_EOL.PHP_EOL;
+            echo 'data:image/png;base64,'.base64_encode($this->webDriver->takeScreenshot());
+            echo PHP_EOL.PHP_EOL.PHP_EOL;
+        }
+        
         parent::tearDown();
         
         if ($this->webDriver !== null) {
