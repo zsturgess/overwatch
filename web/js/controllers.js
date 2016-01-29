@@ -190,12 +190,15 @@ overwatchApp.controller('AddTestController', function(showLoading, $scope, overw
 
 overwatchApp.controller('ViewTestController', function(showLoading, isGranted, $scope, overwatchApi, $routeParams, $interval, $location, $window) {
     $scope.test = {};
+    $scope.test.results = {};
     $scope.lastRequestedResultSize = 0;
     
     $scope.loadResults = function(limit) {
         overwatchApi.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
             .success(function(test) {
+                var results = $scope.test.results; // Back up the results
                 $scope.test = test;
+                $scope.test.results = results; // Restore them onto the test object
             })
         ;
         
