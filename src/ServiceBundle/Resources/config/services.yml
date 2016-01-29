@@ -1,0 +1,37 @@
+services:
+    overwatch_service.to_ping:
+        class: Overwatch\ServiceBundle\Expectation\ToPingExpectation
+        arguments: ["%overwatch_service.to_ping%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toPing } 
+    overwatch_service.to_resolve_to:
+        class: Overwatch\ServiceBundle\Expectation\ToResolveToExpectation
+        arguments: ["%overwatch_service.to_resolve_to%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toResolveTo } 
+    overwatch_service.to_respond_http:
+        class: Overwatch\ServiceBundle\Expectation\ToRespondHttpExpectation
+        arguments: ["%overwatch_service.to_respond_http%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toRespondHttp }
+    overwatch_service.to_respond_with_mime_type:
+        class: Overwatch\ServiceBundle\Expectation\ToRespondWithMimeTypeExpectation
+        arguments: ["%overwatch_service.to_respond_with_mime_type%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toRespondWithMimeType }
+    overwatch_service.to_contain_text:
+        class: Overwatch\ServiceBundle\Expectation\ToContainTextExpectation
+        arguments: ["%overwatch_service.to_contain_text%"]
+        tags:
+            -  { name: overwatch_expectation.expectation, alias: toContainText }
+
+    overwatch_service.email_reporter:
+        class: Overwatch\ServiceBundle\Reporter\EmailReporter
+        arguments: ["@service_container", "%overwatch_service.email_reporter%"]
+        tags:
+            -  { name: overwatch_result.result_reporter }
+    overwatch_service.sms_reporter:
+        class: Overwatch\ServiceBundle\Reporter\SmsReporter
+        arguments: ["@service_container", "%overwatch_service.sms_reporter%"]
+        tags:
+            -  { name: overwatch_result.result_reporter }

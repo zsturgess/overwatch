@@ -1,0 +1,6 @@
+services:
+    overwatch_test.test_group_voter:
+        class: Overwatch\TestBundle\Security\TestGroupVoter
+        public: false
+        tags:
+           - { name: security.voter }

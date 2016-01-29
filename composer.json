@@ -4,7 +4,7 @@
     "type": "project",
     "description": "An extensible web monitoring solution built in PHP",
     "autoload": {
-        "psr-4": { "": "src/" },
+        "psr-4": { "Overwatch\\": "src/" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "require": {

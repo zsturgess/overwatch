@@ -1,5 +1,0 @@
-services:
-    overwatch_user.api_authenticator:
-        class: Overwatch\UserBundle\Security\ApiAuthenticator
-        arguments: ["@doctrine.orm.entity_manager"]
-        public: false
