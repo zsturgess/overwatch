@@ -52,7 +52,7 @@ class SmsReporterTest extends DatabaseAwareTestCase
         
         $message = $this->messageSpy->getInvocations()[0]->parameters[2];
         $this->assertEquals(
-            $result->getTest()->getName() . ' ' . $result->getStatus() . ': Me gusta success kid upvoting Obama first world problems.',
+            $result->getTest()->getName() . ' ' . $result->getStatus() . ': Me gusta success kid upvoting Obama first world problems.' . PHP_EOL,
             $message
         );
         

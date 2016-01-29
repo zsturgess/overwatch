@@ -20,7 +20,7 @@ class ExpectationDocumentationTest extends \PHPUnit_Framework_TestCase
             $this->fs = new Filesystem();
         }
         
-        $this->docDir = __DIR__ . '/../../../../../app/Resources/docs/expectations';
+        $this->docDir = __DIR__ . '/../../../../app/Resources/docs/expectations';
         $this->expectationDir = __DIR__ . '/../../Expectation';
     }
     

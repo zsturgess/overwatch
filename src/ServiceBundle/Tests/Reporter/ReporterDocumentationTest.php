@@ -20,7 +20,7 @@ class ReporterDocumentationTest extends \PHPUnit_Framework_TestCase
             $this->fs = new Filesystem();
         }
         
-        $this->docDir = __DIR__ . '/../../../../../app/Resources/docs/result-reporters';
+        $this->docDir = __DIR__ . '/../../../../app/Resources/docs/result-reporters';
         $this->reporterDir = __DIR__ . '/../../Reporter';
     }
     
