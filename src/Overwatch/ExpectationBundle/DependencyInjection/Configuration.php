@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('overwatch_expectation');
+        $treeBuilder->root('overwatch_expectation');
 
         return $treeBuilder;
     }

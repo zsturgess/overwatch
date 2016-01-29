@@ -10,5 +10,4 @@
 /vendor/
 /bin/
 !bin/travis_github_authenticate.sh
-/nbproject/
 /composer.phar

@@ -13,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * ApiController
@@ -174,7 +173,7 @@ class ApiController extends Controller
     public function toggleLockUserAction(User $user)
     {
         if ($user->getId() === $this->getUser()->getId()) {
-            throw new AccessDeniedHttpException('You may not toggle locks on yourself.');
+            throw $this->createAccessDeniedException('You may not toggle locks on yourself.');
         }
         
         $user->setLocked(!$user->isLocked());
@@ -202,7 +201,7 @@ class ApiController extends Controller
     public function setUserRoleAction(User $user, $role)
     {
         if ($user->getId() === $this->getUser()->getId()) {
-            throw new AccessDeniedHttpException('You may not set roles on yourself.');
+            throw $this->createAccessDeniedException('You may not set roles on yourself.');
         }
         
         if (in_array($role, ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'])) {
@@ -232,7 +231,7 @@ class ApiController extends Controller
     public function deleteUserAction(User $user)
     {
         if ($user->getId() === $this->getUser()->getId()) {
-            throw new AccessDeniedHttpException('You may not delete yourself.');
+            throw $this->createAccessDeniedException('You may not delete yourself.');
         }
         
         $this->em->remove($user);

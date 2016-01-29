@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * ApiController
@@ -113,7 +112,7 @@ class ApiController extends Controller
     public function getResultsForTestAction(Request $request, Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
-            throw new AccessDeniedHttpException('You must be a member of this test\'s group to see it\'s results');
+            throw $this->createAccessDeniedException('You must be a member of this test\'s group to see it\'s results');
         }
 
         $size = $request->query->get('pageSize', 10);

@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * ApiController
@@ -54,7 +53,7 @@ class TestApiController extends Controller
     public function getTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::VIEW, $test->getGroup())) {
-            throw new AccessDeniedHttpException("You must be a member of this test's group to view it");
+            throw $this->createAccessDeniedException('You must be a member of this test\'s group to view it');
         }
         
         return new JsonResponse($test);
@@ -156,7 +155,7 @@ class TestApiController extends Controller
     public function updateTestAction(Request $request, Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
-            throw new AccessDeniedHttpException("You must be an admin in this test's group to edit it");
+            throw $this->createAccessDeniedException('You must be an admin in this test\'s group to edit it');
         }
         
         foreach (['name', 'actual', 'expectation', 'expected'] as $field) {
@@ -187,7 +186,7 @@ class TestApiController extends Controller
     public function deleteTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
-            throw new AccessDeniedHttpException("You must be an admin in this test's group to delete it");
+            throw $this->createAccessDeniedException('You must be an admin in this test\'s group to delete it');
         }
         
         $this->_em->remove($test);
@@ -214,7 +213,7 @@ class TestApiController extends Controller
     public function runTestAction(Test $test)
     {
         if (!$this->isGranted(TestGroupVoter::EDIT, $test->getGroup())) {
-            throw new AccessDeniedHttpException("You must be an admin in this test's group to run it");
+            throw $this->createAccessDeniedException('You must be an admin in this test\'s group to run it');
         }
         
         $result = $this->expectationManager->run($test);
