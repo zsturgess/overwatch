@@ -8,7 +8,7 @@ before_install:
 before_script:
 - bin/travis_github_authenticate.sh
 - cp app/config/parameters.yml.dist app/config/parameters.yml
-- sed -i 's/%database_name%/%database_name%_test/' app/config/base_config.yml
+- sed -i 's/%database_name%/%database_name%_test/' app/config/config.yml
 - mysql -e 'create database overwatch_test;'
 - composer install --prefer-dist
 - wget -P bin/ http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.0.jar

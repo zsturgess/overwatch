@@ -11,12 +11,12 @@ This expectation will ignore any value provided as the expected value.
 
 ##Configuration
 ```
-to_ping:
-    timeout: 2
-    unsatisfactory: 1
+expectations_toPing_timeout:                    2
+expectations_toPing_unsatisfactory:             1
 ```
-**timeout** (float) Time, in seconds, to wait for a ping response before timing out and marking as unmet. Defaults to 2.
-**unsatisfactory** (float) Time, in seconds, to wait for a ping response before marking as unsatisfactory. Defaults to 1.
+**expectations_toPing_timeout** (float) Time, in seconds, to wait for a ping response before timing out and marking as unmet. Defaults to 2.
+
+**expectations_toPing_unsatisfactory** (float) Time, in seconds, to wait for a ping response before marking as unsatisfactory. Defaults to 1.
 
 ##Notes
 On some systems, the transmission of an ICMP ping packet requires administrative rights.

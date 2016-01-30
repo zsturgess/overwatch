@@ -1,12 +1,104 @@
 imports:
-    - { resource: base_config.yml }
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: environment.php }
+
+framework:
+    translator:      { fallback: "en" }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "en"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+fos_user:
+    db_driver: orm
+    firewall_name: overwatch
+    user_class: Overwatch\UserBundle\Entity\User
+    group:
+        group_class: Overwatch\TestBundle\Entity\TestGroup
+    from_email:
+        address: "%mailer_from%"
+        sender_name: Overwatch
+
+fos_js_routing:
+    routes_to_expose: [ '^overwatch_[a-z]+_[a-z]*api_' ]
+
+nelmio_api_doc:
+    name: Overwatch API Documentation
+    cache:
+        enabled: true
+    request_listener:
+        enabled: false
+    sandbox:
+        enabled: false
+
+services:
+  kernel.event_listener.json_request_transformer:
+    class: Qandidate\Common\Symfony\HttpKernel\EventListener\JsonRequestTransformerListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }
 
 overwatch_service:
-    to_ping: ~
-    to_resolve_to: ~
-    to_respond_http: ~
-    to_respond_with_mime_type: ~
-    to_contain_text: ~
+    to_ping: 
+        timeout: %expectations_toPing_timeout%
+        unsatisfactory: %expectations_toPing_unsatisfactory%
+    to_resolve_to:
+        record_types: %expectations_toResolveTo_recordTypes%
+    to_respond_http:
+        allowable_codes: %expectations_toRespondHttp_allowableCodes%
+        unsatisfactory_codes: %expectations_toRespondHttp_unsatisfactoryCodes%
+        timeout: %expectations_global_httpTimeout%
+    to_respond_with_mime_type: 
+        allow_errors: %expectations_global_permitHttpErrors%
+        timeout: %expectations_global_httpTimeout%
+    to_contain_text:
+        allow_errors: %expectations_global_permitHttpErrors%
+        crawlable_types: %expectations_toContainText_crawlableTypes%
+        timeout: %expectations_global_httpTimeout%
     email_reporter:
+        enabled: %resultReporters_email_enabled%
         report_from: %mailer_from%
-    sms_reporter: ~ 
+    sms_reporter:
+        enabled: %resultReporters_sms_enabled%
+        twilio_account_sid: %resultReporters_sms_twilio_accountSid%
+        twilio_auth_token: %resultReporters_sms_twilio_authToken%
+        twilio_from_number: %resultReporters_sms_twilio_fromNumber%

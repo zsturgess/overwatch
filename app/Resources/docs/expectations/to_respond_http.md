@@ -17,20 +17,12 @@ With the default configuration shown below, this expectation will check that htt
 
 ##Configuration
 ```
-to_respond_http:
-    allowable_codes:
-        - 200
-        - 201
-        - 204
-        - 206
-        - 304
-    unsatisfactory_codes:
-        - 301
-        - 302
-        - 307
-        - 308
-    timeout: 5
+expectations_global_httpTimeout:                30
+expectations_toRespondHttp_allowableCodes:      [200, 201, 204, 206, 304]
+expectations_toRespondHttp_unsatisfactoryCodes: [301, 302, 307, 308]
 ```
-**allowable_codes** (array) List of HTTP status codes to treat as a test pass when an expected value is not provided.
-**unsatisfactory_codes** (array) List of HTTP status codes to treat as an unsatisfactory result when an expected value is not provided.
-**timeout** (float) Time, in seconds, to wait for a HTTP response before timing out. Use 0 for no timeout.
+**expectations_global_httpTimeout** (float) Time, in seconds, to wait for a HTTP response before timing out. Use 0 for no timeout.
+
+**expectations_toRespondHttp_allowableCodes** (array) List of HTTP status codes to treat as a test pass when an expected value is not provided.
+
+**expectations_toRespondHttp_unsatisfactoryCodes** (array) List of HTTP status codes to treat as an unsatisfactory result when an expected value is not provided.
