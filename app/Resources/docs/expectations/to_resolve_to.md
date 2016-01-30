@@ -11,13 +11,9 @@ This expectation will check the record types configured for a value that equals 
 
 ##Configuration
 ```
-to_resolve_to:
-    record_types:
-        - A
-        - AAAA
-        - CNAME
+expectations_toResolveTo_recordTypes:           ['A', 'AAAA', 'CNAME']
 ```
-**record_types** (array) List of record types to look at when searching for the expected value.
+**expectations_toResolveTo_recordTypes** (array) List of record types to look at when searching for the expected value.
 
 ##Notes
 Reverse lookups can be tested by using an actual value in in-addr.arpa notation.
