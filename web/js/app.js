@@ -46,12 +46,31 @@ overwatchApp.config(function($routeProvider, $httpProvider, IdleProvider) {
                 templateUrl: '/profile/change-password',
                 controller: 'MyAccountController'
             })
+            .when('/error', {
+                title: 'Error',
+                templateUrl: 'partials/error.html',
+                controller: function(showLoading, $scope) {
+                    $scope.status = {
+                        code: '500',
+                        text: 'Internal Server Error'
+                    };
+                    showLoading(false);
+                }
+            })
             .otherwise({
-                redirectTo: '/'
+                title: 'Not Found',
+                templateUrl: 'partials/error.html',
+                controller: function(showLoading, $scope) {
+                    $scope.status = {
+                        code: '404',
+                        text: 'Not Found'
+                    };
+                    showLoading(false);
+                }
             })
     ;
     
-    //$httpProvider.interceptors.push('overwatchApiErrorHandler');
+    $httpProvider.interceptors.push('overwatchApiErrorHandler');
     
     IdleProvider.idle(5 * 60);
     IdleProvider.timeout(5);

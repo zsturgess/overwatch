@@ -127,10 +127,14 @@ overwatchApp.service('overwatchApi', function(overwatchApiAuth, $http) {
     };
 });
 
-overwatchApp.factory('overwatchApiErrorHandler', function($q, $window) {
+overwatchApp.factory('overwatchApiErrorHandler', function($location, $window) {
     return {
         responseError: function(response) {
-            $window.location.reload();
+            if (response.status === 401 || response.status === 403) {
+                $window.location.reload();
+            } else {
+                $location.url('/error');
+            }
         }
     };
 });
