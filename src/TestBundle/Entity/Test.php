@@ -56,9 +56,15 @@ class Test implements \JsonSerializable
     private $expected;
     
     /**
-     * @ORM\OneToMany(targetEntity="Overwatch\ResultBundle\Entity\TestResult", mappedBy="test", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Overwatch\ResultBundle\Entity\TestResult", mappedBy="test")
      */
     private $results;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Overwatch\ResultBundle\Entity\TestResult")
+     * @ORM\JoinColumn(name="lastResult_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $lastResult;
     
     /**
      * @ORM\ManyToOne(targetEntity="TestGroup", inversedBy="tests")
@@ -109,7 +115,7 @@ class Test implements \JsonSerializable
             'actual'      => $this->getActual(),
             'expectation' => $this->getExpectation(),
             'expected'    => $this->getExpected(),
-            'result'      => $this->getResults()->last(),
+            'result'      => $this->getLastResult(),
             'createdAt'   => $this->getCreatedAt()->getTimestamp(),
             'updatedAt'   => $this->getUpdatedAt()->getTimestamp()
         ];
@@ -292,12 +298,12 @@ class Test implements \JsonSerializable
     /**
      * Add results
      *
-     * @param \Overwatch\ResultBundle\Entity\TestResult $results
+     * @param \Overwatch\ResultBundle\Entity\TestResult $result
      * @return Test
      */
-    public function addResult(\Overwatch\ResultBundle\Entity\TestResult $results)
+    public function addResult(\Overwatch\ResultBundle\Entity\TestResult $result)
     {
-        $this->results[] = $results;
+        $this->results[] = $result;
 
         return $this;
     }
@@ -305,11 +311,11 @@ class Test implements \JsonSerializable
     /**
      * Remove results
      *
-     * @param \Overwatch\ResultBundle\Entity\TestResult $results
+     * @param \Overwatch\ResultBundle\Entity\TestResult $result
      */
-    public function removeResult(\Overwatch\ResultBundle\Entity\TestResult $results)
+    public function removeResult(\Overwatch\ResultBundle\Entity\TestResult $result)
     {
-        $this->results->removeElement($results);
+        $this->results->removeElement($result);
     }
 
     /**
@@ -320,5 +326,28 @@ class Test implements \JsonSerializable
     public function getResults()
     {
         return $this->results;
+    }
+    
+    /**
+     * Set last result
+     * 
+     * @param \Overwatch\ResultBundle\Entity\TestResult $result
+     * @return \Overwatch\TestBundle\Entity\Test
+     */
+    public function setLastResult(\Overwatch\ResultBundle\Entity\TestResult $result)
+    {
+        $this->lastResult = $result;
+        
+        return $this;
+    }
+    
+    /**
+     * Get last result
+     * 
+     * @return \Overwatch\ResultBundle\Entity\TestResult
+     */
+    public function getLastResult()
+    {
+        return $this->lastResult;
     }
 }
