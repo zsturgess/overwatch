@@ -82,7 +82,7 @@ class ToPingExpectationTest extends \PHPUnit_Framework_TestCase
                 break;
             
             case 'delayed':
-                $mock->expects($this->once())->willReturnCallback(function () {
+                $mock->expects($this->once())->willReturnCallback(function() {
                     usleep(210000);
                     return true;
                 });

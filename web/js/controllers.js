@@ -31,7 +31,7 @@ overwatchApp.controller('DashboardController', function(showLoading, isGranted, 
         
         angular.forEach($scope.groups, function(group) {
             angular.forEach(group.tests, function(test) {
-                if (typeof test.result.createdAt !== 'undefined') {
+                if (test.result !== null && typeof test.result.createdAt !== 'undefined') {
                     this.total += test.result.createdAt;
                     this.count++;
                 }
@@ -188,13 +188,13 @@ overwatchApp.controller('AddTestController', function(showLoading, $scope, overw
     }
 });
 
-overwatchApp.controller('ViewTestController', function(showLoading, isGranted, $scope, overwatchApi, $routeParams, $interval, $location, $window) {
+overwatchApp.controller('ViewTestController', function(showLoading, isGranted, $scope, overwatchApi, $routeParams, $interval, $location, $window, $q) {
     $scope.test = {};
     $scope.test.results = {};
     $scope.lastRequestedResultSize = 0;
     
     $scope.loadResults = function(limit) {
-        overwatchApi.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
+        var testPromise = overwatchApi.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
             .success(function(test) {
                 var results = $scope.test.results; // Back up the results
                 $scope.test = test;
@@ -202,13 +202,16 @@ overwatchApp.controller('ViewTestController', function(showLoading, isGranted, $
             })
         ;
         
-        overwatchApi.get(Routing.generate('overwatch_result_api_getresultsfortest', {id: $routeParams.id}) + '?pageSize=' + limit)
+        var resultPromise = overwatchApi.get(Routing.generate('overwatch_result_api_getresultsfortest', {id: $routeParams.id}) + '?pageSize=' + limit)
             .success(function(results) {
                 $scope.test.results = results;
                 $scope.lastRequestedResultSize = limit;
-                showLoading(false);
             })
         ;
+        
+        $q.all([testPromise, resultPromise]).then(function() {
+            showLoading(false);
+        });
     };
     
     $scope.loadOlderResults = function() {
@@ -257,33 +260,26 @@ overwatchApp.controller('ViewTestController', function(showLoading, isGranted, $
     });
 });
 
-overwatchApp.controller('EditTestController', function(showLoading, $scope, overwatchApi, $routeParams, $location) {
+overwatchApp.controller('EditTestController', function(showLoading, $scope, overwatchApi, $routeParams, $location, $q) {
     $scope.title = "Edit test";
     $scope.test = {};
     $scope.expectations = [];
-    $scope.waitingFor = 2;
     
-    overwatchApi.get(Routing.generate('overwatch_expectation_api_getall'))
+    var expectationsPromise = overwatchApi.get(Routing.generate('overwatch_expectation_api_getall'))
         .success(function(expectations) {
             $scope.expectations = expectations;
-            $scope.waitingFor--;
-            
-            if ($scope.waitingFor === 0) {
-                showLoading(false);
-            }
         })
     ;
     
-    overwatchApi.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
+    var testPromise = overwatchApi.get(Routing.generate('overwatch_test_testapi_gettest', {id: $routeParams.id}))
         .success(function(test) {
             $scope.test = test;
-            $scope.waitingFor--;
-            
-            if ($scope.waitingFor === 0) {
-                showLoading(false);
-            }
         })
     ;
+    
+    $q.all([expectationsPromise, testPromise]).then(function(){
+        showLoading(false);
+    });
     
     $scope.save = function() {
         showLoading(true);

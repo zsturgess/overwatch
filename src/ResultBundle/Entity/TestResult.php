@@ -27,6 +27,7 @@ class TestResult implements \JsonSerializable
 
     /**
      * @ORM\ManyToOne(targetEntity="Overwatch\TestBundle\Entity\Test", inversedBy="results")
+     * @ORM\JoinColumn(name="test_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $test;
 
@@ -162,9 +163,10 @@ class TestResult implements \JsonSerializable
      * @param \Overwatch\TestBundle\Entity\Test $test
      * @return TestResult
      */
-    public function setTest(Test $test = null)
+    public function setTest(Test $test)
     {
         $this->test = $test;
+        $test->setLastResult($this);
 
         return $this;
     }

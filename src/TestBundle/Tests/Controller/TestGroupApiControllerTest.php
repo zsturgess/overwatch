@@ -182,7 +182,7 @@ class TestGroupApiControllerTest extends DatabaseAwareTestCase
     public function testDeleteGroup()
     {
         $this->logIn('ROLE_SUPER_ADMIN');
-        $this->client->request('DELETE', '/api/groups/' .  TestGroupFixtures::$groups['group-3']->getId());
+        $this->client->request('DELETE', '/api/groups/' . TestGroupFixtures::$groups['group-3']->getId());
         
         $this->assertEquals(Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
         $this->assertNull($this->em->find("Overwatch\TestBundle\Entity\TestGroup", TestGroupFixtures::$groups['group-3']->getId()));
