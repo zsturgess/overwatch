@@ -5,10 +5,10 @@ namespace Overwatch\TestBundle\Tests\Command;
 use Overwatch\TestBundle\Command\TestsRunCommand;
 use Overwatch\TestBundle\DataFixtures\ORM\TestFixtures;
 use Overwatch\UserBundle\Tests\Base\DatabaseAwareTestCase;
-use phpmock\phpunit\PHPMock;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Tester\CommandTester;
+use phpmock\phpunit\PHPMock;
 
 /**
  * TestsRunCommandTest
@@ -209,7 +209,7 @@ class TestsRunCommandTest extends DatabaseAwareTestCase
     {
         $mock = $this->getFunctionMock('Overwatch\ServiceBundle\Expectation', 'socket_read');
         
-        $mock->expects($this->any())->willReturnCallback(function () {
+        $mock->expects($this->any())->willReturnCallback(function() {
             usleep(rand(500, 300000)); //Sleep randomly between 0.0005 and 0.3s
             return true;
         });
@@ -220,9 +220,9 @@ class TestsRunCommandTest extends DatabaseAwareTestCase
         $mock = $this->getFunctionMock('Overwatch\ServiceBundle\Expectation', 'socket_read');
         
         $mock->expects($this->any())->willReturnOnConsecutiveCalls(
-            $this->returnCallback(function () { usleep(500); return true; }),
-            $this->returnCallback(function () { usleep(1000500); return true; }),
-            $this->returnCallback(function () { usleep(1000500); return true; }),
+            $this->returnCallback(function() { usleep(500); return true; }),
+            $this->returnCallback(function() { usleep(1000500); return true; }),
+            $this->returnCallback(function() { usleep(1000500); return true; }),
             $this->returnValue(false)
         );
     }

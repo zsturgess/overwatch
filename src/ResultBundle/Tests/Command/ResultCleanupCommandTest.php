@@ -170,7 +170,7 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase
         $this->archive = [];
 
         $mock = $this->getFunctionMock('Overwatch\ResultBundle\Command', 'file_put_contents');
-        $mock->expects($this->any())->willReturnCallback(function ($file, $contents, $mode) {
+        $mock->expects($this->any())->willReturnCallback(function($file, $contents, $mode) {
             $this->assertRegExp('/overwatch_archive_[0-9]{14}.log/i', $file);
             $this->assertStringEndsWith(PHP_EOL, $contents);
             $this->assertEquals(FILE_APPEND, $mode);
@@ -180,6 +180,9 @@ class ResultCleanupCommandTest extends DatabaseAwareTestCase
         });
     }
 
+    /**
+     * @param integer $count
+     */
     private function assertFinishedRunningCountOperations($count)
     {
         $this->assertEquals(" > Applying $count cleanup operations", $this->output[count($this->output) - 2]);

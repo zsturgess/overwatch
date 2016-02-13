@@ -85,9 +85,9 @@ class WebDriverTestCase extends DatabaseAwareTestCase
     {
         if ($this->webDriver !== null) {
             if (in_array($this->getStatus(), [\PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE, \PHPUnit_Runner_BaseTestRunner::STATUS_ERROR])) {
-                echo PHP_EOL.PHP_EOL.PHP_EOL;
-                echo 'data:image/png;base64,'.base64_encode($this->webDriver->takeScreenshot());
-                echo PHP_EOL.PHP_EOL.PHP_EOL;
+                echo PHP_EOL . PHP_EOL . PHP_EOL;
+                echo 'data:image/png;base64,' . base64_encode($this->webDriver->takeScreenshot());
+                echo PHP_EOL . PHP_EOL . PHP_EOL;
             }
         }
         
