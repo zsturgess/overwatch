@@ -25,7 +25,8 @@
         "qandidate/symfony-json-request-transformer": "^1.0",
         "guzzlehttp/guzzle": "^6.0",
         "nelmio/api-doc-bundle": "^2.9",
-        "twilio/sdk": "^4.6"
+        "twilio/sdk": "^4.6",
+        "ornicar/gravatar-bundle" : "~1.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^2.8",

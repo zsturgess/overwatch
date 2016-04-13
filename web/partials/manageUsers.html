@@ -1,23 +1,33 @@
-<ul class="breadcrumbs">
-    <li><a href="#/">Overwatch</a></li>
-    <li>Manage Users</li>
-</ul>
+<div class="content-header">
+    <h1>Manage Users</h1>
+    <p>Here you can manager users in the system.</p>
+</div>
 
-<h1>Manage Users</h1>
-<ul class="users">
-    <li data-ng-repeat="user in users">
-        <div class="user {{ user.roles[0]|lowercase }}">
-            <span>{{ user.email }}</span>
-            <a data-ng-click="removeUser(user.id)" title="Permanently delete '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="icon-user-minus"></i> Delete</a>
-            <a data-ng-click="lockUser(user.id)" title="Lock '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="icon-key"></i> <span data-ng-show="!user.locked">Lock</span><span data-ng-show="user.locked">Unlock</span></a>
-            <a data-ng-click="updateRole(user.id)" title="Edit {{ user.email }}'s role" data-ng-hide="(user.id === currentUserId)"><i class="icon-pencil"></i> Edit Role</a>
-            <a data-ng-show="(user.id === currentUserId)"><i class="icon-user"></i> It's you!</a>
+<div class="widget-box sample-widget">
+    <div class="widget-header">
+        <h2>Users</h2>
+    </div>
+
+    <div class="widget-content">
+        <ul class="users">
+            <li data-ng-repeat="user in users">
+                <div class="user {{ user.roles[0]|lowercase }}">
+                    <span>{{ user.email }}</span>
+                    <a data-ng-click="removeUser(user.id)" title="Permanently delete '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="fa fa-minus" aria-hidden="true"></i> Delete</a>
+                    <a data-ng-click="lockUser(user.id)" title="Lock '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="fa fa-lock" aria-hidden="true"></i> <span data-ng-show="!user.locked">Lock</span><span data-ng-show="user.locked">Unlock</span></a>
+                    <a data-ng-click="updateRole(user.id)" title="Edit {{ user.email }}'s role" data-ng-hide="(user.id === currentUserId)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Role</a>
+                    <a data-ng-show="(user.id === currentUserId)"><i class="icon-user"></i> It's you!</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="row">
+            <div class="user-key role_super_admin">Super Admin</div>
+            <div class="user-key role_admin">Admin</div>
+            <div class="user-key role_user">User</div>
         </div>
-    </li>
-    <li>
-        <div>
-            <div class="user-key role_super_admin"> Super Admin</div> <div class="user-key role_admin"> Admin</div> <div class="user-key role_user"> User</div>
-            <a data-ng-click="createUser()" title="Add a user"><i class="icon-user-plus"></i> Register new user</a>
-        </div> 
-    </li>
-</ul>
+        <div class="row">
+            <a data-ng-click="createUser()" title="Add a user" class="btn btn-blue"><i class="fa fa-user-plus" aria-hidden="true"></i> Register new user</a>
+        </div>
+    </div>
+</div>

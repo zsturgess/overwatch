@@ -3,44 +3,89 @@
     <head>
         <meta charset="UTF-8" />
         <title data-idle-disabled="true">Overwatch</title>
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}" />
         {% block stylesheets %}
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ asset('assets/styles/app.css') }}" />
         {% endblock %}
     </head>
-    <body>
-        <div id="loading" data-ng-show="isLoading">
-            <div class="spinner">
-              <div class="rect1"></div>
-              <div class="rect2"></div>
-              <div class="rect3"></div>
-              <div class="rect4"></div>
-              <div class="rect5"></div>
-            </div>
-        </div>
-        <div id="container">
-            <div id="sidebar">
-                <header>
-                    <h1><i class="icon-camera"></i><br />Overwatch</h1>
-                </header>
-                {% block sidebar %}{% endblock %}
+
+    <body {% if app.user %}class="logged-in"{% endif %}>
+        {% block sidebar %}
+            <section id="sidebar">
+                <div class="white-label">
+                    <span class="logo">Overwatch</span>
+                </div>
+
+                {% block sidebar_content %}{% endblock %}
+
                 <footer>
-                    <p>
-                        <a href="https://github.com/zsturgess/overwatch" target="_blank"><strong>Overwatch</strong></a><br />
-                        An extensible PHP monitoring system.
-                    </p>
-                    <p>
-                        By <a href="https://github.com/zsturgess/overwatch/graphs/contributors" target="_blank">Zac Sturgess & Contributors</a>.<br />
-                        Licensed under the <a href="https://raw.githubusercontent.com/zsturgess/overwatch/master/LICENSE" target="_blank">MIT License</a>.
-                    </p>
+                    <p>By <a href="https://github.com/zsturgess/overwatch/graphs/contributors" target="_blank">Zac Sturgess &amp; Contributors</a>.</p>
+                    <p>Licensed under the <a href="https://raw.githubusercontent.com/zsturgess/overwatch/master/LICENSE" target="_blank">MIT License</a>.</p>
                 </footer>
-            </div>
-            <div id="page">
-                <p class="user-nav icon-user"> {{ app.user|default('Please login') }}</p>
+            </section>
+        {% endblock %}
+
+        <section class="content {% if not app.user %}full-width{% endif %}">
+            <header>
+                <div class="header-nav">
+                    <div class="menu-button">
+                        <!--<i class="fa fa-navicon"></i>-->
+                    </div>
+
+                    <div class="nav">
+                        <ul>
+                            {% if app.user %}
+                                <li class="nav-settings">
+                                    <div class="font-icon"><i class="fa fa-tasks"></i></div>
+                                </li>
+                                <li class="nav-mail">
+                                    <div class="font-icon"><i class="fa fa-envelope-o"></i></div>
+                                </li>
+                                <li class="nav-calendar">
+                                    <div class="font-icon"><i class="fa fa-calendar"></i></div>
+                                </li>
+                                <li class="nav-chat">
+                                    <div class="font-icon"><i class="fa fa-comments-o"></i></div>
+                                </li>
+                            {% endif %}
+
+                            <li class="nav-profile">
+                                {% if app.user %}
+                                    <div class="nav-profile-image">
+                                        {% if gravatar_exists(app.user.email) %}
+                                            <img src="{{ gravatar(app.user.email) }}" />
+                                        {% endif %}
+                                        <div class="nav-profile-name">
+                                            {{app.user}} <i class="fa fa-caret-down"></i>
+                                        </div>
+                                    </div>
+
+                                    <ul>
+                                        <li><a href="{{ url('overwatch_user_app_index') }}#/my-account"><i class="fa fa-cogs" aria-hidden="true"></i> My Account</a></li>
+                                        <li><a href="{{ url('fos_user_security_logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                                    </ul>
+                                {% else %}
+                                    <div class="nav-profile-image">
+                                        <div class="nav-profile-name">
+                                            Login
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <div id="loading" data-ng-show="isLoading">
+                    <div class="spinner"></div>
+                </div>
+
                 {% block content %}{% endblock %}
-            </div>
-        </div>
+            </main>
+        </section>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

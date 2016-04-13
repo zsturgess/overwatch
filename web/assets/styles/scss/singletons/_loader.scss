@@ -1,0 +1,70 @@
+#loading, .dialog-bg {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+
+.dialog {
+    background: #dddddd;
+    height:300px;
+    left:50%;
+    margin:-150px 0 0 -350px;
+    padding: 0 15px 15px;
+    position:absolute;
+    top: 50%;
+    width:700px;
+}
+
+.dialog button {
+    width: 30%;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -4vmax;
+    margin-top: -4vmax;
+    width: 8vmax;
+    height: 8vmax;
+    border-right: 4px solid darken(#E9EEF4, 14%);
+    border-radius: 100%;
+    animation: spinRight 800ms linear infinite;
+}
+
+.spinner:before, .spinner:after {
+    content: '';
+    width: 6vmax;
+    height: 6vmax;
+    display: block;
+    position: absolute;
+    top: calc(50% - 3vmax);
+    left: calc(50% - 3vmax);
+    border-left: 3px solid darken(#E9EEF4, 14%);
+    border-radius: 100%;
+    animation: spinLeft 800ms linear infinite;
+}
+
+.spinner:after {
+    width: 4vmax;
+    height: 4vmax;
+    top: calc(50% - 2vmax);
+    left: calc(50% - 2vmax);
+    border: 0;
+    border-right: 2px solid darken(#E9EEF4, 14%);
+    animation: none;
+}
+
+@keyframes spinLeft {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(720deg);}
+}
+
+@keyframes spinRight {
+  from {transform:rotate(360deg);}
+  to {transform:rotate(0deg);}
+}

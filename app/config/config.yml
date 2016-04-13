@@ -9,4 +9,6 @@ overwatch_service:
     to_contain_text: ~
     email_reporter:
         report_from: %mailer_from%
-    sms_reporter: ~ 
+    sms_reporter: ~
+
+ornicar_gravatar: ~

@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block sidebar %}
+{% block sidebar_content %}
     {% include '::__nav.html.twig' %}
 {% endblock %}
 
@@ -11,13 +11,11 @@
 {% block javascripts %}
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js"></script>
-    <script src="//cdn.rawgit.com/HackedByChinese/ng-idle/1.1.1/angular-idle.min.js"></script>
+    <script src="{{ asset('assets/lib/src/vendor/angular-idle.min.js') }}"></script>
     <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/controllers.js') }}"></script>
-    <script src="{{ asset('js/helpers.js') }}"></script>
+    <script src="{{ asset('assets/lib/app.min.js') }}"></script>
     <script type="text/javascript">
         var currentUser = {{ app.user|json_encode()|raw }};
         {% if app.user.apiKey is defined %}currentUser.apiKey = "{{ app.user.apiKey }}";{% endif %}

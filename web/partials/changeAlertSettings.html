@@ -1,19 +1,27 @@
-<ul class="breadcrumbs">
-    <li><a href="#/">Overwatch</a></li>
-    <li>Change Alert Settings</li>
-</ul>
+<div class="content-header">
+    <h1>Alert Settings</h1>
+    <p>Change your alert/notification settings.</p>
+</div>
 
-<h1>Change Alert Settings</h1>
-<ul class="settings">
-    <li data-ng-repeat="(settingId, setting) in settings">
-        <div class="setting" data-ng-class="{passed: isUsersSetting(settingId)}">
-            {{ setting }}
-            <a data-ng-click="saveSetting(settingId)" data-ng-hide="isUsersSetting(settingId)"><i class="icon-bell"></i> Change my setting to this</a>
-            <a data-ng-show="isUsersSetting(settingId)"><i class="icon-user"></i> This is your current setting</a>
-        </div>
-    </li>
-    <li>
-        &nbsp;
-        <a><strong>Warning:</strong> You may still get some notifications intended for the group, as set up by your system administrator.</a>
-    </li>
-</ul>
+<div class="widget-box">
+    <div class="widget-header">
+        <h2>Chose Option:</h2>
+    </div>
+
+    <div class="widget-content">
+        <ul class="settings">
+            <li data-ng-repeat="(settingId, setting) in settings">
+                <div class="setting" data-ng-class="{passed: isUsersSetting(settingId)}">
+                    {{ setting }}
+                    <a data-ng-click="saveSetting(settingId)" data-ng-hide="isUsersSetting(settingId)"><i class="icon-bell"></i> Change my setting to this</a>
+                    <a data-ng-show="isUsersSetting(settingId)"><i class="icon-user"></i> This is your current setting</a>
+                </div>
+            </li>
+        </ul>
+
+        <p class="warning">
+            <strong>Warning:</strong><br />
+            You may still get some notifications intended for the group, as set up by your system administrator.
+        </p>
+    </div>
+</div>

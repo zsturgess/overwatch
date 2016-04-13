@@ -1,0 +1,83 @@
+.login {
+}
+
+
+.login-form {
+    background: $white;
+    border-radius: 5px;
+    margin: 60px auto;
+    padding: 40px 60px 30px;
+    text-align: center;
+    width: 40%;
+
+    h1 {
+        color: $grey;
+        margin: 0 0 30px;
+        text-align: center;
+    }
+}
+
+.control-group {
+    margin-bottom: 10px;
+
+    &.padding {
+        padding: 10px 0;
+    }
+}
+
+.checkbox-group {
+    input {
+        display: inline-block;
+        width: auto;
+    }
+
+    label {
+        color: $grey;
+        position: relative;
+        top: 2px;
+    }
+}
+
+input {
+    text-align: center;
+    background: #ECF0F1;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 200;
+    padding: 10px 0;
+    width: 100%;
+    outline: none;
+    @include transition(border .3s ease-in-out);
+
+    &:focus {
+        border: 2px solid $primary;
+        box-shadow: none;
+    }
+}
+
+.btn-submit {
+    background: $primary;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    box-shadow: none;
+    color: $white;
+    display: block;
+    margin: 0 auto;
+    padding: 10px 0;
+    text-decoration: none;
+    text-shadow: none;
+    width: 100%;
+    @include transition(all .3s ease-in-out);
+
+    &:hover {
+        background-color: darken($primary, 10%);
+    }
+}
+
+.password-reset {
+    color: #777777;
+    display: block;
+    font-size: 12px;
+    margin-top: 30px;
+}

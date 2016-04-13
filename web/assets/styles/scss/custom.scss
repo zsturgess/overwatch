@@ -1,0 +1,104 @@
+// /**
+//  * LOGIN FORM
+//  **/
+// input#remember_me {
+//     margin-top: 10px
+// }
+
+// label[for="remember_me"] {
+//     display: inline;
+// }
+
+// /**
+//  * LISTS
+//  **/
+// ul.groups, ul.users, ul.results, ul.settings {
+//     padding: 0;
+// }
+
+// ul.tests {
+//     padding: 0 0 30px 40px;
+// }
+
+// ul.groups li, ul.users li, ul.tests li, ul.results li, ul.settings li {
+//     list-style: none;
+//     padding: 10px 0 0;
+// }
+
+// div.group, div.test, div.user, div.result, div.setting {
+//     border: 1px solid #aaaaaa;
+//     border-left: 6px solid #888888;
+//     border-right: none;
+//     padding-left: 6px;
+// }
+
+// div.group span {
+//     font-size: 18pt;
+//     font-weight: bold;
+// }
+
+// div.test span {
+//     font-weight: bold;
+// }
+
+// div.result a.info {
+//     font-style: italic;
+// }
+
+// ul.groups div a, ul.users div a, ul.results div a, ul.settings div a {
+//     float: right;
+//     margin-left: 25px;
+// }
+
+// div.group a {
+//     padding: 5px;
+// }
+
+// div.passed, div.role_user {
+//     border-left-color: #75ff47;
+// }
+
+// div.unsatisfactory, div.role_admin {
+//     border-left-color: #ffff33;
+// }
+
+// div.failed, div.error, div.role_super_admin {
+//     border-left-color: #ff1919;
+// }
+
+// div.user-key {
+//     border-left-width: 6px;
+//     border-left-style: solid;
+//     display: inline-block;
+//     margin-right: 15px;
+//     padding-left: 5px;
+// }
+
+// /**
+//  * MY ACCOUNT
+//  **/
+// .change-password {
+//     float: left;
+//     width: 49%;
+// }
+
+// .api-access {
+//     float: right;
+//     width: 49%;
+// }
+
+// .api-actions a:first-child {
+//     float: left;
+// }
+
+// .api-actions a:last-child {
+//     float: right;
+// }
+
+// .profile-details {
+//     width: 50%;
+// }
+
+// label .hint {
+//     float: right;
+// }

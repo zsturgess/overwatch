@@ -1,14 +1,48 @@
-<ul class="breadcrumbs">
-    <li><a href="#/">Overwatch</a></li>
-    <li>Dashboard</li>
-</ul>
+<div class="content-header">
+    <h1>Dashboard</h1>
+    <p> Welcome to <a href="https://github.com/zsturgess/overwatch" target="_blank"><strong>Overwatch</strong></a>, an extensible PHP monitoring system.</p>
+</div>
 
-<h1>Dashboard</h1>
 <div data-ng-show="shouldWarnOfTestAge()">
     <strong><i class="icon-warning"></i> Warning!</strong>
     Your tests haven't had a new result in a little while. The results may no longer be valid. You should check that the test runner is scheduled to run frequently. For more information, check <a href="https://github.com/zsturgess/overwatch/blob/master/app/Resources/docs/installing.md#running-the-tests" target="_blank">the installation instructions</a>.
 </div>
-<ul class="groups">
+
+<div class="groups">
+    <div class="widget-box sample-widget" data-ng-repeat="group in groups">
+        <div class="widget-header">
+            <h2>{{ group.name }}</h2>
+            <a href="#/group/{{ group.id }}" title="Edit group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-pencil"></i> Edit</a>
+            <a><i class="icon-users" data-ng-pluralize data-count="group.users.length" data-when="{'one': ' 1 user', 'other': ' {} users'}"></i></a>
+        </div>
+
+        <div class="widget-content">
+            <ul class="tests">
+                <li data-ng-repeat="test in group.tests">
+                    <div class="test {{ test.result.status|lowercase }}">
+                        <span title="Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }}">{{ test.name }}</span> (last tested {{ test.result.createdAt|timeago }})
+                        <a data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-minus"></i> Delete</a>
+                        <a href="#/test/{{ test.id }}" title="View/Edit test '{{ test.name }}'"><i class="icon-test"></i> View</a>
+                        <a data-ng-click="runTest(test.id)" title="Run test '{{ test.name }}' now" data-ng-show="isGranted('ADMIN', group)"><i class="icon-play"></i> Run</a>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <a data-ng-click="removeGroup(group.id)" title="Delete group '{{ group.name }}'" data-ng-show="((group.tests.length + group.users.length === 0) && (isGranted('SUPER_ADMIN')))"><i class="icon-minus"></i> Delete group</a>
+                        <a href="#/group/{{ group.id }}/add-test" title="Add test to group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-plus"></i> Add test</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <a data-ng-click="createGroup()" title="Add a new group" data-ng-show="isGranted('SUPER_ADMIN')" class="btn btn-blue"><i class="fa fa-plus"></i> Add New Group</a>
+    </div>
+</div>
+
+
+<!-- <ul class="groups">
     <li data-ng-repeat="group in groups">
         <div class="group">
             <span>{{ group.name }}</span>
@@ -37,6 +71,6 @@
         <div>
             &nbsp;
             <a data-ng-click="createGroup()" title="Add a new group" data-ng-show="isGranted('SUPER_ADMIN')"><i class="icon-plus"></i> Add new group</a>
-        </div> 
+        </div>
     </li>
-</ul>
+</ul> -->

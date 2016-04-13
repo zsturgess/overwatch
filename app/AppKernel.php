@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Overwatch\UserBundle\OverwatchUserBundle(),
             new Overwatch\ServiceBundle\OverwatchServiceBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Ornicar\GravatarBundle\OrnicarGravatarBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {

@@ -1,0 +1,29 @@
+// Fonts
+@import url("//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700");
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css");
+
+// Variables
+$primary: #279BE4;
+$grey: #777777;
+
+$white: #ffffff;
+$black: #000000;
+
+// Mixins
+@mixin placeholder {
+    ::-webkit-input-placeholder {
+        @content
+    }
+    :-moz-placeholder {
+        @content
+    }
+    ::-moz-placeholder {
+        @content
+    }
+    :-ms-input-placeholder {
+        @content
+    }
+    :placeholder-shown {
+        @content
+    }
+}
