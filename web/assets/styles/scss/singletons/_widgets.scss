@@ -6,8 +6,12 @@
     margin: 0 0 15px 0;
     width: 100%;
 
-    &.sample-widget {
-        max-width: 47%;
+    &.half-widget {
+        max-width: 49.5%;
+
+        &:nth-child(odd) {
+            margin-right: 1%;
+        }
     }
 
     .widget-header {
@@ -28,10 +32,7 @@
         }
     }
 
-    .fa-cog {
-        float: right;
-        color: #fff;
-        margin: 11px 11px 0 0;
-        font-size: 20px;
+    .widget-content {
+        padding: 20px;
     }
 }

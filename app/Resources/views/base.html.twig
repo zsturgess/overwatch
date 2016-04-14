@@ -27,7 +27,13 @@
 
         <section class="content {% if not app.user %}full-width{% endif %}">
             <header>
-                <nav class="header-nav">
+
+                <div class="header-nav">
+
+                    <div id="loading" data-ng-show="isLoading">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </div>
+
                     <ul>
                         {#
                             {% if app.user %}
@@ -70,14 +76,10 @@
                             {% endif %}
                         </li>
                     </ul>
-                </nav>
+                </div>
             </header>
 
             <main>
-                <div id="loading" data-ng-show="isLoading">
-                    <div class="spinner"></div>
-                </div>
-
                 {% block content %}{% endblock %}
             </main>
         </section>

@@ -21,7 +21,7 @@
                 }
             }
 
-            &:hover, &:active {
+            &:hover, &.active {
                 a {
                     background: $white;
                     color: #333333;
