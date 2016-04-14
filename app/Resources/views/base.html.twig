@@ -11,7 +11,7 @@
 
     <body {% if app.user %}class="logged-in"{% endif %}>
         {% block sidebar %}
-            <section id="sidebar">
+            <aside class="sidebar">
                 <div class="white-label">
                     <span class="logo">Overwatch</span>
                 </div>
@@ -22,18 +22,14 @@
                     <p>By <a href="https://github.com/zsturgess/overwatch/graphs/contributors" target="_blank">Zac Sturgess &amp; Contributors</a>.</p>
                     <p>Licensed under the <a href="https://raw.githubusercontent.com/zsturgess/overwatch/master/LICENSE" target="_blank">MIT License</a>.</p>
                 </footer>
-            </section>
+            </aside>
         {% endblock %}
 
         <section class="content {% if not app.user %}full-width{% endif %}">
             <header>
-                <div class="header-nav">
-                    <div class="menu-button">
-                        <!--<i class="fa fa-navicon"></i>-->
-                    </div>
-
-                    <div class="nav">
-                        <ul>
+                <nav class="header-nav">
+                    <ul>
+                        {#
                             {% if app.user %}
                                 <li class="nav-settings">
                                     <div class="font-icon"><i class="fa fa-tasks"></i></div>
@@ -48,33 +44,33 @@
                                     <div class="font-icon"><i class="fa fa-comments-o"></i></div>
                                 </li>
                             {% endif %}
+                        #}
 
-                            <li class="nav-profile">
-                                {% if app.user %}
-                                    <div class="nav-profile-image">
-                                        {% if gravatar_exists(app.user.email) %}
-                                            <img src="{{ gravatar(app.user.email) }}" />
-                                        {% endif %}
-                                        <div class="nav-profile-name">
-                                            {{app.user}} <i class="fa fa-caret-down"></i>
-                                        </div>
+                        <li class="nav-profile">
+                            {% if app.user %}
+                                <div class="nav-profile-image">
+                                    {% if gravatar_exists(app.user.email) %}
+                                        <img src="{{ gravatar(app.user.email) }}" />
+                                    {% endif %}
+                                    <div class="nav-profile-name">
+                                        {{app.user}} <i class="fa fa-caret-down"></i>
                                     </div>
+                                </div>
 
-                                    <ul>
-                                        <li><a href="{{ url('overwatch_user_app_index') }}#/my-account"><i class="fa fa-cogs" aria-hidden="true"></i> My Account</a></li>
-                                        <li><a href="{{ url('fos_user_security_logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
-                                    </ul>
-                                {% else %}
-                                    <div class="nav-profile-image">
-                                        <div class="nav-profile-name">
-                                            Login
-                                        </div>
+                                <ul>
+                                    <li><a href="{{ url('overwatch_user_app_index') }}#/my-account"><i class="fa fa-cogs" aria-hidden="true"></i> My Account</a></li>
+                                    <li><a href="{{ url('fos_user_security_logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                                </ul>
+                            {% else %}
+                                <div class="nav-profile-image">
+                                    <div class="nav-profile-name">
+                                        <span class="logo">Overwatch</span>
                                     </div>
-                                {% endif %}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                                </div>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
             </header>
 
             <main>

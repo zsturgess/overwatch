@@ -1,0 +1,18 @@
+.content {
+    float: left;
+    width: calc(100% - 210px);
+    height: 100%;
+    word-wrap: break-word;
+    background: #FFFFFF;
+
+    &.full-width {
+        width: 100%;
+    }
+}
+
+.row {
+    display: inline-block;
+    width: 100%;
+    clear: both;
+    overflow: hidden;
+}

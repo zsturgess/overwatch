@@ -1,0 +1,37 @@
+
+.widget-box {
+    background: #fff;
+    border: 1px solid #E0E0E0;
+    float: left;
+    margin: 0 0 15px 0;
+    width: 100%;
+
+    &.sample-widget {
+        max-width: 47%;
+    }
+
+    .widget-header {
+        background: #279BE4;
+        color: $white;
+
+        h2 {
+            font-size: 15px;
+            font-weight: normal;
+            margin: 0;
+            padding: 11px 15px;
+            color: #F9F9F9;
+            display: inline-block;
+        }
+
+        a {
+           color: inherit;
+        }
+    }
+
+    .fa-cog {
+        float: right;
+        color: #fff;
+        margin: 11px 11px 0 0;
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,38 @@
+header {
+    background: #ffffff;
+    float: left;
+    position: relative;
+    width: 100%;
+}
+
+main {
+    background: $mainbg;
+    float: left;
+    position: relative;
+    padding: 0 15px;
+    width: 100%;
+    @include calc(height, "100% - 64px");
+}
+
+// Sidebar
+.sidebar {
+    background: $darkgrey;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    width: 210px;
+}
+
+// Footer
+footer {
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    color: #666666;
+    font-size: 11px;
+    line-height: 15px;
+
+    a {
+        color: $grey;
+    }
+}

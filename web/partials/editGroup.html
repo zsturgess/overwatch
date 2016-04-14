@@ -1,9 +1,7 @@
-<ul class="breadcrumbs">
-    <li><a href="#/">Overwatch</a></li>
-    <li>Edit Group '{{ group.name }}'</li>
-</ul>
+<section class="intro">
+    <h1>Edit Group '{{ group.name }}'</h1>
+</section>
 
-<h1>{{ group.name }}</h1>
 <ul class="users">
     <li data-ng-repeat="user in group.users">
         <div class="user">
@@ -16,6 +14,6 @@
             &nbsp;
             <a data-ng-click="renameGroup()" title="Rename this group"><i class="icon-pencil"></i> Rename group</a>
             <a data-ng-click="addUser()" title="Add a user to this group"><i class="icon-user-plus"></i> Add user to group</a>
-        </div> 
+        </div>
     </li>
 </ul>

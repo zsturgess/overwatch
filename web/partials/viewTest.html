@@ -1,9 +1,7 @@
-<ul class="breadcrumbs">
-    <li><a href="#/">Overwatch</a></li>
-    <li>View Test '{{ test.name }}'</li>
-</ul>
+<section class="intro">
+    <h1>View Test '{{ test.name }}'</h1>
+</section>
 
-<h1>{{ test.name }}</h1>
 <ul class="results">
     <li data-ng-repeat="result in test.results">
         <div class="result {{ result.status|lowercase }}">

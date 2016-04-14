@@ -6,5 +6,11 @@ abbr,address,article,aside,audio,b,blockquote,body,canvas,caption,cite,code,dd,d
 @import 'settings';
 @import 'global';
 
+@import 'layout/layout';
+@import 'layout/sections';
+
+@import 'singletons/intro';
 @import 'singletons/loader';
 @import 'singletons/login';
+@import 'singletons/nav';
+@import 'singletons/widgets';
