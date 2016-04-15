@@ -16,3 +16,20 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            JustSmashYourKeyboardALittleUntilYouGetSomeRandomCharacters
+
+
+    expectations_global_httpTimeout:                30
+    expectations_global_permitHttpErrors:           false
+    expectations_toPing_timeout:                    2
+    expectations_toPing_unsatisfactory:             1
+    expectations_toResolveTo_recordTypes:           ['A', 'AAAA', 'CNAME']
+    expectations_toRespondHttp_allowableCodes:      [200, 201, 204, 206, 304]
+    expectations_toRespondHttp_unsatisfactoryCodes: [301, 302, 307, 308]
+    expectations_toContainText_crawlableTypes:      ['text/html', 'text/xml', 'application/xml', 'text/rss+xml', 'application/rss+xml', 'application/rdf+xml', 'application/atom+xml']
+
+
+    resultReporters_email_enabled:                  true
+    resultReporters_sms_enabled:                    false
+    resultReporters_sms_twilio_accountSid:          ~
+    resultReporters_sms_twilio_authToken:           ~
+    resultReporters_sms_twilio_fromNumber:          ~
