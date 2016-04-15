@@ -11,10 +11,12 @@
 <div class="groups">
     <div class="widget-box" data-ng-class="{'half-widget': groups.length > 1}" data-ng-repeat="group in groups">
         <div class="widget-header">
-            <h2>{{ group.name }} (<i class="icon-users" data-ng-pluralize data-count="group.users.length" data-when="{'one': '1 user', 'other': '{} users'}"></i>)</h2>
-            <a href="#/group/{{ group.id }}" title="Edit group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-pencil"></i> Edit</a>
+            {{ group.name }} (<i class="icon-users" data-ng-pluralize data-count="group.users.length" data-when="{'one': '1 user', 'other': '{} users'}"></i>)
 
-            <a data-ng-click="removeGroup(group.id)" title="Delete group '{{ group.name }}'" data-ng-show="((group.tests.length + group.users.length === 0) && (isGranted('SUPER_ADMIN')))"><i class="icon-minus"></i> Delete group</a>
+            <span class="right">
+                <a href="#/group/{{ group.id }}" title="Edit group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a data-ng-click="removeGroup(group.id)" title="Delete group '{{ group.name }}'" data-ng-show="((group.tests.length + group.users.length === 0) && (isGranted('SUPER_ADMIN')))"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+            </span>
         </div>
 
         <div class="widget-content">
@@ -29,7 +31,7 @@
                 </li>
                 <li>
                     <div>
-                        <a href="#/group/{{ group.id }}/add-test" title="Add test to group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-plus"></i> Add test</a>
+                        <a href="#/group/{{ group.id }}/add-test" title="Add test to group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)" class="btn btn-grey"><i class="fa fa-plus"></i> Add test</a>
                     </div>
                 </li>
             </ul>

@@ -1,9 +1,11 @@
 
 .widget-box {
-    background: #fff;
-    border: 1px solid #E0E0E0;
+    background: $white;
+    border-radius: 5px;
+    border: 1px solid $lightgrey;
     float: left;
     margin: 0 0 15px 0;
+    overflow: hidden;
     width: 100%;
 
     &.half-widget {
@@ -15,8 +17,13 @@
     }
 
     .widget-header {
-        background: #279BE4;
+        background: $primary;
         color: $white;
+        display: inline-block;
+        font-size: 20px;
+        line-height: 24px;
+        padding: 10px;
+        width: 100%;
 
         h2 {
             font-size: 15px;
@@ -29,6 +36,7 @@
 
         a {
            color: inherit;
+           margin-left: 6px;
         }
     }
 

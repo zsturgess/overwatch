@@ -12,10 +12,6 @@
     <body {% if app.user %}class="logged-in"{% endif %}>
         {% block sidebar %}
             <aside class="sidebar">
-                <div class="white-label">
-                    <span class="logo">Overwatch</span>
-                </div>
-
                 {% block sidebar_content %}{% endblock %}
 
                 <footer>
@@ -27,33 +23,18 @@
 
         <section class="content {% if not app.user %}full-width{% endif %}">
             <header>
+                <div class="white-label">
+                    <span class="logo">Overwatch</span>
+                </div>
 
                 <div class="header-nav">
-
                     <div id="loading" data-ng-show="isLoading">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                     </div>
 
-                    <ul>
-                        {#
-                            {% if app.user %}
-                                <li class="nav-settings">
-                                    <div class="font-icon"><i class="fa fa-tasks"></i></div>
-                                </li>
-                                <li class="nav-mail">
-                                    <div class="font-icon"><i class="fa fa-envelope-o"></i></div>
-                                </li>
-                                <li class="nav-calendar">
-                                    <div class="font-icon"><i class="fa fa-calendar"></i></div>
-                                </li>
-                                <li class="nav-chat">
-                                    <div class="font-icon"><i class="fa fa-comments-o"></i></div>
-                                </li>
-                            {% endif %}
-                        #}
-
-                        <li class="nav-profile">
-                            {% if app.user %}
+                    {% if app.user %}
+                        <ul>
+                            <li class="nav-profile" ng-click="toggleMenu = !toggleMenu">
                                 <div class="nav-profile-image">
                                     {% if gravatar_exists(app.user.email) %}
                                         <img src="{{ gravatar(app.user.email) }}" />
@@ -63,19 +44,13 @@
                                     </div>
                                 </div>
 
-                                <ul>
-                                    <li><a href="{{ url('overwatch_user_app_index') }}#/my-account"><i class="fa fa-cogs" aria-hidden="true"></i> My Account</a></li>
-                                    <li><a href="{{ url('fos_user_security_logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                                <ul ng-show="toggleMenu" ng-cloak>
+                                    <li class="first"><a href="{{ url('overwatch_user_app_index') }}#/my-account"><i class="fa fa-cogs" aria-hidden="true"></i> My Account</a></li>
+                                    <li class="last"><a href="{{ url('fos_user_security_logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                                 </ul>
-                            {% else %}
-                                <div class="nav-profile-image">
-                                    <div class="nav-profile-name">
-                                        <span class="logo">Overwatch</span>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    {% endif %}
                 </div>
             </header>
 

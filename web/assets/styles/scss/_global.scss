@@ -3,6 +3,7 @@
 }
 
 html, body {
+    background: $mainbg;
     font-family: 'Open Sans', sans-serif;
     height: 100%;
 }
@@ -23,8 +24,18 @@ a {
     text-decoration: none;
 }
 
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+
 .left-align {
     text-align: left;
+}
+.right-align {
+    text-align: right;
 }
 
 .logo {
@@ -32,22 +43,6 @@ a {
     font-size: 20px;
     font-weight: bold;
     text-transform: uppercase;
-}
-
-.white-label {
-    float: left;
-    background: #33373B;
-    max-width: 210px;
-    padding: 10px;
-    min-height: 64px;
-    background: #279BE4;
-    width: 100%;
-    max-height: 44px;
-    text-align: center;
-
-    .logo {
-        line-height: 44px;
-    }
 }
 
 .passed, .role_user {

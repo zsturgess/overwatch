@@ -1,15 +1,57 @@
+
 .btn {
+    border: 2px solid transparent;
+    border-radius: 3px;
+    box-shadow: none;
     cursor: pointer;
+    outline: none;
     display: inline-block;
     padding: 10px 16px;
+    text-decoration: none;
+    text-shadow: none;
+    @include transition(all .3s ease-in-out);
 
     &.btn-blue {
-        background: #279BE4;
-        color: #ffffff;
-        @include transition(all .3s ease-in-out);
+        background: $primary;
+        color: $white;
 
         &:hover {
-            background: darken(#279BE4, 10%);
+            background: darken($primary, 10%);
+        }
+
+        &:focus {
+            border: 2px solid $primary;
+            box-shadow: none;
         }
     }
+
+    &.btn-grey {
+        background: $lightgrey;
+        color: $grey;
+
+        &:hover {
+            background: darken($lightgrey, 10%);
+        }
+
+        &:focus {
+            border: 2px solid $lightgrey;
+            box-shadow: none;
+        }
+    }
+
+    &.btn-submit {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    // &.btn-blue {
+    //     background: #279BE4;
+    //     color: #ffffff;
+    //     @include transition(all .3s ease-in-out);
+
+    //     &:hover {
+    //         background: darken(#279BE4, 10%);
+    //     }
+    // }
 }

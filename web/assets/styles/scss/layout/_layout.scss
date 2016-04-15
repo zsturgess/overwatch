@@ -1,9 +1,8 @@
 .content {
-    float: left;
-    width: calc(100% - 210px);
-    height: 100%;
+    background: $mainbg;
+    float: right;
     word-wrap: break-word;
-    background: #FFFFFF;
+    @include calc(width, '100% - 210px');
 
     &.full-width {
         width: 100%;

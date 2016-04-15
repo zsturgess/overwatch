@@ -1,0 +1,99 @@
+form {
+    background: $white;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 40px;
+    padding: 40px 60px 30px;
+    width: 40%;
+
+    &.login-form {
+        display: block;
+        margin: 60px auto;
+        text-align: center;
+    }
+
+    h1, h2 {
+        color: $grey;
+        font-size: 2em;
+        margin: 0 0 30px;
+    }
+
+    .description {
+        color: $grey;
+        margin-bottom: 20px;
+
+        strong {
+            color: darken($grey, 10%);
+            font-size: 18px;
+            line-height: 22px;
+        }
+    }
+}
+
+.control-group {
+    margin-bottom: 10px;
+
+    &.padding {
+        padding: 10px 0;
+    }
+
+    input {
+        text-align: center;
+        background: #ECF0F1;
+        border: 2px solid transparent;
+        border-radius: 3px;
+        font-size: 16px;
+        font-weight: 200;
+        padding: 10px 0;
+        width: 100%;
+        outline: none;
+        @include transition(border .3s ease-in-out);
+
+        &:focus {
+            border: 2px solid $primary;
+            box-shadow: none;
+        }
+    }
+
+    p {
+        margin-bottom: 6px;
+    }
+
+    label {
+        &.hide {
+            visibility: hidden;
+        }
+    }
+
+    .password-toggle {
+        position: relative;
+
+        .toggle-btn {
+            font-size: 20px;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            @include transform(translate(0, -50%));
+        }
+    }
+}
+
+.checkbox-group {
+    input {
+        display: inline-block;
+        width: auto;
+    }
+
+    label {
+        color: $grey;
+        position: relative;
+        top: 2px;
+    }
+}
+
+.password-reset {
+    color: #777777;
+    display: block;
+    font-size: 12px;
+    margin-top: 30px;
+}
