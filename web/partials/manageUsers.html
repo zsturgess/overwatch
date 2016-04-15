@@ -5,7 +5,7 @@
 
 <div class="widget-box">
     <div class="widget-header">
-        <h2>Users</h2>
+        Users
     </div>
 
     <div class="widget-content">
@@ -13,7 +13,7 @@
             <li data-ng-repeat="user in users">
                 <div class="user {{ user.roles[0]|lowercase }}">
                     <span>{{ user.email }}</span>
-                    <a data-ng-click="removeUser(user.id)" title="Permanently delete '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="fa fa-minus" aria-hidden="true"></i> Delete</a>
+                    <a data-ng-click="removeUser(user.id)" title="Permanently delete '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="fa fa-user-times" aria-hidden="true"></i> Delete</a>
                     <a data-ng-click="lockUser(user.id)" title="Lock '{{ user.email }}'" data-ng-hide="(user.id === currentUserId)"><i class="fa fa-lock" aria-hidden="true"></i> <span data-ng-show="!user.locked">Lock</span><span data-ng-show="user.locked">Unlock</span></a>
                     <a data-ng-click="updateRole(user.id)" title="Edit {{ user.email }}'s role" data-ng-hide="(user.id === currentUserId)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Role</a>
                     <a data-ng-show="(user.id === currentUserId)"><i class="icon-user"></i> It's you!</a>
@@ -26,6 +26,7 @@
             <div class="user-key role_admin">Admin</div>
             <div class="user-key role_user">User</div>
         </div>
+
         <div class="row">
             <a data-ng-click="createUser()" title="Add a user" class="btn btn-blue"><i class="fa fa-user-plus" aria-hidden="true"></i> Register new user</a>
         </div>

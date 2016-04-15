@@ -1,16 +1,31 @@
-<ul class="breadcrumbs">
-    <li><a href="#/">Overwatch</a></li>
-    <li data-ng-show="(title === 'Edit test')"><a href="#/test/{{ test.id }}">View test '{{ test.name }}'</a></li>
-    <li>{{ title }} '{{ test.name }}'</li>
-</ul>
+<section class="intro">
+    <h1>{{ title }} <span data-ng-show="(title === 'Edit test')">'{{ test.name }}'</span></h1>
+    <p data-ng-show="(title === 'Edit test')"><a href="#/test/{{ test.id }}">View test '{{ test.name }}'</a></p>
+</section>
 
-<h1>{{ title }}</h1>
 <form>
-    <label for="test_name">Test Name:</label>
-    <input type="text" id="test_name" data-ng-model="test.name" />
-    <label for="test_actual">Expect:</label>
-    <input type="text" id="test_actual" data-ng-model="test.actual" />
-    <select data-ng-model="test.expectation" data-ng-options="expectation for expectation in expectations"></select>
-    <input type="text" data-ng-model="test.expected" />
-    <button data-ng-click="save()">Save</button>
+    <h2>{{ title }}</h2>
+
+    <div class="control-group">
+        <input type="text" id="test_name" placeholder="Test Name" data-ng-model="test.name" />
+        <label for="test_name" class="hide">Test Name</label>
+    </div>
+
+    <div class="control-group">
+        <input type="text" id="test_actual" placeholder="Expect" data-ng-model="test.actual" />
+        <label for="test_actual" class="hide">Expect</label>
+    </div>
+
+    <div class="control-group">
+        <select data-ng-model="test.expectation" data-ng-options="expectation for expectation in expectations"></select>
+    </div>
+
+    <div class="control-group">
+        <input type="text" placeholder="Expected" data-ng-model="test.expected" />
+        <label for="test_actual" class="hide">Expected</label>
+    </div>
+
+    <div class="control-group">
+        <button class="btn btn-blue btn-submit" data-ng-click="save()">Save</button>
+    </div>
 </form>
