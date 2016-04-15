@@ -11,7 +11,6 @@
                 width: 100%;
                 font-weight: 600;
                 position: relative;
-                @include transition(all .3s ease-in-out);
 
                 i {
                     padding-right: 8px;
@@ -19,7 +18,6 @@
                     color: #60636B;
                     text-align: center;
                     width: 25px;
-                    @include transition(all .3s ease-in-out);
                 }
 
                 &:after {
@@ -34,7 +32,6 @@
                     right: 0;
                     top: 50%;
                     @include transform(translateY(-50%));
-                    @include transition(all .4s linear);
                 }
             }
 
