@@ -3,7 +3,7 @@
     <p data-ng-show="(title === 'Edit test')"><a href="#/test/{{ test.id }}">View test '{{ test.name }}'</a></p>
 </section>
 
-<form>
+<form class="test-form full-width">
     <h2>{{ title }}</h2>
 
     <div class="control-group">
@@ -17,7 +17,9 @@
     </div>
 
     <div class="control-group">
-        <select data-ng-model="test.expectation" data-ng-options="expectation for expectation in expectations"></select>
+        <div class="styled-select">
+            <select data-ng-model="test.expectation" data-ng-options="expectation for expectation in expectations"></select>
+        </div>
     </div>
 
     <div class="control-group">
