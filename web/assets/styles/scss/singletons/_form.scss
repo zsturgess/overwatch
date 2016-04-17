@@ -6,6 +6,10 @@ form {
     padding: 40px 60px 30px;
     width: 40%;
 
+    &.full-width {
+        width: 100%;
+    }
+
     &.center-form {
         display: block;
         margin: 60px auto;
@@ -43,7 +47,7 @@ form {
 
     input {
         text-align: center;
-        background: #ECF0F1;
+        background: $lightgrey;
         border: 2px solid transparent;
         border-radius: 3px;
         font-size: 16px;
@@ -95,8 +99,9 @@ form {
     }
 }
 
-.form-link {
+.bottom-link {
     color: $grey;
+    cursor: pointer;
     display: block;
     font-size: 12px;
     margin-top: 30px;

@@ -10,15 +10,17 @@
 
     <div class="widget-content">
         <ul class="settings">
-            <li data-ng-repeat="(settingId, setting) in settings">
-                <div class="setting" data-ng-class="{passed: isUsersSetting(settingId)}">
-                    {{ setting }}
-                    <a data-ng-click="saveSetting(settingId)" data-ng-hide="isUsersSetting(settingId)"><i class="icon-bell"></i> Change my setting to this</a>
-                    <a data-ng-show="isUsersSetting(settingId)"><i class="icon-user"></i> This is your current setting</a>
+            <li class="setting" data-ng-repeat="(settingId, setting) in settings" data-ng-class="{'current-setting': isUsersSetting(settingId), 'last': $last}" data-ng-click="saveSetting(settingId)">
+                <div class="icon">
+                    <i class="fa fa-cog" aria-hidden="true" data-ng-show="!isUsersSetting(settingId)"></i>
+                    <i class="fa fa-check" aria-hidden="true" data-ng-show="isUsersSetting(settingId)"></i>
                 </div>
+                {{ setting }}
             </li>
         </ul>
+    </div>
 
+    <div class="widget-footer">
         <p class="warning">
             <strong>Warning:</strong><br />
             You may still get some notifications intended for the group, as set up by your system administrator.

@@ -47,6 +47,9 @@
 
     .widget-footer {
         border-top: 1px solid $lightgrey;
+        color: $grey;
+        display: inline-block;
         padding: 14px 20px;
+        width: 100%;
     }
 }

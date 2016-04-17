@@ -8,11 +8,13 @@ abbr,address,article,aside,audio,b,blockquote,body,canvas,caption,cite,code,dd,d
 
 @import 'layout/layout';
 @import 'layout/sections';
+@import 'layout/settings';
 
 @import 'singletons/buttons';
 @import 'singletons/form';
 @import 'singletons/intro';
 @import 'singletons/loader';
+@import 'singletons/modal';
 @import 'singletons/nav';
 @import 'singletons/user';
 @import 'singletons/widgets';

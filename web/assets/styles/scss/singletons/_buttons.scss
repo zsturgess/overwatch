@@ -1,4 +1,3 @@
-
 .btn {
     border: 2px solid transparent;
     border-radius: 3px;
@@ -26,6 +25,34 @@
 
         &:focus {
             border: 2px solid $primary;
+            box-shadow: none;
+        }
+    }
+
+    &.btn-red {
+        background: $red;
+        color: $white;
+
+        &:hover {
+            background: darken($red, 10%);
+        }
+
+        &:focus {
+            border: 2px solid $red;
+            box-shadow: none;
+        }
+    }
+
+    &.btn-warning {
+        background: $warning;
+        color: $white;
+
+        &:hover {
+            background: darken($warning, 10%);
+        }
+
+        &:focus {
+            border: 2px solid $warning;
             box-shadow: none;
         }
     }

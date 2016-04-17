@@ -1,0 +1,28 @@
+.dialog-bg {
+    background: rgba(0,0,0,0.8);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+
+    .dialog {
+        /*
+         * I am extending form styling here
+         * As it keeps consistency
+         * While allowing
+         * A separate
+         * partial
+         */
+        @extend form;
+        @extend .center-form;
+        width: 60%;
+
+        button {
+            width: 32.8%;
+        }
+    }
+}
