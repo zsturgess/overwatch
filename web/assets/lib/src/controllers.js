@@ -102,8 +102,8 @@ overwatchApp.controller('DashboardController', ['showLoading', 'isGranted', '$sc
     }
 ]);
 
-overwatchApp.controller('EditGroupController', ['showLoading', '$scope', 'overwatchApi', '$routeParams', '$location', '$window',
-    function(showLoading, $scope, overwatchApi, $routeParams, $location, $window)
+overwatchApp.controller('EditGroupController', ['showLoading', '$scope', 'overwatchApi', '$routeParams', '$location', '$window', '$gravatar',
+    function(showLoading, $scope, overwatchApi, $routeParams, $location, $window, $gravatar)
     {
         $scope.group = {};
 
@@ -114,6 +114,10 @@ overwatchApp.controller('EditGroupController', ['showLoading', '$scope', 'overwa
                     showLoading(false);
                 })
             ;
+        };
+
+        $scope.userAvatar = function(email, size) {
+            return $gravatar.fn(email, size);
         };
 
         $scope.removeUser = function(id) {

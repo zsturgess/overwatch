@@ -2,18 +2,30 @@
     <h1>Edit Group '{{ group.name }}'</h1>
 </section>
 
-<ul class="users">
-    <li data-ng-repeat="user in group.users">
-        <div class="user">
-            <span>{{ user.email }}</span>
-            <a data-ng-click="removeUser(user.id)" title="Remove user '{{ user.email }}' from group '{{ group.name }}'"><i class="icon-user-minus"></i> Remove</a>
+<div class="widget-box">
+    <div class="widget-header">
+        Users in '{{ group.name }}' Group
+    </div>
+
+    <div class="widget-content">
+        <ul class="users">
+            <li data-ng-repeat="user in group.users">
+                <div class="user">
+                    <div class="avatar {{ user.roles[0]|lowercase }}">
+                        <img ng-src="{{ userAvatar(user.email, 100) }}" alt="" />
+                    </div>
+
+                    <h3 class="title">{{ user.email|uppercase }}</h3>
+                    <div class="buttons">
+                        <span class="btn btn-red btn-small" data-ng-click="removeUser(user.id)" title="Remove user '{{ user.email }}' from group '{{ group.name }}'"><i class="fa fa-user-times" aria-hidden="true"></i> Remove User from Group</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="row">
+            <a class="btn btn-warning" data-ng-click="renameGroup()" title="Rename this group"><i class="fa fa-pencil-square-o"></i> Rename group</a>
+            <a class="btn btn-blue" data-ng-click="addUser()" title="Add a user to this group"><i class="fa fa-user-plus"></i> Add user to group</a>
         </div>
-    </li>
-    <li>
-        <div>
-            &nbsp;
-            <a data-ng-click="renameGroup()" title="Rename this group"><i class="icon-pencil"></i> Rename group</a>
-            <a data-ng-click="addUser()" title="Add a user to this group"><i class="icon-user-plus"></i> Add user to group</a>
-        </div>
-    </li>
-</ul>
+    </div>
+</div>
