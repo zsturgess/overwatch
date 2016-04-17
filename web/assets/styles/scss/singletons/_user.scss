@@ -1,0 +1,78 @@
+$user: #00853F;
+$admin: orange;
+$super_admin: #E31B23;
+
+.users {
+    .user {
+        border-bottom: 1px solid lighten($lightgrey, 5%);
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 0 0 10px;
+        width: 100%;
+
+        .title {
+            color: $grey;
+            margin: 0 0 10px;
+        }
+
+        .avatar {
+            border-radius: 100%;
+            border: 2px solid;
+            display: inline-block;
+            float: left;
+            height: 50px;
+            margin-right: 10px;
+            overflow: hidden;
+            width: 50px;
+
+            &.role_user {
+                border-color: $user;
+            }
+
+            &.role_admin {
+                border-color: $admin;
+            }
+
+            &.role_super_admin {
+                border-color: $super_admin;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
+
+.passed, .role_user {
+    border-left-color: $user;
+}
+
+.unsatisfactory, .role_admin {
+    border-left-color: $admin;
+}
+
+.failed, .error, .role_super_admin {
+    border-left-color: $super_admin;
+}
+
+.user-key {
+    border-radius: 5px;
+    color: $white;
+    font-size: 12px;
+    padding: 2px 6px;
+
+    &.role_user {
+        background: $user;
+    }
+
+    &.role_admin {
+        background: $admin;
+    }
+
+    &.role_super_admin {
+        background: $super_admin;
+    }
+}
+

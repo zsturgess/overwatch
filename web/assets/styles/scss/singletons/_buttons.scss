@@ -11,6 +11,11 @@
     text-shadow: none;
     @include transition(all .3s ease-in-out);
 
+    &.btn-small {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
     &.btn-blue {
         background: $primary;
         color: $white;

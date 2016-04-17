@@ -6,7 +6,7 @@ form {
     padding: 40px 60px 30px;
     width: 40%;
 
-    &.login-form {
+    &.center-form {
         display: block;
         margin: 60px auto;
         text-align: center;
@@ -21,6 +21,10 @@ form {
     .description {
         color: $grey;
         margin-bottom: 20px;
+
+        &.warning {
+            color: $warning;
+        }
 
         strong {
             color: darken($grey, 10%);
@@ -91,8 +95,8 @@ form {
     }
 }
 
-.password-reset {
-    color: #777777;
+.form-link {
+    color: $grey;
     display: block;
     font-size: 12px;
     margin-top: 30px;

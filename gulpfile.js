@@ -33,6 +33,7 @@ gulp.task('sass', function() {
 // JS
 var scripts = [
     './web/assets/lib/src/app.js',
+    './web/assets/lib/src/factories.js',
     './web/assets/lib/src/controllers.js',
     './web/assets/lib/src/helpers.js'
 ];

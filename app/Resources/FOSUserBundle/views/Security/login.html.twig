@@ -5,7 +5,7 @@
     <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
 {% endif %}
 
-<form class="login-form" action="{{ path("fos_user_security_check") }}" method="post">
+<form class="center-form" action="{{ path("fos_user_security_check") }}" method="post">
     <h1>Login</h1>
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -26,7 +26,7 @@
     </div>
 
     <input class="btn btn-blue btn-submit" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-    <a class="password-reset" href="{{ url('fos_user_resetting_request') }}">Lost your password?</a>
+    <a class="form-link" href="{{ url('fos_user_resetting_request') }}">Lost your password?</a>
 </form>
 
 {% endblock fos_user_content %}

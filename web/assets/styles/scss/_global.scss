@@ -44,23 +44,3 @@ a {
     font-weight: bold;
     text-transform: uppercase;
 }
-
-.passed, .role_user {
-    border-left-color: #75ff47;
-}
-
-.unsatisfactory, .role_admin {
-    border-left-color: #ffff33;
-}
-
-.failed, .error, .role_super_admin {
-    border-left-color: #ff1919;
-}
-
-.user-key, .user {
-    border-left-width: 6px;
-    border-left-style: solid;
-    display: inline-block;
-    margin-right: 15px;
-    padding-left: 5px;
-}

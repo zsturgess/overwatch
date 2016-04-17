@@ -34,7 +34,7 @@
 
                     {% if app.user %}
                         <ul>
-                            <li class="nav-profile" ng-click="toggleMenu = !toggleMenu">
+                            <li class="nav-profile" data-ng-mouseover="toggleMenu = true" data-ng-mouseleave="toggleMenu = false">
                                 <div class="nav-profile-image">
                                     {% if gravatar_exists(app.user.email) %}
                                         <img src="{{ gravatar(app.user.email) }}" />

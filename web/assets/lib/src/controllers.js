@@ -306,8 +306,8 @@ overwatchApp.controller('EditTestController', ['showLoading', '$scope', 'overwat
     }
 ]);
 
-overwatchApp.controller('ManageUsersController', ['showLoading', '$scope', 'overwatchApi', '$window', 'ModalService',
-    function(showLoading, $scope, overwatchApi, $window, ModalService)
+overwatchApp.controller('ManageUsersController', ['showLoading', '$scope', 'overwatchApi', '$window', 'ModalService', '$gravatar',
+    function(showLoading, $scope, overwatchApi, $window, ModalService, $gravatar)
     {
         $scope.users = [];
         $scope.updatedRoles = [];
@@ -334,6 +334,10 @@ overwatchApp.controller('ManageUsersController', ['showLoading', '$scope', 'over
                     fetchUsers();
                 })
             ;
+        };
+
+        $scope.userAvatar = function(email, size) {
+            return $gravatar.fn(email, size);
         };
 
         $scope.updateRole = function(id) {
