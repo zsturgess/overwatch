@@ -1,17 +1,17 @@
 <nav class="sidebar-nav">
     <ul>
         <li {% verbatim %}ng-class="{'active': currentPage == '/'}"{% endverbatim %}>
-            <a href="{{ url('overwatch_user_app_index') }}#/"><i class="fa fa-dashboard" aria-hidden="true"></i> Dashboard</a>
+            <a href="{{ url('overwatch_user_app_index') }}#/"><i class="fa fa-dashboard" aria-hidden="true"></i> <span>Dashboard</span></a>
         </li>
 
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li {% verbatim %}ng-class="{'active': currentPage == '/users'}"{% endverbatim %}>
-                <a href="{{ url('overwatch_user_app_index') }}#/users"><i class="fa fa-users" aria-hidden="true"></i> Manage Users</a>
+                <a href="{{ url('overwatch_user_app_index') }}#/users"><i class="fa fa-users" aria-hidden="true"></i> <span>Manage Users</span></a>
             </li>
         {% endif %}
 
         <li {% verbatim %}ng-class="{'active': currentPage == '/alerts'}"{% endverbatim %}>
-            <a href="{{ url('overwatch_user_app_index') }}#/alerts"><i class="fa fa-bell" aria-hidden="true"></i> Alerts</a>
+            <a href="{{ url('overwatch_user_app_index') }}#/alerts"><i class="fa fa-bell" aria-hidden="true"></i> <span>Alerts</span></a>
         </li>
     </ul>
 </nav>

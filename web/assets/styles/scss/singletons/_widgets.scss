@@ -11,6 +11,10 @@
     &.half-widget {
         max-width: 49.5%;
 
+        @media screen and (max-width: 1080px) {
+            max-width: 100%;
+        }
+
         &:nth-child(odd) {
             margin-right: 1%;
         }

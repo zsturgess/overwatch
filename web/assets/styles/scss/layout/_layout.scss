@@ -4,6 +4,10 @@
     word-wrap: break-word;
     @include calc(width, '100% - 210px');
 
+    @media screen and (max-width: 620px) {
+        @include calc(width, '100% - 60px');
+    }
+
     &.full-width {
         width: 100%;
     }

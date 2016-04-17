@@ -42,6 +42,10 @@ main {
     bottom: 0;
     overflow: hidden;
     width: 210px;
+
+    @media screen and (max-width: 620px) {
+        width: 60px;
+    }
 }
 
 // Footer
@@ -56,5 +60,9 @@ footer {
 
     a {
         color: $grey;
+    }
+
+    @media screen and (max-width: 620px) {
+        display: none;
     }
 }

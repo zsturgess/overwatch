@@ -1,11 +1,11 @@
 #loading {
     color: $white;
     font-size: 24px;
-    left: 40%;
+    left: 230px;
     position: absolute;
     top: 50%;
     z-index: 10;
-    @include transform(translate(-50%, -50%));
+    @include transform(translate(0, -50%));
 
     i {
         @include animation(spinRight 1.0s linear infinite);

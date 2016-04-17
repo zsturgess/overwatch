@@ -16,6 +16,12 @@
         width: 19%;
         @include transition(all .3s ease-in-out);
 
+        @media screen and (max-width: 850px) {
+            display: inline-block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
         &.last {
             margin-right: 0;
         }
