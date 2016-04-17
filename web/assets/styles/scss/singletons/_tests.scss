@@ -1,0 +1,27 @@
+.results,
+.tests {
+
+    .result,
+    .test {
+        border-bottom: 1px solid lighten($lightgrey, 5%);
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 0 0 10px;
+        width: 100%;
+
+        .title {
+            color: $grey;
+            margin: 0 0 10px;
+        }
+    }
+
+    .test {
+        h3 {
+            line-height: 20px;
+        }
+        p {
+            line-height: 20px;
+            margin-bottom: 6px;
+        }
+    }
+}

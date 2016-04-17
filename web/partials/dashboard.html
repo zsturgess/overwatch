@@ -23,10 +23,14 @@
             <ul class="tests">
                 <li data-ng-repeat="test in group.tests">
                     <div class="test {{ test.result.status|lowercase }}">
-                        <span title="Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }}">{{ test.name }}</span> (last tested {{ test.result.createdAt|timeago }})
-                        <a data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-minus"></i> Delete</a>
-                        <a href="#/test/{{ test.id }}" title="View/Edit test '{{ test.name }}'"><i class="icon-test"></i> View</a>
-                        <a data-ng-click="runTest(test.id)" title="Run test '{{ test.name }}' now" data-ng-show="isGranted('ADMIN', group)"><i class="icon-play"></i> Run</a>
+                        <h3>{{ test.name }} (Last Tested {{ test.result.createdAt|timeago }})</h3>
+                        <p>Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }}</p>
+
+                        <div class="buttons">
+                            <a class="btn btn-blue btn-small" data-ng-click="runTest(test.id)" title="Run test '{{ test.name }}' now" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-play" aria-hidden="true"></i> Run</a>
+                            <a class="btn btn-grey btn-small" href="#/test/{{ test.id }}" title="View/Edit test '{{ test.name }}'"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                            <a class="btn btn-red btn-small" data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
+                        </div>
                     </div>
                 </li>
                 <li>

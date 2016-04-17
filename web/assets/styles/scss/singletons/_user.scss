@@ -45,18 +45,6 @@ $super_admin: $red;
     }
 }
 
-.passed, .role_user {
-    border-left-color: $user;
-}
-
-.unsatisfactory, .role_admin {
-    border-left-color: $admin;
-}
-
-.failed, .error, .role_super_admin {
-    border-left-color: $super_admin;
-}
-
 .user-key {
     border-radius: 5px;
     color: $white;
