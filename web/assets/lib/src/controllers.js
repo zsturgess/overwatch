@@ -1,6 +1,7 @@
 overwatchApp.controller('DashboardController', ['showLoading', 'isGranted', '$scope', 'overwatchApi', '$window', '$location', '$interval',
     function(showLoading, isGranted, $scope, overwatchApi, $window, $location, $interval)
     {
+
         $scope.groups = [];
         var fetchGroups = function() {
             overwatchApi.get(

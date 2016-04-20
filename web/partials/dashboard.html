@@ -22,13 +22,16 @@
         <div class="widget-content">
             <ul class="tests">
                 <li data-ng-repeat="test in group.tests">
-                    <div class="test {{ test.result.status|lowercase }}">
+                    <div class="test">
+                        <div class="status {{ test.result.status|lowercase }}"></div>
+
                         <h3>{{ test.name }} (Last Tested {{ test.result.createdAt|timeago }})</h3>
                         <p>Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }}</p>
 
                         <div class="buttons">
                             <a class="btn btn-blue btn-small" data-ng-click="runTest(test.id)" title="Run test '{{ test.name }}' now" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-play" aria-hidden="true"></i> Run</a>
-                            <a class="btn btn-grey btn-small" href="#/test/{{ test.id }}" title="View/Edit test '{{ test.name }}'"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                            <a class="btn btn-grey btn-small" href="#/test/{{ test.id }}" title="View test '{{ test.name }}'"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                            <a class="btn btn-grey btn-small" href="#/test/{{ test.id }}/edit" title="Edit test '{{ test.name }}'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
                             <a class="btn btn-red btn-small" data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
                         </div>
                     </div>
@@ -42,41 +45,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row add-group">
         <a data-ng-click="createGroup()" title="Add a new group" data-ng-show="isGranted('SUPER_ADMIN')" class="btn btn-blue"><i class="fa fa-plus"></i> Add New Group</a>
     </div>
 </div>
-
-
-<!-- <ul class="groups">
-    <li data-ng-repeat="group in groups">
-        <div class="group">
-            <span>{{ group.name }}</span>
-            <a href="#/group/{{ group.id }}" title="Edit group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-pencil"></i> Edit</a>
-            <a><i class="icon-users" data-ng-pluralize data-count="group.users.length" data-when="{'one': ' 1 user', 'other': ' {} users'}"></i></a>
-        </div>
-        <ul class="tests">
-            <li data-ng-repeat="test in group.tests">
-                <div class="test {{ test.result.status|lowercase }}">
-                    <span title="Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }}">{{ test.name }}</span> (last tested {{ test.result.createdAt|timeago }})
-                    <a data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-minus"></i> Delete</a>
-                    <a href="#/test/{{ test.id }}" title="View/Edit test '{{ test.name }}'"><i class="icon-test"></i> View</a>
-                    <a data-ng-click="runTest(test.id)" title="Run test '{{ test.name }}' now" data-ng-show="isGranted('ADMIN', group)"><i class="icon-play"></i> Run</a>
-                </div>
-            </li>
-            <li>
-                <div>
-                    &nbsp;
-                    <a data-ng-click="removeGroup(group.id)" title="Delete group '{{ group.name }}'" data-ng-show="((group.tests.length + group.users.length === 0) && (isGranted('SUPER_ADMIN')))"><i class="icon-minus"></i> Delete group</a>
-                    <a href="#/group/{{ group.id }}/add-test" title="Add test to group '{{ group.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="icon-test-plus"></i> Add test</a>
-                </div>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <div>
-            &nbsp;
-            <a data-ng-click="createGroup()" title="Add a new group" data-ng-show="isGranted('SUPER_ADMIN')"><i class="icon-plus"></i> Add new group</a>
-        </div>
-    </li>
-</ul> -->

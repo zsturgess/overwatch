@@ -2,7 +2,7 @@
     <h1>Edit Group '{{ group.name }}'</h1>
 </section>
 
-<div class="widget-box">
+<div class="widget-box edit-group">
     <div class="widget-header">
         Users in '{{ group.name }}' Group
     </div>
@@ -23,7 +23,7 @@
             </li>
         </ul>
 
-        <div class="row">
+        <div class="row edit-group-buttons">
             <a class="btn btn-warning" data-ng-click="renameGroup()" title="Rename this group"><i class="fa fa-pencil-square-o"></i> Rename group</a>
             <a class="btn btn-blue" data-ng-click="addUser()" title="Add a user to this group"><i class="fa fa-user-plus"></i> Add user to group</a>
         </div>

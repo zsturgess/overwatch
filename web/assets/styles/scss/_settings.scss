@@ -14,8 +14,17 @@ $mainbg: #E9EEF4;
 $white: #ffffff;
 $black: #000000;
 
-$warning: orange;
+$green: #00853F;
+$orange: #FFA500;
 $red: #E31B23;
+
+// Messages
+$warning: $orange;
+
+// User
+$user: $green;
+$admin: $orange;
+$super_admin: $red;
 
 // Mixins
 @mixin placeholder {
