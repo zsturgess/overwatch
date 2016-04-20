@@ -110,7 +110,7 @@ class DashboardTest extends WebDriverTestCase
         $this->waitForLoadingAnimation();
 
         $tests = $this->getGroups()[0]->findElements(
-            WebDriverBy::cssSelector('.tests li .test .status.passed')
+            WebDriverBy::cssSelector('.tests li:first-child .test .status.passed')
         );
 
         $this->assertCount(2, $tests);
@@ -134,7 +134,7 @@ class DashboardTest extends WebDriverTestCase
 
         $this->getGroups()[2]->findElement(
             //Delete group button
-            WebDriverBy::cssSelector('ul.groups li:nth-child(3) li div a:nth-child(1)')
+            WebDriverBy::cssSelector('.groups .widget-box:first-child .widget-header .right a:nth-child(2)')
         )->click();
 
         $this->waitForAlert();
@@ -143,7 +143,7 @@ class DashboardTest extends WebDriverTestCase
 
         $this->getGroups()[2]->findElement(
             //Delete group button
-            WebDriverBy::cssSelector('ul.groups li:nth-child(3) li div a:nth-child(1)')
+            WebDriverBy::cssSelector('.groups .widget-box:first-child .widget-header .right a:nth-child(2)')
         )->click();
 
         $this->waitForAlert();
