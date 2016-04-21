@@ -17,7 +17,7 @@
 
                     <h3 class="title">{{ user.email|uppercase }}</h3>
                     <div class="buttons">
-                        <span class="btn btn-red btn-small" data-ng-click="removeUser(user.id)" title="Remove user '{{ user.email }}' from group '{{ group.name }}'"><i class="fa fa-user-times" aria-hidden="true"></i> Remove User from Group</span>
+                        <a class="btn btn-red btn-small" data-ng-click="removeUser(user.id)" title="Remove user '{{ user.email }}' from group '{{ group.name }}'"><i class="fa fa-user-times" aria-hidden="true"></i> Remove User from Group</a>
                     </div>
                 </div>
             </li>
