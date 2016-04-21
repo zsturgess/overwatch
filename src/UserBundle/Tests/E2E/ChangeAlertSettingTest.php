@@ -3,6 +3,7 @@
 namespace Overwatch\UserBundle\Tests\E2E;
 
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverElement;
 use Overwatch\UserBundle\Tests\Base\WebDriverTestCase;
 
 /**
@@ -19,35 +20,19 @@ class ChangeAlertSettingTest extends WebDriverTestCase
         $this->waitForLoadingAnimation();
         
         $this->webDriver->findElement(
-            WebDriverBy::cssSelector('#sidebar li:nth-child(3) a')
+            WebDriverBy::cssSelector('.sidebar li:nth-child(3) a')
         )->click();
         $this->waitForLoadingAnimation();
     }
     
     public function testChangeSetting()
     {
-        $this->assertFalse($this->getSettingLink(5)->isDisplayed());
-        $this->assertTrue($this->getSettingLink(5, true)->isDisplayed());
+        $this->assertElementHasClass($this->getSettingRow(5), 'current-setting');
         
-        $this->getSettingLink(1)->click();
+        $this->getSettingRow(1)->click();
         $this->waitForLoadingAnimation();
-        $this->assertTrue($this->getSettingLink(5)->isDisplayed());
-        $this->assertFalse($this->getSettingLink(5, true)->isDisplayed());
-        $this->assertFalse($this->getSettingLink(1)->isDisplayed());
-        $this->assertTrue($this->getSettingLink(1, true)->isDisplayed());
-    }
-    
-    private function getSettingLink($number, $isCurrent = false)
-    {
-        $selector = '[data-ng-click]';
-        
-        if ($isCurrent) {
-            $selector = ":not($selector)";
-        }
-        
-        return $this->getSettingRow($number)->findElement(
-            WebDriverBy::cssSelector("a$selector")
-        );
+        $this->assertElementNotHasClass($this->getSettingRow(5), 'current-setting');
+        $this->assertElementHasClass($this->getSettingRow(1), 'current-setting');
     }
     
     private function getSettingRow($number)
@@ -55,5 +40,25 @@ class ChangeAlertSettingTest extends WebDriverTestCase
         return $this->webDriver->findElement(
             WebDriverBy::cssSelector(".settings li:nth-child($number)")
         );
+    }
+    
+    private function assertElementHasClass(WebDriverElement $element, $class, $has = true) {
+        $classes = $element->getAttribute('class');
+        
+        $this->assertNotNull($classes);
+        $this->assertEquals(
+            $has,
+            in_array(
+                strtolower($class),
+                array_map(
+                    'trim',
+                    explode(" ", strtolower($classes))
+                )
+            )
+        );
+    }
+    
+    private function assertElementNotHasClass(WebDriverElement $element, $class) {
+        $this->assertElementHasClass($element, $class, false);
     }
 }
