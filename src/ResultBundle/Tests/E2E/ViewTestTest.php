@@ -87,7 +87,7 @@ class ViewTestTest extends WebDriverTestCase
     {
         $this->waitForLoadingAnimation();
         $this->webDriver->findElement(
-            WebDriverBy::cssSelector('.tests li:nth-child(' . $number . ') .test a:nth-child(3)')
+            WebDriverBy::cssSelector('.tests li:nth-child(' . $number . ') .test a:nth-child(2)')
         )->click();
     }
 
