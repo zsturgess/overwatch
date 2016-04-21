@@ -51,7 +51,7 @@ class ViewTestTest extends WebDriverTestCase
         $this->clickThroughToTest(1);
 
         $this->waitForLoadingAnimation();
-        $this->getActionItem(2)->click();
+        $this->getActionItem(3)->click();
 
         $this->waitForAlert();
         $this->webDriver->switchTo()->alert()->accept();
@@ -68,7 +68,7 @@ class ViewTestTest extends WebDriverTestCase
         $this->clickThroughToTest(1);
 
         $this->waitForLoadingAnimation();
-        $this->getActionItem(3)->click();
+        $this->getActionItem(1)->click();
         $this->waitForLoadingAnimation();
         $this->assertCount(4, $this->getResultsOnPage());
     }
@@ -105,7 +105,7 @@ class ViewTestTest extends WebDriverTestCase
     private function getActionItem($number)
     {
         return $this->webDriver->findElement(
-            WebDriverBy::cssSelector('.results li:last-child a:nth-child(' . $number . ')')
+            WebDriverBy::cssSelector('.widget-content .row a:nth-child(' . $number . ')')
         );
     }
 

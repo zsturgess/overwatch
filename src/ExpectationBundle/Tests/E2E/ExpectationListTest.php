@@ -25,7 +25,7 @@ class ExpectationListTest extends WebDriverTestCase
             'toRespondHttp',
             'toRespondWithMimeType',
             'toContainText',
-        ], $this->getSelectOptionValues('form > select'));
+        ], $this->getSelectOptionValues('form select[data-ng-model="test.expectation"]'));
     }
 
     private function clickFirstGroupAddTestButton()
