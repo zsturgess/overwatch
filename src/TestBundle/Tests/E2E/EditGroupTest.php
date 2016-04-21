@@ -28,7 +28,7 @@ class EditGroupTest extends WebDriverTestCase
 
     public function testDisplaysGroupAndUsers()
     {
-        $this->assertEquals(TestGroupFixtures::$groups['group-1']->getName(), $this->getHeaderText());
+        $this->assertContains(TestGroupFixtures::$groups['group-1']->getName(), $this->getHeaderText());
         $this->assertCount(2, $this->getUsers());
         $this->assertContains(UserFixtures::$users['user-1']->getEmail(), $this->getUsers()[0]->getText());
         $this->assertContains(UserFixtures::$users['user-2']->getEmail(), $this->getUsers()[1]->getText());
@@ -42,7 +42,7 @@ class EditGroupTest extends WebDriverTestCase
 
         $this->waitForAlert();
         $this->webDriver->switchTo()->alert()->dismiss();
-        $this->assertEquals(TestGroupFixtures::$groups['group-1']->getName(), $this->getHeaderText());
+        $this->assertContains(TestGroupFixtures::$groups['group-1']->getName(), $this->getHeaderText());
 
         $this->webDriver->findElement(
             WebDriverBy::cssSelector('ul.users li:nth-child(3) a:nth-child(1)')

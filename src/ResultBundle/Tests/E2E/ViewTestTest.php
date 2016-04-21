@@ -19,7 +19,7 @@ class ViewTestTest extends WebDriverTestCase
         $this->clickThroughToTest(1);
 
         $this->waitForLoadingAnimation();
-        $this->assertEquals(TestFixtures::$tests['test-1']->getName(), $this->getHeaderText());
+        $this->assertContains(TestFixtures::$tests['test-1']->getName(), $this->getHeaderText());
         $this->assertCount(3, $this->getResultsOnPage());
         $this->assertEquals(TestResultFixtures::$results['result-3']->getInfo(), $this->getResultsOnPage()[0]->getText());
         $this->assertTimestampEquals(TestResultFixtures::$results['result-3']->getCreatedAt(), $this->getResultsOnPage(' a')[0]->getAttribute('title'));
@@ -38,7 +38,7 @@ class ViewTestTest extends WebDriverTestCase
         $this->clickThroughToTest(2);
 
         $this->waitForLoadingAnimation();
-        $this->assertEquals(TestFixtures::$tests['test-2']->getName(), $this->getHeaderText());
+        $this->assertContains(TestFixtures::$tests['test-2']->getName(), $this->getHeaderText());
         $this->assertCount(1, $this->getResultsOnPage());
         $this->assertEquals(TestResultFixtures::$results['result-4']->getInfo(), $this->getResultsOnPage()[0]->getText());
         $this->assertTimestampEquals(TestResultFixtures::$results['result-4']->getCreatedAt(), $this->getResultsOnPage(' a')[0]->getAttribute('title'));
