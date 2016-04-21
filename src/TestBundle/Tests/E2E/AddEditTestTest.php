@@ -32,7 +32,7 @@ class AddEditTestTest extends WebDriverTestCase
 
         $this->webDriver->findElement(
             //Edit test
-            WebDriverBy::cssSelector('ul.results li:last-child a')
+            WebDriverBy::cssSelector('.widget-content .row a:nth-child(2)')
         )->click();
         $this->waitForLoadingAnimation();
 
