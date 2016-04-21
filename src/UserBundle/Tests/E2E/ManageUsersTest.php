@@ -142,7 +142,7 @@ class ManageUsersTest extends WebDriverTestCase
         $this->waitForLoadingAnimation();
         
         $this->webDriver->findElement(
-            WebDriverBy::cssSelector('#sidebar li:nth-child(2) a')
+            WebDriverBy::cssSelector('.sidebar li:nth-child(2) a')
         )->click();
         $this->waitForLoadingAnimation();
     }
