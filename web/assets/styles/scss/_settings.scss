@@ -1,0 +1,46 @@
+// Fonts
+@import url("//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700");
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css");
+
+// Variables
+$primary: #279BE4;
+
+$lightgrey: #E0E0E0;
+$grey: #777777;
+$darkgrey: #2A2D33;
+
+$mainbg: #E9EEF4;
+
+$white: #ffffff;
+$black: #000000;
+
+$green: #00853F;
+$orange: #FFA500;
+$red: #E31B23;
+
+// Messages
+$warning: $orange;
+
+// User
+$user: $green;
+$admin: $orange;
+$super_admin: $red;
+
+// Mixins
+@mixin placeholder {
+    ::-webkit-input-placeholder {
+        @content
+    }
+    :-moz-placeholder {
+        @content
+    }
+    ::-moz-placeholder {
+        @content
+    }
+    :-ms-input-placeholder {
+        @content
+    }
+    :placeholder-shown {
+        @content
+    }
+}

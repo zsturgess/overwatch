@@ -19,7 +19,7 @@ class AppControllerTest extends FunctionalTestCase
         
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertContains('<div data-ng-view>', $this->getResponseContent(true));
-        $this->assertNotContains('<i class="icon-users"></i> Manage Users', $this->getResponseContent(true));
+        $this->assertNotContains('Manage Users', $this->getResponseContent(true));
     }
     
     public function testIndexPageAsSuperAdmin()
@@ -29,7 +29,7 @@ class AppControllerTest extends FunctionalTestCase
         
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertContains('<div data-ng-view>', $this->getResponseContent(true));
-        $this->assertContains('<i class="icon-users"></i> Manage Users', $this->getResponseContent(true));
+        $this->assertContains('Manage Users', $this->getResponseContent(true));
     }
     
     public function testApiDocPage()

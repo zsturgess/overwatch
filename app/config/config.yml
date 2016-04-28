@@ -78,7 +78,7 @@ services:
       - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }
 
 overwatch_service:
-    to_ping: 
+    to_ping:
         timeout: %expectations_toPing_timeout%
         unsatisfactory: %expectations_toPing_unsatisfactory%
     to_resolve_to:
@@ -87,7 +87,7 @@ overwatch_service:
         allowable_codes: %expectations_toRespondHttp_allowableCodes%
         unsatisfactory_codes: %expectations_toRespondHttp_unsatisfactoryCodes%
         timeout: %expectations_global_httpTimeout%
-    to_respond_with_mime_type: 
+    to_respond_with_mime_type:
         allow_errors: %expectations_global_permitHttpErrors%
         timeout: %expectations_global_httpTimeout%
     to_contain_text:
@@ -102,3 +102,5 @@ overwatch_service:
         twilio_account_sid: %resultReporters_sms_twilio_accountSid%
         twilio_auth_token: %resultReporters_sms_twilio_authToken%
         twilio_from_number: %resultReporters_sms_twilio_fromNumber%
+
+ornicar_gravatar: ~

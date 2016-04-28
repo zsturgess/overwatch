@@ -11,3 +11,4 @@
 /bin/
 !bin/travis_github_authenticate.sh
 /composer.phar
+/node_modules/*

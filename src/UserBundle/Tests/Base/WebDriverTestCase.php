@@ -20,15 +20,15 @@ class WebDriverTestCase extends DatabaseAwareTestCase
      * @var RemoteWebDriver
      */
     protected $webDriver = null;
-    
+
     public function setUp()
     {
         parent::setUp();
-        
+
         $capabilities = [WebDriverCapabilityType::BROWSER_NAME => 'firefox'];
         $this->webDriver = RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities);
     }
-    
+
     public function runBare()
     {
         try {
@@ -40,7 +40,7 @@ class WebDriverTestCase extends DatabaseAwareTestCase
             parent::runBare();
         }
     }
-    
+
     public function logInAsUser($userReference)
     {
         $user = UserFixtures::$users[$userReference];
@@ -52,35 +52,35 @@ class WebDriverTestCase extends DatabaseAwareTestCase
         $this->webDriver->getKeyboard()->sendKeys('p4ssw0rd');
         $this->webDriver->getKeyboard()->pressKey(WebDriverKeys::ENTER);
     }
-    
+
     public function waitForUserInput()
     {
         if (trim(fgets(fopen('php://stdin', 'r'))) != chr(13)) {
             return;
         }
     }
-    
+
     public function waitForLoadingAnimation()
     {
         $this->webDriver->wait(30, 500)->until(
             WebDriverExpectedCondition::invisibilityOfElementLocated(WebDriverBy::id('loading'))
         );
     }
-    
+
     public function waitForAlert()
     {
         $this->webDriver->wait()->until(
             WebDriverExpectedCondition::alertIsPresent()
         );
     }
-    
+
     public function getHeaderText()
     {
         return $this->webDriver->findElement(
-            WebDriverBy::cssSelector('#page h1')
+            WebDriverBy::cssSelector('.intro h1')
         )->getText();
     }
-    
+
     public function tearDown()
     {
         if ($this->webDriver !== null) {
@@ -90,9 +90,9 @@ class WebDriverTestCase extends DatabaseAwareTestCase
                 echo PHP_EOL . PHP_EOL . PHP_EOL;
             }
         }
-        
+
         parent::tearDown();
-        
+
         if ($this->webDriver !== null) {
             $this->webDriver->close();
         }

@@ -1,0 +1,11 @@
+.warning-message {
+    background: $white;
+    border: 1px solid $warning;
+    color: darken($warning, 4%);
+    display: inline-block;
+    line-height: 20px;
+    margin: 0 0 18px;
+    padding: 10px;
+    @include border-top-radius(5px);
+    @include border-bottom-radius(5px);
+}

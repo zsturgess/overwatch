@@ -19,7 +19,7 @@ class ViewTestTest extends WebDriverTestCase
         $this->clickThroughToTest(1);
 
         $this->waitForLoadingAnimation();
-        $this->assertEquals(TestFixtures::$tests['test-1']->getName(), $this->getHeaderText());
+        $this->assertContains(TestFixtures::$tests['test-1']->getName(), $this->getHeaderText());
         $this->assertCount(3, $this->getResultsOnPage());
         $this->assertEquals(TestResultFixtures::$results['result-3']->getInfo(), $this->getResultsOnPage()[0]->getText());
         $this->assertTimestampEquals(TestResultFixtures::$results['result-3']->getCreatedAt(), $this->getResultsOnPage(' a')[0]->getAttribute('title'));
@@ -38,13 +38,13 @@ class ViewTestTest extends WebDriverTestCase
         $this->clickThroughToTest(2);
 
         $this->waitForLoadingAnimation();
-        $this->assertEquals(TestFixtures::$tests['test-2']->getName(), $this->getHeaderText());
+        $this->assertContains(TestFixtures::$tests['test-2']->getName(), $this->getHeaderText());
         $this->assertCount(1, $this->getResultsOnPage());
         $this->assertEquals(TestResultFixtures::$results['result-4']->getInfo(), $this->getResultsOnPage()[0]->getText());
         $this->assertTimestampEquals(TestResultFixtures::$results['result-4']->getCreatedAt(), $this->getResultsOnPage(' a')[0]->getAttribute('title'));
         $this->assertContains(strtolower(TestResultFixtures::$results['result-4']->getStatus()), $this->getResultsOnPage('')[0]->getAttribute('class'));
     }
-    
+
     public function testDeleteTest()
     {
         $this->logInAsUser('user-1');
@@ -52,16 +52,16 @@ class ViewTestTest extends WebDriverTestCase
 
         $this->waitForLoadingAnimation();
         $this->getActionItem(2)->click();
-        
+
         $this->waitForAlert();
         $this->webDriver->switchTo()->alert()->accept();
-        
+
         $this->waitForLoadingAnimation();
         $this->assertCount(1, $this->webDriver->findElements(
-            WebDriverBy::cssSelector('.groups li:first-child .tests li div.test')
+            WebDriverBy::cssSelector('.groups .widget-box:first-child .tests li div.test')
         ));
     }
-    
+
     public function testRunTest()
     {
         $this->logInAsUser('user-1');
@@ -72,12 +72,12 @@ class ViewTestTest extends WebDriverTestCase
         $this->waitForLoadingAnimation();
         $this->assertCount(4, $this->getResultsOnPage());
     }
-    
+
     public function testEditDeleteAndRunInsufficentPermissions()
     {
         $this->logInAsUser('user-2');
         $this->clickThroughToTest(1);
-        
+
         $this->assertFalse($this->getActionItem(1)->isDisplayed());
         $this->assertFalse($this->getActionItem(2)->isDisplayed());
         $this->assertFalse($this->getActionItem(3)->isDisplayed());
@@ -87,7 +87,7 @@ class ViewTestTest extends WebDriverTestCase
     {
         $this->waitForLoadingAnimation();
         $this->webDriver->findElement(
-            WebDriverBy::cssSelector('.tests li:nth-child(' . $number . ') .test a:nth-child(3)')
+            WebDriverBy::cssSelector('.tests li:nth-child(' . $number . ') .test a:nth-child(2)')
         )->click();
     }
 
@@ -101,11 +101,11 @@ class ViewTestTest extends WebDriverTestCase
 
         return $results;
     }
-    
+
     private function getActionItem($number)
     {
         return $this->webDriver->findElement(
-            WebDriverBy::cssSelector('.results li:last-child a:nth-child(' . $number . ')')
+            WebDriverBy::cssSelector('.widget-content .row a:nth-child(' . $number . ')')
         );
     }
 

@@ -1,0 +1,43 @@
+.settings {
+    display: table;
+    border-spacing: 10px 0px;
+    margin-bottom: 20px;
+    width: 100%;
+
+    .setting {
+        background: $lightgrey;
+        border-radius: 5px;
+        color: $grey;
+        cursor: pointer;
+        display: table-cell;
+        padding: 16px 10px;
+        margin-right: 1%;
+        text-align: center;
+        width: 19%;
+        @include transition(all .3s ease-in-out);
+
+        @media screen and (max-width: 850px) {
+            display: inline-block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        &.last {
+            margin-right: 0;
+        }
+
+        &:hover {
+            background: darken($lightgrey, 10%);
+        }
+
+        &.current-setting {
+            background: $primary;
+            color: $white;
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+    }
+}

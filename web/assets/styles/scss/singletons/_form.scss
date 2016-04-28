@@ -1,0 +1,178 @@
+form {
+    background: $white;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 40px;
+    padding: 40px 60px 30px;
+    width: 40%;
+
+    @media screen and (max-width: 768px) {
+        padding: 20px 30px;
+        width: 100%;
+    }
+
+    &.full-width {
+        width: 100%;
+    }
+
+    &.test-form {
+        text-align: left;
+
+        .control-group {
+            input {
+                padding: 10px 20px;
+                text-align: left;
+            }
+        }
+    }
+
+    &.center-form {
+        display: block;
+        margin: 60px auto;
+        text-align: center;
+
+        @media screen and (max-width: 768px) {
+            margin: 20px auto;
+        }
+    }
+
+    h1, h2 {
+        color: $grey;
+        font-size: 2em;
+        margin: 0 0 30px;
+    }
+
+    .description {
+        color: $grey;
+        margin-bottom: 20px;
+
+        &.warning {
+            color: $warning;
+        }
+
+        strong {
+            color: darken($grey, 10%);
+            font-size: 18px;
+            line-height: 22px;
+        }
+    }
+}
+
+.control-group {
+    margin-bottom: 10px;
+
+    &.padding {
+        padding: 10px 0;
+    }
+
+    input {
+        text-align: center;
+        background: $lightgrey;
+        border: 2px solid transparent;
+        border-radius: 3px;
+        color: $grey;
+        font-size: 16px;
+        font-weight: 200;
+        padding: 10px;
+        width: 100%;
+        outline: none;
+        @include transition(border .3s ease-in-out);
+        @include placeholder {
+            color: $grey;
+            font-weight: 200;
+        };
+
+        &:focus {
+            border: 2px solid $primary;
+            box-shadow: none;
+        }
+    }
+
+    .styled-select {
+        background: no-repeat right $lightgrey;
+        border: 2px solid transparent;
+        border-radius: 3px;
+        overflow: hidden;
+        display: inline-block;
+        margin-bottom: 10px;
+        position: relative;
+        width: 100%;
+
+        &:after {
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            content: "\f0d7";
+            position: absolute;
+            color: $grey;
+            right: 10px;
+            top: 50%;
+            @include transform(translate(0, -50%));
+        }
+
+        select {
+            background: transparent;
+            color: $grey;
+            font-size: 16;
+            font-weight: 200;
+            padding: 10px 20px;
+            font-size: 16px;
+            line-height: 20px;
+            border: 0;
+            border-radius: 0;
+            outline: none;
+            width: 110%;
+            @include appearance(none);
+        }
+    }
+
+    p {
+        margin-bottom: 6px;
+    }
+
+    label {
+        &.hide {
+            visibility: hidden;
+        }
+    }
+
+    .password-toggle {
+        position: relative;
+
+        input {
+            padding-right: 40px;
+        }
+
+        .toggle-btn {
+            font-size: 20px;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            @include transform(translate(0, -50%));
+        }
+    }
+}
+
+.checkbox-group {
+    input {
+        display: inline-block;
+        width: auto;
+    }
+
+    label {
+        color: $grey;
+        position: relative;
+        top: 2px;
+    }
+}
+
+.bottom-link {
+    color: $grey;
+    cursor: pointer;
+    display: block;
+    font-size: 12px;
+    margin-top: 30px;
+}

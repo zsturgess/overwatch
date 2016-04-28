@@ -5,19 +5,28 @@
     <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
 {% endif %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post">
+<form class="center-form" action="{{ path("fos_user_security_check") }}" method="post">
+    <h1>Login</h1>
+
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-    <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+    <div class="control-group">
+        <input class="login-field" type="text" id="username" name="_username" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}" value="{{ last_username }}" required="required" />
+        <label class="login-field-icon fui-user" for="username"></label>
+    </div>
 
-    <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-    <input type="password" id="password" name="_password" required="required" />
+    <div class="control-group">
+        <input class="login-field" type="password" id="password" name="_password" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" required="required" />
+        <label class="login-field-icon fui-lock" for="password"></label>
+    </div>
 
-    <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
-    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    <div class="control-group checkbox-group left-align padding">
+        <input class="login-field-checkbox" type="checkbox" id="remember_me" name="_remember_me" value="on" />
+        <label class="login-form-checkbox-label" for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+    </div>
 
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-    <p><a href="{{ url('fos_user_resetting_request') }}"><i class="icon-key"></i> Reset your password</a></p>
+    <input class="btn btn-blue btn-submit" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+    <a class="bottom-link" href="{{ url('fos_user_resetting_request') }}">Lost your password?</a>
 </form>
+
 {% endblock fos_user_content %}

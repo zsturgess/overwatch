@@ -4,8 +4,19 @@ var overwatchApp = angular.module('overwatch', [
     'ngIdle'
 ]);
 
-overwatchApp.config(function($routeProvider, $httpProvider, IdleProvider) {
-    $routeProvider
+overwatchApp.run(['$rootScope','$location', '$routeParams',
+    function($rootScope, $location, $routeParams)
+    {
+        $rootScope.$on('$routeChangeSuccess', function(e, current, pre) {
+            $rootScope.currentPage = $location.path();
+        });
+    }
+]);
+
+overwatchApp.config(['$routeProvider', '$httpProvider', 'IdleProvider',
+    function($routeProvider, $httpProvider, IdleProvider)
+    {
+        $routeProvider
             .when('/', {
                 title: 'Dashboard',
                 templateUrl: 'partials/dashboard.html',
@@ -68,10 +79,11 @@ overwatchApp.config(function($routeProvider, $httpProvider, IdleProvider) {
                     showLoading(false);
                 }
             })
-    ;
-    
-    $httpProvider.interceptors.push('overwatchApiErrorHandler');
-    
-    IdleProvider.idle(5 * 60);
-    IdleProvider.timeout(5);
-});
+        ;
+
+        $httpProvider.interceptors.push('overwatchApiErrorHandler');
+
+        IdleProvider.idle(5 * 60);
+        IdleProvider.timeout(5);
+    }
+]);

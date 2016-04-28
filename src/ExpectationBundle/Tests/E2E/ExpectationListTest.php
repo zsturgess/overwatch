@@ -25,14 +25,14 @@ class ExpectationListTest extends WebDriverTestCase
             'toRespondHttp',
             'toRespondWithMimeType',
             'toContainText',
-        ], $this->getSelectOptionValues('#page > div > form > select'));
+        ], $this->getSelectOptionValues('form select[data-ng-model="test.expectation"]'));
     }
 
     private function clickFirstGroupAddTestButton()
     {
         $this->waitForLoadingAnimation();
         $this->webDriver->findElement(
-            WebDriverBy::cssSelector('.groups > li:nth-child(1) > ul:nth-child(2) > li:nth-child(3) > div:nth-child(1) > a:nth-child(2)')
+            WebDriverBy::cssSelector('.groups .widget-box:first-child .tests li:last-child a')
         )->click();
     }
 

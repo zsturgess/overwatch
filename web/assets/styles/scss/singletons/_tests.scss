@@ -1,0 +1,78 @@
+.results,
+.tests {
+
+    .result,
+    .test {
+        border-bottom: 1px solid lighten($lightgrey, 5%);
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 0 0 10px;
+        width: 100%;
+
+        .title {
+            color: $grey;
+            margin: 0 0 10px;
+        }
+    }
+
+    .test {
+        h3 {
+            line-height: 20px;
+        }
+        p {
+            line-height: 20px;
+            margin-bottom: 6px;
+        }
+    }
+}
+
+%bgfontawesome {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include transform(translate(-50%, -50%));
+}
+
+.status {
+    $size: 30px;
+
+    background: $white;
+    border-radius: 100%;
+    display: inline-block;
+    float: left;
+    margin: 6px 8px 0 0;
+    height: $size;
+    line-height: $size;
+    text-align: center;
+    position: relative;
+    vertical-align: middle;
+    width: $size;
+    @include transition(all .3s ease-in-out);
+
+    &.passed {
+        border: 3px solid $green;
+        color: $green;
+
+        &:after {
+            @extend %bgfontawesome;
+            content: "\f00c";
+        }
+    }
+
+    &.error {
+        border: 3px solid $red;
+        color: $red;
+
+        &:after {
+            @extend %bgfontawesome;
+            content: "\f12a";
+        }
+    }
+}

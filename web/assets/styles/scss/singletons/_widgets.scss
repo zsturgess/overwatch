@@ -1,0 +1,59 @@
+
+.widget-box {
+    background: $white;
+    border-radius: 5px;
+    border: 1px solid $lightgrey;
+    float: left;
+    margin: 0 0 15px 0;
+    overflow: hidden;
+    width: 100%;
+
+    &.half-widget {
+        max-width: 49.5%;
+
+        @media screen and (max-width: 1080px) {
+            max-width: 100%;
+        }
+
+        &:nth-child(odd) {
+            margin-right: 1%;
+        }
+    }
+
+    .widget-header {
+        background: $primary;
+        color: $white;
+        display: inline-block;
+        font-size: 20px;
+        line-height: 24px;
+        padding: 10px 20px;
+        width: 100%;
+
+        h2 {
+            font-size: 15px;
+            font-weight: normal;
+            margin: 0;
+            padding: 11px 15px;
+            color: #F9F9F9;
+            display: inline-block;
+        }
+
+        a {
+           color: inherit;
+           cursor: pointer;
+           margin-left: 6px;
+        }
+    }
+
+    .widget-content {
+        padding: 20px;
+    }
+
+    .widget-footer {
+        border-top: 1px solid $lightgrey;
+        color: $grey;
+        display: inline-block;
+        padding: 14px 20px;
+        width: 100%;
+    }
+}
