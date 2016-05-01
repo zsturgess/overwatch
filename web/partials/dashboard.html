@@ -4,7 +4,7 @@
 </section>
 
 <div data-ng-show="shouldWarnOfTestAge()" class="warning-message">
-    <strong><i class="icon-warning"></i> Warning!</strong>
+    <strong><i class="fa fa-warning"></i> Warning!</strong>
     Your tests haven't had a new result in a little while. The results may no longer be valid. You should check that the test runner is scheduled to run frequently. For more information, check <a href="https://github.com/zsturgess/overwatch/blob/master/app/Resources/docs/installing.md#running-the-tests" target="_blank">the installation instructions</a>.
 </div>
 
@@ -23,9 +23,9 @@
             <ul class="tests">
                 <li data-ng-repeat="test in group.tests">
                     <div class="test">
-                        <div class="status {{ test.result.status|lowercase }}"></div>
+                        <div class="status {{ test.result.status|lowercase }}" title="{{ test.result.status|lowercase|ucfirst }}"></div>
 
-                        <h3>{{ test.name }} (Last Tested {{ test.result.createdAt|timeago }})</h3>
+                        <h3>{{ test.name }} (Last Tested <span title="{{ (test.result.createdAt + '000')|date:'medium' }}">{{ test.result.createdAt|timeago }}</span>)</h3>
                         <p class="test-expect">Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }} </p>
 
                         <div class="buttons">

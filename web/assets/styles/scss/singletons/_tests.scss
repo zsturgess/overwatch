@@ -45,6 +45,8 @@
 
     background: $white;
     border-radius: 100%;
+    border: 3px solid grey;
+    color: $grey;
     display: inline-block;
     float: left;
     margin: 6px 8px 0 0;
@@ -56,6 +58,11 @@
     width: $size;
     @include transition(all .3s ease-in-out);
 
+    &:after {
+        @extend %bgfontawesome;
+        content: "\f252";
+    }
+
     &.passed {
         border: 3px solid $green;
         color: $green;
@@ -66,13 +73,33 @@
         }
     }
 
-    &.error {
+    &.failed {
         border: 3px solid $red;
         color: $red;
 
         &:after {
             @extend %bgfontawesome;
             content: "\f12a";
+        }
+    }
+
+    &.unsatisfactory {
+        border: 3px solid $orange;
+        color: $orange;
+
+        &:after {
+            @extend %bgfontawesome;
+            content: "\f12a";
+        }
+    }
+
+    &.error {
+        border: 3px solid $red;
+        color: $red;
+
+        &:after {
+            @extend %bgfontawesome;
+            content: "\f00d";
         }
     }
 }

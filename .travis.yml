@@ -11,6 +11,7 @@ before_script:
 - sed -i 's/%database_name%/%database_name%_test/' app/config/config.yml
 - mysql -e 'create database overwatch_test;'
 - composer install --prefer-dist
+- npm install && node_modules/gulp/bin/gulp.js deploy
 - wget -P bin/ http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.0.jar
 - php app/console doctrine:schema:create --env=test
 - java -jar bin/selenium-server-standalone-2.47.0.jar > /dev/null 2>&1 &
@@ -22,6 +23,7 @@ before_deploy:
 - mysql -e 'create database overwatch;'
 - git reset --hard HEAD && git clean -xdfe app/config/parameters.yml app/ bin/
 - composer install --no-dev --prefer-dist
+- node_modules/gulp/bin/gulp.js deploy
 - rm -rf app/cache/* app/logs/* app/config/parameters.yml.dist
 - sed -i "s/dev-master/$TRAVIS_TAG/" app/console
 - tar -chzf overwatch-$TRAVIS_TAG.tar.gz app/ composer* *.md LICENSE src/ vendor/ web/
@@ -40,6 +42,7 @@ branches:
 cache:
   directories:
   - vendor
+  - node_modules
   - $HOME/.composer/cache
 env:
   global:
