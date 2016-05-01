@@ -59,4 +59,5 @@ gulp.task('watch', function() {
   livereload.listen();
 });
 
+gulp.task('deploy', ['sass', 'concat']);
 gulp.task('default', ['watch', 'concat']);
