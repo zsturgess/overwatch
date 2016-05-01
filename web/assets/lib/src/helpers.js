@@ -55,7 +55,12 @@ overwatchApp.factory('isGranted', [
                     return userHasRole('ROLE_SUPER_ADMIN');
                     break;
                 case 'ADMIN':
-                    return userHasRole('ROLE_ADMIN') && userInGroup(group);
+                    if (typeof group === 'undefined') {
+                        return userHasRole('ROLE_ADMIN');
+                    } else {
+                        return userHasRole('ROLE_ADMIN') && userInGroup(group);
+                    }
+
                     break;
                 case 'USER':
                     return userInGroup(group);

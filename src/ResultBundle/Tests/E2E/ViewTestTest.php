@@ -82,6 +82,15 @@ class ViewTestTest extends WebDriverTestCase
         $this->assertFalse($this->getActionItem(2)->isDisplayed());
         $this->assertFalse($this->getActionItem(3)->isDisplayed());
     }
+    
+    public function testEditDeleteAndRunAsAdmin() {
+        $this->logInAsUser('user-3');
+        $this->clickThroughToTest(1);
+
+        $this->assertTrue($this->getActionItem(1)->isDisplayed());
+        $this->assertTrue($this->getActionItem(2)->isDisplayed());
+        $this->assertTrue($this->getActionItem(3)->isDisplayed());
+    }
 
     private function clickThroughToTest($number)
     {

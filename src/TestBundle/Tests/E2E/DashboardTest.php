@@ -206,7 +206,7 @@ class DashboardTest extends WebDriverTestCase
 
         $this->assertContains(TestFixtures::$tests['test-1']->getName(), $this->getHeaderText());
         $this->assertCount(4, $this->webDriver->findElements(
-            WebDriverBy::cssSelector('.result span')
+            WebDriverBy::cssSelector('.result')
         ));
     }
 

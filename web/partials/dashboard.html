@@ -23,9 +23,9 @@
             <ul class="tests">
                 <li data-ng-repeat="test in group.tests">
                     <div class="test">
-                        <div class="status {{ test.result.status|lowercase }}" title="{{ test.result.status|lowercase|ucfirst }}"></div>
+                        <div class="status {{ test.result.status|lowercase }}" data-ng-attr-title="{{ test.result.status|lowercase|ucfirst }}" title="Not yet run"></div>
 
-                        <h3>{{ test.name }} (Last Tested <span title="{{ (test.result.createdAt + '000')|date:'medium' }}">{{ test.result.createdAt|timeago }}</span>)</h3>
+                        <h3><a href="#/test/{{ test.id }}" title="View test '{{ test.name }}'">{{ test.name }}</a> (Last Tested <span title="{{ (test.result.createdAt + '000')|date:'medium' }}">{{ test.result.createdAt|timeago }}</span>)</h3>
                         <p class="test-expect">Expect {{ test.actual }} {{ test.expectation }} {{ test.expected }} </p>
 
                         <div class="buttons">

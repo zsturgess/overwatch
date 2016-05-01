@@ -18,9 +18,9 @@
         </ul>
 
         <div class="row">
-            <a class="btn btn-grey" href="#/test/{{ test.id }}/edit" title="Edit test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-pencil-square-o"></i> Edit test</a>
-            <a class="btn btn-red" data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
-            <a class="btn btn-blue" data-ng-click="runTest(test.id)" title="Run test '{{ test.name }}' now" data-ng-show="isGranted('ADMIN', group)"><i class="fa fa-play" aria-hidden="true"></i> Run</a>
+            <a class="btn btn-grey" href="#/test/{{ test.id }}/edit" title="Edit test '{{ test.name }}'" data-ng-show="isGranted('ADMIN')"><i class="fa fa-pencil-square-o"></i> Edit test</a>
+            <a class="btn btn-red" data-ng-click="removeTest(test.id)" title="Delete test '{{ test.name }}'" data-ng-show="isGranted('ADMIN')"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
+            <a class="btn btn-blue" data-ng-click="runTest(test.id)" title="Run test '{{ test.name }}' now" data-ng-show="isGranted('ADMIN')"><i class="fa fa-play" aria-hidden="true"></i> Run</a>
             <a class="btn btn-blue" data-ng-click="loadOlderResults()" title="Show older results" data-ng-show="(test.results.length === lastRequestedResultSize)"><i class="fa fa-eye"></i> Show older results</a>
         </div>
     </div>
