@@ -56,7 +56,7 @@
     position: relative;
     vertical-align: middle;
     width: $size;
-    @include transitio2(all .3s ease-in-out);
+    @include transition(all .3s ease-in-out);
 
     &:after {
         @extend %bgfontawesome;
