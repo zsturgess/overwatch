@@ -8,6 +8,10 @@
     padding: 10px;
     @include border-top-radius(5px);
     @include border-bottom-radius(5px);
+    
+    &.full-width {
+        width: 100%;
+    }
 
     a {
         color: darken($warning, 14%);
