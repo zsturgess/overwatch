@@ -1,13 +1,14 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-{% if error %}
-    <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
-{% endif %}
 
 <form class="center-form" action="{{ path("fos_user_security_check") }}" method="post">
     <h1>Login</h1>
 
+    {% if error %}
+        <div class="warning-message full-width"><i class="fa fa-warning"></i> {{ error|trans({}, 'FOSUserBundle') }}</div>
+    {% endif %}
+    
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
     <div class="control-group">
