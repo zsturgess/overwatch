@@ -4,7 +4,7 @@ Overwatch is an extensible PHP monitoring system built on top of the excellent [
 
 Overwatch is a creation of Zac Sturgess. See also the [list of contributors](https://github.com/zsturgess/overwatch/graphs/contributors).
 
-**Warning:** Overwatch is still in the process of being developed, and is unstable. Also, some of the code was written at 3am and needs a complete overhaul. You have been warned.
+**Warning:** Overwatch is abandonware and is no longer recieving regular updates. If you are running a fork that you are keeping up-to-date, please submit a PR to this repository to replace this message with a link to your fork.
 
 ![Overwatch Dashboard](app/Resources/docs/overwatch_dashboard.png)
 
